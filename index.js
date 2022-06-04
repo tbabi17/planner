@@ -23,7 +23,7 @@ main()
   .then(console.log)
   .catch(console.error);
 
-app.listen(3333, () => {
+app.listen(8080, () => {
   console.log('server started!');
 });
 app.use(express.json());
