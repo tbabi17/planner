@@ -13,6 +13,10 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       return values[it];
     }
 
+    $scope.addDetail = function() {
+      $( "#dialog" ).dialog();
+    }
+
     $scope.temp_plan = {
       id: $scope.uuid(),
       pr_user: '',
