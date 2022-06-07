@@ -10,6 +10,7 @@
   position: absolute;
   width: 1px; }
 
+
 body {
   font-family: 'Open Sans', sans-serif;
   color: #1a1a1a;
@@ -178,7 +179,7 @@ form table td input {
 
 form table tfoot td {
   border-top: 2px solid #f0f0f0;
-  padding: 10px 5px;
+  padding: 7px 5px;
   color: #393939;
   font-size: 13px;
 }
@@ -191,8 +192,7 @@ form table thead td span {
 }
 
 form table tbody td {
-  padding: 10px 5px;
-  line-height: 20px;
+  padding: 7px 5px;
   color: #393939;
 }
 
@@ -312,8 +312,8 @@ hr {
   .modal__container {
     display: -ms-flexbox;
     display: flex;
-    width: 90%;
-    height: 85%;
+    width: 95%;
+    height: 90%;
     margin-top: -50px;
     background-color: #ffffff;
     border-radius: 15px;
@@ -418,7 +418,10 @@ hr {
   font-weight: bold;
 }
 
+.ui-dialog {
+  width: 720px !important;
+}
 .modal-body {
-  height: 775px;
-  max-height: 800px;
+  display: none;
+  width: 675px !important;
 }

@@ -13,9 +13,226 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       return values[it];
     }
 
-    $scope.addDetail = function() {
-      $( "#dialog" ).dialog();
+    $scope.selectedArray = [];
+    $scope.fieldSum = '';
+    $scope.field = '';
+    $scope.selectedItem = {};
+    $scope.format = '';
+    $scope.total = 0;
+    $scope.subTitle = '';
+    $scope.addDetail = function(format, array, item, field, fieldSum, title) {
+      $scope.subTitle = title || '';
+      $scope.format = format;
+      $scope.selectedItem = item;
+      $scope.fieldSum = fieldSum;
+      $scope.field = field;
+      if (!item[field] || item[field].length < 12) {
+        item[field] = [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}];
+      }
+      $scope.selectedArray = item[field];
+      $( "#dialog" ).dialog({
+        width: 720,
+        height: 360,
+        top: 100,
+        modal: true
+      });
+      $scope.total = 0;
+      $scope.selectedArray.forEach(function (data) {
+        if ($scope.format == 'c') {
+          var v = 0.0;
+          if (data.m) {
+            v = parseFloat(data.m.replaceAll(',','').replace("₮",'').trim());
+          }
+          $scope.total += v;
+        } else
+          $scope.total += data.m ? data.m:0;
+      });
+
+      setTimeout(function() {
+        for (var i = 0; i < 12; i++)
+          $scope.moneyformat($('#field_'+i));
+      }, 500);
     }
+
+
+    $scope.addDetailSal = function(array, item, field, fieldSum) {
+      $scope.selectedItem = item;
+      $scope.fieldSum = fieldSum;
+      $scope.field = field;
+      if (!item[field] || item[field].length < 12) {
+        item[field] = [{c: null,a:null},{c: null,a:null},{c: null,a:null},{c: null,a:null},{c: null,a:null},{c: null,a:null},{c: null,a:null},{c: null,a:null},{c: null,a:null},{c: null,a:null},{c: null,a:null},{c: null,a:null}];
+      }
+      $scope.selectedArray = item[field];
+      $( "#dialog_sal" ).dialog({
+        width: 720,
+        height: 460,
+        top: 100,
+        modal: true
+      });
+      $scope.total = 0;
+      $scope.selectedArray.forEach(function (data) {
+          var v = 0.0;
+          if (data.a) {
+            v = parseFloat(data.a.replaceAll(',','').replace("₮",'').trim())*parseInt(data.c);
+          }
+          $scope.total += v;
+      });
+
+      setTimeout(function() {
+        for (var i = 0; i < 12; i++)
+          $scope.moneyformat($('#field_a_'+i));
+      }, 500);
+    }
+
+    $scope.addDetailItems = function(array, item, field, fieldSum, title) {
+      $scope.sub = title;
+      $scope.selectedItem = item;
+      $scope.fieldSum = fieldSum;
+      $scope.field = field;
+      if (!item[field] || item[field].length < 1) {
+        item[field] = [{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null}];
+      }
+      $scope.selectedItem = item;
+      $scope.selectedArray = item[field];
+      $( "#dialog_items" ).dialog({
+        width: 720,
+        height: 460,
+        top: 100,
+        modal: true
+      });
+      $scope.total = 0;
+      $scope.selectedArray.forEach(function (data) {
+        var v = 0.0;
+        if (data.amt) {
+          v = parseFloat(data.amt);
+        }
+        $scope.total += v;
+      });
+
+      setTimeout(function() {
+        for (var i = 0; i < 12; i++)
+          $scope.moneyformat($('#field_a_'+i));
+      }, 500);
+    }
+
+    $scope.calcItems = function() {
+      var total = 0;
+      $scope.selectedArray.forEach(function (data) {
+        var v = 0.0;
+        console.log(data);
+        if (data && data.amt) {
+          v = parseFloat(data.amt);
+        }
+        total += v;
+      });
+      $scope.selectedItem[$scope.fieldSum] = total;
+
+      setTimeout(function(){
+        $scope.value($scope.selectedItem, 'raw_price1', 'raw_price2', 'raw_price3', 'raw_vol,raw_cost', 'pr_production_price_increment_percent', 'pr_production_sale_rate');
+      }, 100);
+
+      setTimeout(function() {
+        $scope.moneyformat($('input[name="'+$scope.fieldSum+'_'+$scope.selectedItem.id+'"]'));
+        $( "#dialog_items" ).dialog('close');
+      }, 100);
+    }
+
+    $scope.fill = function() {
+      for (var i = 1; i < $scope.selectedArray.length; i++) {
+        $scope.selectedArray[i].m = $scope.selectedArray[0].m;
+      };
+    }
+
+    $scope.calcSal = function() {
+      var total = 0;
+      var p = 0;
+      $scope.selectedArray.forEach(function (data) {
+          var v = 0.0;
+          if (data.a) {
+            v = parseFloat(data.a.replaceAll(',','').replaceAll('₮','').trim()) * parseInt(data.c);
+            if (v > 0.0) p++;
+          }
+          total += v;
+      });
+
+      $scope.selectedItem[$scope.fieldSum] = total;
+      $scope.selectedItem[$scope.fieldSum.replace('year', 'month')] = total/p;
+      setTimeout(function() {
+        $scope.moneyformat($('input[name="'+$scope.fieldSum+'_'+$scope.selectedItem.id+'"]'));
+        $scope.moneyformat($('input[name="'+$scope.fieldSum.replace('year','month')+'_'+$scope.selectedItem.id+'"]'));
+        $( "#dialog_sal" ).dialog('close');
+      }, 100);
+    }
+
+    $scope.calc = function() {
+      var total = 0;
+      $scope.selectedArray.forEach(function (data) {
+        if ($scope.format == 'c') {
+          var v = 0.0;
+          if (data.m) {
+            v = parseFloat(data.m.replaceAll(',','').replaceAll('₮','').trim());
+          }
+          total += v;
+        } else
+          total += data.m ? data.m:0;
+      });
+
+      if ($scope.fieldSum.startsWith('raw'))
+        $scope.selectedItem[$scope.fieldSum] = total;
+      else
+       $scope.selectedItem[$scope.fieldSum] = total * $scope.plan.pr_production_sale_rate / 100;
+      setTimeout(function(){
+        $scope.value($scope.selectedItem, 'production_price1', 'production_price2', 'production_price3', 'production_vol,production_income', 'pr_production_price_increment_percent', 'pr_production_sale_rate');
+      }, 100);
+       $( "#dialog" ).dialog('close');
+    }
+
+    $scope.t2n = function(v) {
+      v = v.replaceAll('₮', '');
+      v = v.replaceAll(',', '');
+      return parseFloat(v);
+    }
+
+    $scope.value = function(item, v1, v2, v3, total, percent, rate) {
+      if (percent == '') return;
+      $('input[name="'+v2+'_'+item.id+'"]').val($scope.t2n($('input[name="'+v1+'_'+item.id+'"]').val()) + $scope.t2n($('input[name="'+v1+'_'+item.id+'"]').val()) * ($scope.plan[percent] / 100));
+      $('input[name="'+v3+'_'+item.id+'"]').val($scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val()) + $scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val()) * ($scope.plan[percent] / 100));
+
+      item[v1] = $scope.t2n($('input[name="'+v1+'_'+item.id+'"]').val());
+      item[v2] = $scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val());
+      item[v3] = $scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val());
+
+      item[total.split(',')[1]+'1'] = ($scope.t2n($('input[name="'+total.split(',')[0]+'1_'+item.id+'"]').val()) * $scope.t2n($('input[name="'+v1+'_'+item.id+'"]').val()));
+      item[total.split(',')[1]+'2'] = ($scope.t2n($('input[name="'+total.split(',')[0]+'2_'+item.id+'"]').val()) * $scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val()));
+      item[total.split(',')[1]+'3'] = ($scope.t2n($('input[name="'+total.split(',')[0]+'3_'+item.id+'"]').val()) * $scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val()));
+
+      setTimeout(function() {
+        $('input[name="'+total.split(',')[1]+'1_'+item.id+'"]').val($scope.t2n($('input[name="'+total.split(',')[0]+'1_'+item.id+'"]').val()) * $scope.t2n($('input[name="'+v1+'_'+item.id+'"]').val()));
+        $('input[name="'+total.split(',')[1]+'2_'+item.id+'"]').val($scope.t2n($('input[name="'+total.split(',')[0]+'2_'+item.id+'"]').val()) * $scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val()));
+        $('input[name="'+total.split(',')[1]+'3_'+item.id+'"]').val($scope.t2n($('input[name="'+total.split(',')[0]+'3_'+item.id+'"]').val()) * $scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val()));
+
+        $scope.moneyformat($('input[name="'+v1+'_'+item.id+'"]'));
+        $scope.moneyformat($('input[name="'+v2+'_'+item.id+'"]'));
+        $scope.moneyformat($('input[name="'+v3+'_'+item.id+'"]'));
+        $scope.moneyformat($('input[name="'+total.split(',')[1]+'1_'+item.id+'"]'));
+        $scope.moneyformat($('input[name="'+total.split(',')[1]+'2_'+item.id+'"]'));
+        $scope.moneyformat($('input[name="'+total.split(',')[1]+'3_'+item.id+'"]'));
+      }, 100);
+
+    }
+
+    $scope.valueDep = function(item, v1, v2, v3, v4) {
+      $('input[name="'+v3+'_'+item.id+'"]').val($scope.t2n($('input[name="'+v1+'_'+item.id+'"]').val()) * $scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val()) / 100);
+      $('input[name="'+v4+'_'+item.id+'"]').val($scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val()) / 12);
+
+      item[v3] = $scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val());
+      item[v4] = $scope.t2n($('input[name="'+v4+'_'+item.id+'"]').val());
+
+      setTimeout(function() {
+        $scope.moneyformat($('input[name="'+v3+'_'+item.id+'"]'));
+        $scope.moneyformat($('input[name="'+v4+'_'+item.id+'"]'));
+      }, 100);
+  }
 
     $scope.temp_plan = {
       id: $scope.uuid(),
@@ -139,14 +356,19 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         }
       ],
       pr_finance_plan_detail: '',
+      pr_production_price_increment_percent: 5,
+      pr_production_sale_rate: 1,
       pr_productions: [
         {
           id: $scope.uuid(),
           production_product_name: '',
           production_product_unit: null,
           production_vol1: null,
+          production_vol1_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
           production_vol2: null,
+          production_vol2_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
           production_vol3: null,
+          production_vol3_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
           production_price1: null,
           production_price2: null,
           production_price3: null,
@@ -159,6 +381,18 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         {
           id: $scope.uuid(),
           raw_product: '',
+          raw_price1: null,
+          raw_price1_details: [{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null}],
+          raw_price2: null,
+          raw_price2_details: [{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null}],
+          raw_price3: null,
+          raw_price3_details: [{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null},{item: null,price:null,qty:null,amt:null}],
+          raw_vol1: null,
+          raw_vol1_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+          raw_vol2: null,
+          raw_vol2_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+          raw_vol2: null,
+          raw_vol3_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
           raw_cost1: null,
           raw_cost2: null,
           raw_cost3: null
@@ -169,10 +403,13 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
           id: $scope.uuid(),
           salary_person: '',
           salary_month1: null,
+          salary_year1_details:[{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null}],
           salary_year1: null,
           salary_month2: null,
+          salary_year2_details:[{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null}],
           salary_year2: null,
           salary_month3: null,
+          salary_year3_details:[{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null}],
           salary_year3: null,
           salary_type: 1
         },
@@ -180,10 +417,13 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
           id: $scope.uuid(),
           salary_person: '',
           salary_month1: null,
+          salary_year1_details:[{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null}],
           salary_year1: null,
           salary_month2: null,
+          salary_year2_details:[{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null}],
           salary_year2: null,
           salary_month3: null,
+          salary_year3_details:[{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null}],
           salary_year3: null,
           salary_type: 2
         }
@@ -212,15 +452,18 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         {
           id: $scope.uuid(),
           other_costs_item: '',
-          other_costs_cost1: null,
+          other_costs1_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
           other_costs_cost2: null,
-          other_costs_cost3: null
+          other_costs2_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+          other_costs_cost3: null,
+          other_costs3_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}]
         }
       ],
       pr_loan_org_name: '',
       pr_loan_amount: null,
       pr_loan_rate: null,
       pr_loan_duration: null,
+      pr_loan_start_date: null,
       pr_loan_dates: [
         {
           id: $scope.uuid(),
@@ -358,14 +601,19 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         }
       ],
       pr_finance_plan_detail: '',
+      pr_production_price_increment_percent: 5,
+      pr_production_sale_rate: 1,
       pr_productions: [
         {
           id: $scope.uuid(),
           production_product_name: '',
           production_product_unit: null,
           production_vol1: null,
+          production_vol1_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
           production_vol2: null,
+          production_vol2_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
           production_vol3: null,
+          production_vol3_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
           production_price1: null,
           production_price2: null,
           production_price3: null,
@@ -378,6 +626,16 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         {
           id: $scope.uuid(),
           raw_product: '',
+          raw_product: '',
+          raw_price1: null,
+          raw_price2: null,
+          raw_price3: null,
+          raw_vol1: null,
+          raw_vol1_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+          raw_vol2: null,
+          raw_vol2_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+          raw_vol2: null,
+          raw_vol3_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
           raw_cost1: null,
           raw_cost2: null,
           raw_cost3: null
@@ -388,23 +646,15 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
           id: $scope.uuid(),
           salary_person: '',
           salary_month1: null,
+          salary_year1_details:[{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null}],
           salary_year1: null,
           salary_month2: null,
+          salary_year2_details:[{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null}],
           salary_year2: null,
           salary_month3: null,
+          salary_year3_details:[{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null},{c:null,a:null}],
           salary_year3: null,
           salary_type: 1
-        },
-        {
-          id: $scope.uuid(),
-          salary_person: '',
-          salary_month1: null,
-          salary_year1: null,
-          salary_month2: null,
-          salary_year2: null,
-          salary_month3: null,
-          salary_year3: null,
-          salary_type: 2
         }
       ],
       pr_depreciation_costs: [
@@ -416,15 +666,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
           depreciation_cost_year: null,
           depreciation_cost_month: null,
           depreciation_type: 1
-        },
-        {
-          id: $scope.uuid(),
-          depreciation_item: '',
-          depreciation_total: null,
-          depreciation_cost_year_percent: null,
-          depreciation_cost_year: null,
-          depreciation_cost_month: null,
-          depreciation_type: 2
         }
       ],
       pr_other_costs: [
@@ -432,28 +673,79 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
           id: $scope.uuid(),
           other_costs_item: '',
           other_costs_cost1: null,
+          other_costs1_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
           other_costs_cost2: null,
-          other_costs_cost3: null
+          other_costs2_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+          other_costs_cost3: null,
+          other_costs3_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}]
         }
       ],
       pr_loan_org_name: '',
       pr_loan_amount: null,
       pr_loan_rate: null,
       pr_loan_duration: null,
+      pr_loan_start_date: null,
       pr_loan_dates: [
-        {
-          id: $scope.uuid(),
-          loan_date: new Date(),
-          loan_day: null,
-          loan_rate_amount: null,
-          loan_amount: null,
-          loan_balance: null
-        }
       ],
       pr_status: 0,
       pr_created_date : new Date(),
       pr_updated_date: new Date()
     };
+
+    $scope.calcLoan = function() {
+      var old = parseFloat($scope.plan.pr_loan_amount.replaceAll('₮','').replaceAll(',',''));
+      var tot = parseFloat($scope.plan.pr_loan_amount.replaceAll('₮','').replaceAll(',',''));
+      var pot = 0;
+      $scope.plan.pr_loan_dates = [];
+      for (var i = 0; i <= $scope.plan.pr_loan_duration; i++) {
+        var m = JSON.parse(JSON.stringify($scope.temp_plan['pr_loan_dates'][0]));
+        m.id = $scope.uuid();
+        var d = new Date($scope.plan.pr_loan_start_date);
+        d.setDate(d.getDate() + i*30);
+        m.loan_date = d;
+        m.loan_day = 30;
+        if (i == 0) {
+          m.loan_balance = old;
+          m.loan_day = 0;
+        } else {
+          m.loan_rate_amount = old * parseFloat($scope.plan.pr_loan_rate) / 100 * (m.loan_day / 30);
+          m.loan_amount = tot / $scope.plan.pr_loan_duration;
+          m.loan_balance = old -  m.loan_amount;
+        }
+        pot += m.loan_rate_amount;
+        old = m.loan_balance;
+
+      }
+
+      var old = parseFloat($scope.plan.pr_loan_amount.replaceAll('₮','').replaceAll(',',''));
+      for (var i = 0; i <= $scope.plan.pr_loan_duration; i++) {
+        var m = JSON.parse(JSON.stringify($scope.temp_plan['pr_loan_dates'][0]));
+        m.id = $scope.uuid();
+        var d = new Date($scope.plan.pr_loan_start_date);
+        d.setDate(d.getDate() + i*30);
+        m.loan_date = d;
+        m.loan_day = 30;
+        if (i == 0) {
+          m.loan_balance = old;
+        } else {
+          m.loan_rate_amount = pot / $scope.plan.pr_loan_duration;
+          m.loan_amount = tot / $scope.plan.pr_loan_duration;
+          if (m.loan_amount > old) m.loan_amount = old;
+          m.loan_balance = old -  m.loan_amount;
+        }
+        old = m.loan_balance;
+
+        $scope.plan.pr_loan_dates.push(m);
+      }
+
+      setTimeout(function() {
+        for (var i = 0; i <= $scope.plan.pr_loan_duration; i++) {
+          $scope.moneyformat($('input[name="loan_balance_' + $scope.plan.pr_loan_dates[i].id + '"]'));
+          $scope.moneyformat($('input[name="loan_amount_' + $scope.plan.pr_loan_dates[i].id + '"]'));
+          $scope.moneyformat($('input[name="loan_rate_amount_' + $scope.plan.pr_loan_dates[i].id + '"]'));
+        }
+      }, 100);
+    }
 
     $scope.wordX = function(item) {
       $scope.plan = item;
@@ -579,6 +871,9 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
             $scope.moneyformat($('input[name="production_income3_'+item.id+'"'));
           });
           $scope.plan.pr_raw_materials.forEach((item, i) => {
+            $scope.moneyformat($('input[name="raw_price1_'+item.id+'"'));
+            $scope.moneyformat($('input[name="raw_price2_'+item.id+'"'));
+            $scope.moneyformat($('input[name="raw_price3_'+item.id+'"'));
             $scope.moneyformat($('input[name="raw_cost1_'+item.id+'"'));
             $scope.moneyformat($('input[name="raw_cost2_'+item.id+'"'));
             $scope.moneyformat($('input[name="raw_cost3_'+item.id+'"'));
