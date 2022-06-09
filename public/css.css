@@ -1,4 +1,4 @@
-
+body
 
 .visuallyhidden {
   border: 0;
@@ -12,8 +12,10 @@
 
 
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: Ubuntu;
   color: #1a1a1a;
+  overflow: hidden;
+  font-smooth: 2em;
   background-color: #f0f0f0; }
 
 h1,
@@ -23,18 +25,31 @@ h4,
 h5 {
   margin: 0;
   font-weight: 600; }
+h2{
+font-size: 15px;
+  margin-bottom: 10px;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
 
 .button {
   color: #ffffff;
   background-color: #24cf5f;
-  padding: 12px 25px;
-  font-size: 12px;
+  padding: 10px 20px;
+  font-size: 10px;
   letter-spacing: 1px;
   text-transform: uppercase;
   border: 0;
   margin-right: 10px;
   border-radius: 20px;
   outline: 0;
+  font-weight: bold;
   box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.2);
   transition: all .2s; }
   .button:hover, .button:active, .button:focus {
@@ -44,8 +59,8 @@ h5 {
 .button.red {
   color: #ffffff;
   background-color: #cf242f;
-  padding: 12px 25px;
-  font-size: 12px;
+  padding: 10px 20px;
+  font-size: 10px;
   margin-right: 10px;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -97,15 +112,17 @@ h5 {
 
 
 input, select, textarea {
+  font-family: Ubuntu;
   width: calc(100% - 20px);
   min-height: 30px;
   padding-left: 5px;
   padding-right: 5px;
   letter-spacing: .5px;
   border: 0;
-  margin-top: 5px;
+  font-size: 11.5px;
   border: 1px solid #f0f0f0;
-  border-bottom: 3px solid #f0f0f0; }
+  border-radius: 6px;
+  border-bottom: 2px solid #f0f0f0; }
   input:valid,textarea:valid,select:valid {
     border-color: #24cf5f; }
   input:focus, select:focus, textarea:focus {
@@ -117,6 +134,7 @@ form {
 ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 6px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -124,9 +142,17 @@ form {
   background-color: rgba(0,0,0,.5);
   -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
+::-webkit-scrollbar-thumb:horizontal{
+  background: rgba(0,0,0,.5);
+  height: 5px;
+  border-radius: 10px;
+
+}
 form div.formed {
     overflow-y: scroll;
+    width: 100%;
     height: 85%;
+    margin-top: 10px;
 }
 
 p {
@@ -143,15 +169,32 @@ table.plan tr:hover {
 }
 
 form table {
-  width: 100%;
+  min-width: 800px;
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
+  border-radius: 10px;
   color: #939393;
   padding-bottom: 5px;
   background: #fdfdfd;
-  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #f8f8f8;
+  border-radius: 10px;
   spacing: 0px;
+}
+
+.hint {
+  border: 1px solid #fbcf34;
+  width: 95%;
+  padding: 10px;
+  font-size: 11px;
+  margin-top: 10px;
+  word-wrap: break-word;
+  border-radius: 10px;
+  font-weight: normal;
+  background: #fbcf34;
+  opacity: 0.5;
+  color: #333;
 }
 
 form table td a {
@@ -163,11 +206,12 @@ form table td a.del {
 }
 
 form table thead td {
-  border-bottom: 2px solid #f0f0f0;
   padding: 8px 5px;
-  text-align: center;
+  font-size: 9px;
+  background: #fbcf34;
+  color:#fff;
+  text-align: left;
 }
-
 
 form table td select {
   width: 100% !important;
@@ -178,10 +222,10 @@ form table td input {
 }
 
 form table tfoot td {
-  border-top: 2px solid #f0f0f0;
-  padding: 7px 5px;
+  border-top: 1px solid #f8f8f8;
+  padding: 5px 5px;
   color: #393939;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 form table thead td span {
@@ -192,8 +236,10 @@ form table thead td span {
 }
 
 form table tbody td {
-  padding: 7px 5px;
-  color: #393939;
+  padding: 8px 5px;
+  text-transform: none;
+  font-weight: normal;
+  color: #696969;
 }
 
 table a {
@@ -203,11 +249,22 @@ table a {
 
 .subtitle {
     color: #636363;
+    float:left;
     margin-top: 5px;
     display:block;
     text-transform: uppercase;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 11px;
+}
+
+.subtitle.mini {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.righttitle {
+  float:right;
+  font-size: 13px;
 }
 
 .form-list {
@@ -220,7 +277,8 @@ table a {
       display: block;
       text-transform: uppercase;
       font-weight: 600;
-      font-size: 10.5px;
+      font-size: 9px;
+      margin-bottom: 3px;
       letter-spacing: .5px;
       color: #939393; }
     .form-list__row--inline {
@@ -231,7 +289,7 @@ table a {
       .form-list__row--inline {
         -ms-flex: 5;
             flex: 5;
-        padding-right: 20px; }
+ }
       .form-list__row--inline .c1 {
           -ms-flex: 1;
               flex: 1; }
@@ -307,13 +365,16 @@ overflow-y: auto;
 }
 
 hr {
-  border: 2px solid #fbcf34;
+  border: 1px solid #fbcf34;
+  background: #fbcf34;
+  margin-bottom: 5px;
 }
   .modal__container {
     display: -ms-flexbox;
     display: flex;
-    width: 95%;
-    height: 90%;
+    overflow: hidden;
+    width: 92%;
+    height: 88%;
     margin-top: -50px;
     background-color: #ffffff;
     border-radius: 15px;
@@ -365,6 +426,7 @@ hr {
   .modal__content {
     -ms-flex: 5;
         flex: 5;
+    width: 80%;
     padding: 40px 30px; }
 
 [data-tip] {
@@ -410,7 +472,6 @@ hr {
 [data-tip]:hover:after {
   display:block;
 }
-
 .ui-widget-header {
   border: 1px solid #dddddd;
   background: #fbcf34;
@@ -424,4 +485,9 @@ hr {
 .modal-body {
   display: none;
   width: 675px !important;
+}
+
+.ui-widget {
+  width: 98%;
+  margin-bottom: 10px;
 }

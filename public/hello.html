@@ -5,7 +5,7 @@
   <script src="/node_modules/angular/angular.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   <script src="/public/FileSaver.js"></script>
@@ -35,8 +35,8 @@
     </div>
     <div class="modal__content">
       <form id="form_0">
-        <h2>Бизнес төлөвлөгөө</h2>
         <label class="subtitle">Та бизнес төлөвлөгөөгөө өөрөө бичих боломжтой</label>
+        <br>
         <hr>
         <div id="signed" style="margin-top: 30px;">
           <span style="font-size: 13px; color: #6f6f6f; display: block; margin-bottom: 10px;">Та өөрийн Google аккаунтыг ашиглан системд бүртгүүлэн ашиглах боломжтой.</span>
@@ -55,12 +55,12 @@
           <table id="planList" hidden class="plan">
             <thead>
               <tr>
-                <td style="color: #939393;text-align:left;">#</td>
-                <td style="color: #939393;text-align:left;">Төслийн нэр</td>
-                <td style="color: #939393;text-align:left;">Үүсгэсэн хэрэглэгч</td>
-                <td style="color: #939393;text-align:left;">Үүсгэсэн огноо</td>
-                <td style="color: #939393;text-align:left;">Төлөв</td>
-                <td style="color: #939393;text-align:left;">Үйлдэл</td>
+                <td style="text-align:left;">#</td>
+                <td style="text-align:left;">Төслийн нэр</td>
+                <td style="text-align:left;">Үүсгэсэн хэрэглэгч</td>
+                <td style="text-align:left;">Үүсгэсэн огноо</td>
+                <td style="text-align:left;">Төлөв</td>
+                <td style="text-align:left;">Үйлдэл</td>
               </tr>
             </thead>
             <tbody>
@@ -90,12 +90,22 @@
       </form>
 
       <form id="form_1" hidden ng-submit="next(2,1, true)">
-        <p>Нэвтэрсэн хэрэглэгч : {{signedUser.name}}</p>
-        <hr>
-        <h2>1/10</h2>
-        <br>
         <label class="subtitle">Үндсэн мэдээлэл</label>
+        <label class="righttitle">1/10</label>
         <br>
+        <hr>
+        <div style="width: 750px;">
+        <div class="hint">Дээр нь элсэлтийн шалгалтынх нь талаар сонсоод надаас илүү сайн хүүхдүүд зөндөө байгаа даа, сонгоны хүүхдүүд л тэнцэнэ дээ гээд сонирхож байсан ч гэлээ өөрийгөө чадахгүй гэж бодоод орхичихсон байсан.</div>
+        <div class="ui-widget" id="info_1" ng-if="errorMsg.length > 0">
+          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+            <p>
+            <span class="ui-icon ui-icon-alert"
+                  style="float: left; margin-right: .3em;"></span>
+              <strong>Алдаа:</strong> {{errorMsg}}
+            </p>
+          </div>
+        </div>
+
         <ul class="form-list">
           <li class="form-list__row form-list__row--inline">
             <div class="c2">
@@ -109,9 +119,12 @@
             <div class="c1">
               <label>Хэрэгжүүлэх хугацаа</label>
               <select ng-model="plan.pr_duration" name="pr_duration" required>
+                <option selected></option>
                 <option ng-value="1" value="1">1 жил</option>
                 <option ng-value="2" value="2">2 жил</option>
                 <option ng-value="3" value="3">3 жил</option>
+                <option ng-value="4" value="4">4 жил</option>
+                <option ng-value="5" value="5">5 жил</option>
               </select>
             </div>
           </li>
@@ -121,32 +134,30 @@
               <label>Төсөл хэрэгжүүлэгчийн нэр</label>
               <input type="text" name="pr_owner_name" required="" ng-model="plan.pr_owner_name" />
             </div>
-            <div class="c3">
-              <label>Зорилго</label>
-              <textarea type="text" name="pr_purpose" required rows="5" ng-model="plan.pr_purpose">{{plan.pr_purpose}}</textarea>
+            <div class="c1">
+              <label>Төсөв нийт</label>
+
+              <input type="text" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"
+                     name="pr_budget_total" required="" ng-model="plan.pr_budget_total"/>
             </div>
-            <div class="c3">
-              <label>Хүлээгдэж буй үр дүн</label>
-              <textarea type="text" name="pr_expected_result" required required rows="5" ng-model="plan.pr_expected_result">{{plan.pr_expected_result}}</textarea>
+            <div class="c1">
+              <label>Санхүүжүүлэгчээс</label>
+              <input type="text" ng-change="plan.pr_budget_me = t2n(plan.pr_budget_total) - t2n(plan.pr_budget_funder)" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" name="pr_budget_funder" required="" ng-model="plan.pr_budget_funder"/>
+            </div>
+            <div class="c1">
+              <label>Өөрөөс</label>
+              <input type="text" readonly pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" name="pr_budget_me" required ng-model="plan.pr_budget_me"/>
             </div>
           </li>
 
           <li class="form-list__row form-list__row--inline">
             <div class="c1">
-              <label>Төсөв нийт</label>
-
-                <input type="text" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"
-                name="pr_budget_total" required="" ng-model="plan.pr_budget_total"/>
+              <label>Зорилго</label>
+              <textarea type="text" name="pr_purpose" required rows="5" ng-model="plan.pr_purpose">{{plan.pr_purpose}}</textarea>
             </div>
             <div class="c1">
-              <label>Санхүүжүүлэгчээс</label>
-              <input type="text" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" name="pr_budget_funder" required="" ng-model="plan.pr_budget_funder"/>
-            </div>
-            <div class="c1">
-              <label>Өөрөөс</label>
-              <input type="text" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" name="pr_budget_me" required="" ng-model="plan.pr_budget_me"/>
-            </div>
-            <div class="c2">
+              <label>Хүлээгдэж буй үр дүн</label>
+              <textarea type="text" name="pr_expected_result" required required rows="5" ng-model="plan.pr_expected_result">{{plan.pr_expected_result}}</textarea>
             </div>
           </li>
 
@@ -183,31 +194,30 @@
             </div>
           </li> -->
           <li>
+            <br><br>
             <button type="button" class="button red" ng-click="next(0,1)">БУЦАХ</button>
             <button type="submit" class="button">ЦААШ</button>
             <button type="button" class="button" style="right: 0" ng-click="planSave(1)">ХАДГАЛАХ</button>
           </li>
         </ul>
+        </div>
       </form>
 
       <form id="form_2" hidden  ng-submit="next(3,2)">
-        <p>Нэвтэрсэн хэрэглэгч : {{signedUser.name}}</p>
+        <label class="subtitle">Хөрөнгө оруулалтын төлөвлөгөө</label>
+        <label class="righttitle">2/10</label>
+        <br>
         <hr>
         <div class="formed">
-          <h2>2/10</h2>
-          <br>
-          <label class="subtitle">Хөрөнгө оруулалтын төлөвлөгөө</label>
-          <br>
-
-          <table>
+          <table style="width: 800px;">
             <thead>
               <tr>
                 <td>#</td>
                 <td style="width: 30%">Зүйл</td>
-                <td style="width: 13%;">Зардал</td>
-                <td style="width: 10%">Огноо</td>
+                <td style="width: 15%;">Зардал</td>
+                <td style="width: 15%">Огноо</td>
                 <td style="width: 40%">Тайлбар</td>
-                <td style="width: 7%"></td>
+                <td style=""></td>
               </tr>
             </thead>
             <tbody>
@@ -261,34 +271,36 @@
 
           <br>
           <label class="subtitle">Компанийн хөрөнгө, өр авлага</label>
+          <label class="righttitle"></label>
           <br>
-          <table>
+          <hr>
+          <table style="width: 800px; margin-top: 10px;">
             <thead>
               <tr>
                 <td>#</td>
                 <td style="width: 30%">Хөрөнгө</td>
-                <td style="width: 10%;">Тоо, хэмжээ</td>
-                <td style="width: 15%">Үнэлгээ</td>
-                <td style="width: 45%">Зориулалт</td>
+                <td style="width: 20%;">Хэмжээ</td>
+                <td style="width: 30%">Өр</td>
+                <td style="width: 20%">Хэмжээ</td>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="item in plan.pr_assets">
                 <td>{{$index+1}}</td>
                 <td><input type="text" name="asset_item" ng-model="item.asset_item" required="" /></td>
-                <td><input type="number" name="asset_total" ng-model="item.asset_total" required="" /></td>
-                <td ><input type="text" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" name="asset_evaluation_{{item.id}}" ng-model="item.asset_evaluation" required="" /></td>
+                <td><input type="text" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" name="asset_total_{{item.id}}" ng-model="item.asset_total" required="" /></td>
                 <td><input type="text" name="asset_intend" ng-model="item.asset_intend" required="" /></td>
+                <td><input type="text" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" name="asset_evaluation_{{item.id}}" ng-model="item.asset_evaluation" required="" /></td>
               </tr>
               <tr>
                 <td></td>
-                <td><a href=""  ng-click="add_item_to_array(plan.pr_assets, 'pr_assets')">Нэмэх<a></td>
+                <td><a href="" ng-click="add_item_to_array(plan.pr_assets, 'pr_assets')">Нэмэх<a></td>
                 <td></td>
                 <td></td>
                 <td></td>
               </tr>
             </tbody>
-          </table>
+        </table>
         </div>
           <ul class="form-list">
             <li>
@@ -299,14 +311,11 @@
       </form>
 
       <form id="form_3" hidden  ng-submit="next(4,3)">
-        <p>Нэвтэрсэн хэрэглэгч : {{signedUser.name}}</p>
+        <label class="subtitle">Өрсөлдөгчийн судалгаа</label>
+        <label class="righttitle">3/10</label>
+        <br>
         <hr>
         <div class="formed">
-        <h2>3/10</h2>
-        <br>
-        <label class="subtitle">Өрсөлдөгчийн судалгаа</label>
-        <br>
-
         <table>
           <thead>
             <tr>
@@ -315,9 +324,9 @@
               <td style="width: 17%;">Байршил</td>
               <td style="width: 10%">ЗЗ эзлэх хувь</td>
               <td style="width: 10%">Үнэ</td>
-              <td style="width: 20%">Давуу тал</td>
-              <td style="width: 20%">Сул тал</td>
-              <td style="width: 5%"></td>
+              <td style="width: 23%">Давуу тал</td>
+              <td style="width: 22%">Сул тал</td>
+              <td style=""></td>
             </tr>
           </thead>
           <tbody>
@@ -344,7 +353,8 @@
         <br>
         <label class="subtitle">Нийлүүлэгчийн судалгаа</label>
         <br>
-        <table>
+        <hr>
+        <table style="margin-top:10px;">
           <thead>
             <tr>
               <td>#</td>
@@ -392,6 +402,7 @@
         <br>
         <label class="subtitle">Зах зээлийн судалгаа</label>
         <br>
+        <hr>
         <ul class="form-list">
           <li class="form-list__row form-list__row--inline">
             <div class="c2">
@@ -421,13 +432,11 @@
 
 
       <form id="form_4" hidden  ng-submit="next(5,4)">
-        <p>Нэвтэрсэн хэрэглэгч : {{signedUser.name}}</p>
+        <label class="subtitle">ДБСА-ийн шинжилгээ</label>
+        <label class="righttitle">4/10</label>
+        <br>
         <hr>
         <div class="formed">
-        <h2>4/10</h2>
-        <br>
-        <label class="subtitle">ДБСА-ийн шинжилгээ</label>
-        <br>
         <table>
           <thead>
             <tr>
@@ -458,12 +467,17 @@
 
         <br>
         <label class="subtitle">Хэрэглэгчийн судалгаа</label>
+        <label class="righttitle"></label>
         <br>
+        <hr>
         <ul class="form-list">
           <li class="form-list__row form-list__row--inline">
-            <div class="c2">
+            <div class="c1">
               <label>Дэлгэрэнгүй бичнэ үү</label>
               <textarea type="text" name="pr_client_survey" required rows="5" ng-model="plan.pr_client_survey">{{plan.pr_client_survey}}</textarea>
+            </div>
+            <div class="c1">
+
             </div>
           </li>
         </ul>
@@ -478,14 +492,14 @@
 
 
       <form id="form_5" hidden ng-submit="next(6,5)">
-        <p>Нэвтэрсэн хэрэглэгч : {{signedUser.name}}</p>
-        <hr>
-        <div class="formed">
-        <h2>5/10</h2>
-        <br>
         <label class="subtitle">Эрсдлийн шинжилгээ ба менежмент</label>
+        <label class="righttitle">5/10</label>
         <br>
-        <table>
+        <hr>
+
+        <div class="formed">
+        <br>
+        <table style="width: 800px;">
           <thead>
             <tr>
               <td>#</td>
@@ -513,13 +527,11 @@
       </form>
 
       <form id="form_6" hidden  ng-submit="next(7,6)">
-        <p>Нэвтэрсэн хэрэглэгч : {{signedUser.name}}</p>
+        <label class="subtitle">Маркетингийн төлөвлөгөө</label>
+        <label class="righttitle">6/10</label>
+        <br>
         <hr>
         <div class="formed">
-        <h2>6/10</h2>
-        <br>
-        <label class="subtitle">Маркетингийн төлөвлөгөө</label>
-        <br>
         <ul class="form-list">
           <li class="form-list__row form-list__row--inline">
             <div class="c2">
@@ -538,24 +550,27 @@
               <label>Зар сурталчилгаа</label>
               <textarea type="text" name="pr_marketing_plan_reclam" required rows="5" ng-model="plan.pr_marketing_plan_reclam"></textarea>
             </div>
+            <div class="c3">
+
+            </div>
           </li>
         </ul>
 
-        <br>
         <label class="subtitle">Борлуулалт, борлуулалтын сувгууд</label>
         <br>
-        <table>
+        <hr>
+        <table style="width: 850px;">
           <tbody>
             <thead>
               <tr>
                 <td>#</td>
-                <td style="width: 25%">Борлуулалтын цэг</td>
+                <td style="width: 20%">Борлуулалтын цэг</td>
                 <td style="width: 20%;">Байршил</td>
                 <td style="width: 15%;">Борлуулалтын орлого</td>
                 <td style="width: 15%;">Гэрээ байгуулсан эсэх</td>
                 <td style="width: 12%;">Төлбөрийн хэлбэр</td>
-                <td style="width: 13%;">Нөхцөл</td>
-                <td style="width: 5%"></td>
+                <td style="width: 23%;">Нөхцөл</td>
+                <td style="width: 0%"></td>
               </tr>
             </thead>
             <tr ng-repeat="item in plan.pr_sales_sectors">
@@ -588,13 +603,17 @@
           </tbody>
         </table>
         <br>
+
         <label class="subtitle">Санхүүгийн төлөвлөгөөний дэлгэрэнгүй</label>
+        <br>
+        <hr>
         <ul class="form-list">
           <li class="form-list__row form-list__row--inline">
             <div class="c2">
               <label>Дэлгэрэнгүй өгүүлбэрээр бичнэ үү.</label>
               <textarea name="pr_finance_plan_detail" required rows="5" ng-model="plan.pr_finance_plan_detail">{{plan.pr_finance_plan_detail}}</textarea>
             </div>
+            <div class="c2"></div>
           </li>
         </ul>
         </div>
@@ -604,16 +623,14 @@
             <button type="submit" class="button">ЦААШ</button>
           </li>
         </ul>
-
       </form>
 
       <form id="form_7" hidden ng-submit="next(8,7)">
-        <p>Нэвтэрсэн хэрэглэгч : {{signedUser.name}}</p>
+        <label class="subtitle">Түүхий эд материалын зардал</label>
+        <label class="righttitle">7/10</label>
+        <br>
         <hr>
         <div class="formed">
-        <h2>7/10</h2>
-
-        <br>
           <ul class="form-list">
             <li class="form-list__row form-list__row--inline">
               <div class="c1">
@@ -628,166 +645,221 @@
               </div>
             </li>
           </ul>
-          <label class="subtitle">Түүхий эд материалын зардал</label>
+          <div style="width: 100%; float:left; overflow: scroll; margin-bottom: 10px;">
+            <table style="width: 1800px !important;">
+              <tbody>
+                <thead>
+                  <tr>
+                    <td rowspan="2">#</td>
+                    <td style="width: 10%" rowspan="2">Бүтээгдэхүүн</td>
+                    <td style="width: 30%;" colspan="{{plan.pr_duration}}">Үйлдвэрлэх хэмжээ</td>
+                    <td style="width: 30%;" colspan="{{plan.pr_duration}}">Нэгж үнэ</td>
+                    <td style="width: 30%;" colspan="{{plan.pr_duration}}">Түүхий эдийн нийт өртөг</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">{{number}}</td>
+                    <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">{{number}}</td>
+                    <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">{{number}}</td>
+                    <td></td>
+                  </tr>
+                </thead>
+                <tr ng-repeat="item in plan.pr_raw_materials">
+                  <td>{{$index+1}}</td>
+                  <td><input type="text" required ng-model="item.raw_product"/></td>
+                  <td ng-if="plan.pr_duration>=1">
+                    <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                      <input type="number" style="cursor:pointer;" name="raw_vol1_{{item.id}}" ng-click="addDetail('n', item.raw_vol1_details, item, 'raw_vol1_details', 'raw_vol1', item.raw_product)" required readonly ng-model="item.raw_vol1"/>
+                    </div>
+                  </td>
+                  <td ng-if="plan.pr_duration>=2">
+                    <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                      <input type="number" style="cursor:pointer;" name="raw_vol2_{{item.id}}" ng-click="addDetail('n', item.raw_vol2_details, item, 'raw_vol2_details', 'raw_vol2', item.raw_product)" required readonly ng-model="item.raw_vol2"/>
+                    </div>
+                  </td>
+                  <td ng-if="plan.pr_duration>=3">
+                    <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                      <input type="number" style="cursor:pointer;" name="raw_vol3_{{item.id}}" ng-click="addDetail('n', item.raw_vol3_details, item, 'raw_vol3_details', 'raw_vol3', item.raw_product)" required readonly ng-model="item.raw_vol3"/>
+                    </div>
+                  </td>
+                  <td ng-if="plan.pr_duration>=4">
+                    <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                      <input type="number" style="cursor:pointer;" name="raw_vol4_{{item.id}}" ng-click="addDetail('n', item.raw_vol4_details, item, 'raw_vol4_details', 'raw_vol4', item.raw_product)" required readonly ng-model="item.raw_vol4"/>
+                    </div>
+                  </td>
+                  <td ng-if="plan.pr_duration>=5">
+                    <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                      <input type="number" style="cursor:pointer;" name="raw_vol5_{{item.id}}" ng-click="addDetail('n', item.raw_vol5_details, item, 'raw_vol5_details', 'raw_vol5', item.raw_product)" required readonly ng-model="item.raw_vol5"/>
+                    </div>
+                  </td>
+                  <td ng-if="plan.pr_duration>=1">
+                    <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                    <input type="text" required name="raw_price1_{{item.id}}" readonly style="cursor: pointer" ng-click="addDetailItems(item.raw_price1_details, item, 'raw_price1_details', 'raw_price1', item.raw_product)" ng-model="item.raw_price1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
+                    </div>
+                  </td>
+                  <td ng-if="plan.pr_duration>=2">
+                    <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                    <input type="text" required readonly name="raw_price2_{{item.id}}" readonly style="cursor: pointer" ng-click="addDetailItems(item.raw_price2_details, item, 'raw_price2_details', 'raw_price2', item.raw_product)" ng-model="item.raw_price2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
+                    </div>
+                  </td>
+                  <td ng-if="plan.pr_duration>=3">
+                    <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                    <input type="text" required readonly name="raw_price3_{{item.id}}" readonly style="cursor: pointer" ng-click="addDetailItems(item.raw_price3_details, item, 'raw_price3_details', 'raw_price3', item.raw_product)" ng-model="item.raw_price3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
+                    </div>
+                  </td>
+                  <td ng-if="plan.pr_duration>=4">
+                    <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                      <input type="text" required readonly name="raw_price4_{{item.id}}" readonly style="cursor: pointer" ng-click="addDetailItems(item.raw_price4_details, item, 'raw_price4_details', 'raw_price4', item.raw_product)" ng-model="item.raw_price4" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
+                    </div>
+                  </td>
+                  <td ng-if="plan.pr_duration>=5">
+                    <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                      <input type="text" required readonly name="raw_price5_{{item.id}}" readonly style="cursor: pointer" ng-click="addDetailItems(item.raw_price5_details, item, 'raw_price5_details', 'raw_price5', item.raw_product)" ng-model="item.raw_price5" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
+                    </div>
+                  </td>
+                  <td ng-if="plan.pr_duration>=1"><input type="text" required name="raw_cost1_{{item.id}}" readonly ng-model="item.raw_cost1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                  <td ng-if="plan.pr_duration>=2"><input type="text" required name="raw_cost2_{{item.id}}" readonly ng-model="item.raw_cost2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                  <td ng-if="plan.pr_duration>=3"><input type="text" required name="raw_cost3_{{item.id}}" readonly ng-model="item.raw_cost3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                  <td ng-if="plan.pr_duration>=4"><input type="text" required name="raw_cost4_{{item.id}}" readonly ng-model="item.raw_cost4" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                  <td ng-if="plan.pr_duration>=5"><input type="text" required name="raw_cost5_{{item.id}}" readonly ng-model="item.raw_cost5" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                  <td><a href="" ng-show="$index>=1" ng-click="remove_item_to_array(plan.pr_raw_materials, item)" class="del">Хасах</a></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><a href="" ng-click="add_item_to_array(plan.pr_raw_materials, 'pr_raw_materials')">Нэмэх<a></td>
+                  <td></td>
+                  <td></td>
+                  <td ></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td></td>
+                  <td>Нийт</td>
+                  <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">{{sumOf(plan.pr_raw_materials, 'raw_vol', $index+1) | number : 2}}</td>
+                  <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration"></td>
+                  <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">₮{{sumOf(plan.pr_raw_materials, 'raw_cost', $index+1) | number : 2}}</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
           <br>
-        <table >
-          <tbody>
-            <thead>
+          <br>
+          <label class="subtitle" style="width:100%; margin-bottom: 10px; margin-top: 10px;">Үйлдвэрлэл, борлуулалтын төлөвлөгөө</label>
+          <br>
+          <hr>
+          <br>
+
+          <div style="width: 100%; float:left; overflow: scroll; margin-bottom: 10px;">
+            <table style="width: 1800px !important;">
+              <tbody>
+              <thead>
               <tr>
                 <td rowspan="2">#</td>
-                <td style="width: 20%" rowspan="2">Бүтээгдэхүүн</td>
-                <td style="width: 25%;" colspan="3">Үйлдвэрлэх хэмжээ</td>
-                <td style="width: 25%;" colspan="3">Нэгж үнэ</td>
-                <td style="width: 30%;" colspan="3">Түүхий эдийн нийт өртөг</td>
+                <td style="width: 10%" rowspan="2">Бүтээгдэхүүн</td>
+                <td style="width: 6%;" rowspan="2">Хэмжих нэгж</td>
+                <td style="width: 28%;" colspan="{{plan.pr_duration}}">Борлуулах хэмжээ</td>
+                <td style="width: 28%;" colspan="{{plan.pr_duration}}">Нэгжийн үнэ</td>
+                <td style="width: 28%;" colspan="{{plan.pr_duration}}">Борлуулалтын орлого</td>
                 <td></td>
               </tr>
               <tr>
-                <td>{{year}}</td>
-                <td>{{year+1}}</td>
-                <td>{{year+2}}</td>
-                <td>{{year}}</td>
-                <td>{{year+1}}</td>
-                <td>{{year+2}}</td>
-                <td>{{year}}</td>
-                <td>{{year+1}}</td>
-                <td>{{year+2}}</td>
+                <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">{{number}}</td>
+                <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">{{number}}</td>
+                <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">{{number}}</td>
+                <td></td>
               </tr>
-            </thead>
-            <tr ng-repeat="item in plan.pr_raw_materials">
-              <td>{{$index+1}}</td>
-              <td><input type="text" required ng-model="item.raw_product"/></td>
-              <td>
-                <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
-                  <input type="number" style="cursor:pointer;" name="raw_vol1_{{item.id}}" ng-click="addDetail('n', item.raw_vol1_details, item, 'raw_vol1_details', 'raw_vol1', item.raw_product)" required readonly ng-model="item.raw_vol1"/>
-                </div>
-              </td>
-              <td>
-                <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
-                  <input type="number" style="cursor:pointer;" name="raw_vol2_{{item.id}}" ng-click="addDetail('n', item.raw_vol2_details, item, 'raw_vol2_details', 'raw_vol2', item.raw_product)" required readonly ng-model="item.raw_vol2"/>
-                </div>
-              </td>
-              <td>
-                <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
-                  <input type="number" style="cursor:pointer;" name="raw_vol3_{{item.id}}" ng-click="addDetail('n', item.raw_vol3_details, item, 'raw_vol3_details', 'raw_vol3', item.raw_product)" required readonly ng-model="item.raw_vol3"/>
-                </div>
-              </td>
-              <td>
-
-                <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
-                <input type="text" required name="raw_price1_{{item.id}}" readonly style="cursor: pointer" ng-click="addDetailItems(item.raw_price1_details, item, 'raw_price1_details', 'raw_price1', item.raw_product)" ng-model="item.raw_price1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
-                </div>
-              </td>
-              <td>
-
-                <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
-                <input type="text" required readonly name="raw_price2_{{item.id}}" readonly style="cursor: pointer" ng-click="addDetailItems(item.raw_price2_details, item, 'raw_price2_details', 'raw_price2', item.raw_product)" ng-model="item.raw_price2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
-                </div>
-              </td>
-              <td>
-
-                <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
-                <input type="text" required readonly name="raw_price3_{{item.id}}" readonly style="cursor: pointer" ng-click="addDetailItems(item.raw_price3_details, item, 'raw_price3_details', 'raw_price3', item.raw_product)" ng-model="item.raw_price3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
-                </div>
-              </td>
-              <td><input type="text" required name="raw_cost1_{{item.id}}" readonly ng-model="item.raw_cost1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
-              <td><input type="text" required name="raw_cost2_{{item.id}}" readonly ng-model="item.raw_cost2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
-              <td><input type="text" required name="raw_cost3_{{item.id}}" readonly ng-model="item.raw_cost3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
-              <td><a href="" ng-show="$index>=1" ng-click="remove_item_to_array(plan.pr_raw_materials, item)" class="del">Хасах</a></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td><a href="" ng-click="add_item_to_array(plan.pr_raw_materials, 'pr_raw_materials')">Нэмэх<a></td>
-              <td></td>
-              <td></td>
-              <td ></td>
-            </tr>
-          </tbody>
-        </table>
-          <br>
-          <label class="subtitle">Үйлдвэрлэл, борлуулалтын төлөвлөгөө</label>
-          <br>
-
-
-          <table>
-            <tbody>
-            <thead>
-            <tr>
-              <td rowspan="2">#</td>
-              <td style="width: 17%" rowspan="2">Бүтээгдэхүүн</td>
-              <td style="width: 6%;" rowspan="2">Хэмжих нэгж</td>
-              <td style="width: 20%;" colspan="3">Борлуулах хэмжээ</td>
-              <td style="width: 25%;" colspan="3">Нэгжийн үнэ</td>
-              <td style="width: 30%;" colspan="3">Борлуулалтын орлого</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>{{year}}</td>
-              <td>{{year+1}}</td>
-              <td>{{year+2}}</td>
-              <td>{{year}}</td>
-              <td>{{year+1}}</td>
-              <td>{{year+2}}</td>
-              <td>{{year}}</td>
-              <td>{{year+1}}</td>
-              <td>{{year+2}}</td>
-            </tr>
-            </thead>
-            <tr ng-repeat="item in plan.pr_productions">
-              <td>{{$index+1}}</td>
-              <td><input type="text" required ng-model="item.production_product_name"/></td>
-              <td>
-                <select ng-model="item.production_product_unit">
-                  <option value="1">ш</option>
-                  <option value="2">л</option>
-                  <option value="3">кг</option>
-                  <option value="4">тн</option>
-                </select>
-              </td>
-              <td>
-                <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
-                  <input type="number" style="cursor:pointer;" name="production_vol1_{{item.id}}" ng-click="addDetail('n', item.production_vol1_details, item, 'production_vol1_details', 'production_vol1')" required readonly ng-model="item.production_vol1"/>
-                </div>
-              </td>
-              <td>
-                <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
-                  <input type="number" style="cursor:pointer;" name="production_vol2_{{item.id}}" ng-click="addDetail('n', item.production_vol2_details, item, 'production_vol2_details', 'production_vol2')" required readonly ng-model="item.production_vol2"/>
-                </div>
-              </td>
-              <td>
-                <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
-                  <input type="number" style="cursor:pointer;" name="production_vol3_{{item.id}}" ng-click="addDetail('n', item.production_vol3_details, item, 'production_vol3_details', 'production_vol3')" required readonly ng-model="item.production_vol3"/>
-                </div>
-              </td>
-              <td>
-                <input type="text" required name="production_price1_{{item.id}}" ng-keyup="value(item, 'production_price1', 'production_price2', 'production_price3', 'production_vol,production_income', 'pr_production_price_increment_percent', 'pr_production_sale_rate')" ng-model="item.production_price1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
-              </td>
-              <td>
-                <input type="text" required readonly name="production_price2_{{item.id}}" ng-model="item.production_price2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
-              </td>
-              <td>
-                <input type="text" required readonly name="production_price3_{{item.id}}" ng-model="item.production_price3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
-              </td>
-              <td>
-                <input type="text" required readonly name="production_income1_{{item.id}}" ng-model="item.production_income1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
-              </td>
-              <td>
-                <input type="text" required readonly name="production_income2_{{item.id}}" ng-model="item.production_income2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
-              </td>
-              <td>
-                <input type="text" required readonly name="production_income3_{{item.id}}" ng-model="item.production_income3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
-              </td>
-              <td><a href="" ng-show="$index>=1" ng-click="remove_item_to_array(plan.pr_productions, item)" class="del">Хасах</a></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td><a href="" ng-click="add_item_to_array(plan.pr_productions, 'pr_productions')">Нэмэх<a></td>
-              <td></td>
-              <td></td>
-              <td ></td>
-            </tr>
-            </tbody>
-          </table>
-
+              </thead>
+              <tr ng-repeat="item in plan.pr_productions">
+                <td>{{$index+1}}</td>
+                <td><input type="text" required ng-model="item.production_product_name"/></td>
+                <td>
+                  <select ng-model="item.production_product_unit">
+                    <option value="1">ш</option>
+                    <option value="2">л</option>
+                    <option value="3">кг</option>
+                    <option value="4">тн</option>
+                  </select>
+                </td>
+                <td ng-if="plan.pr_duration>=1">
+                  <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                    <input type="number" style="cursor:pointer;" name="production_vol1_{{item.id}}" ng-click="addDetail('n', item.production_vol1_details, item, 'production_vol1_details', 'production_vol1')" required readonly ng-model="item.production_vol1"/>
+                  </div>
+                </td>
+                <td ng-if="plan.pr_duration>=2">
+                  <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                    <input type="number" style="cursor:pointer;" name="production_vol2_{{item.id}}" ng-click="addDetail('n', item.production_vol2_details, item, 'production_vol2_details', 'production_vol2')" required readonly ng-model="item.production_vol2"/>
+                  </div>
+                </td>
+                <td ng-if="plan.pr_duration>=3">
+                  <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                    <input type="number" style="cursor:pointer;" name="production_vol3_{{item.id}}" ng-click="addDetail('n', item.production_vol3_details, item, 'production_vol3_details', 'production_vol3')" required readonly ng-model="item.production_vol3"/>
+                  </div>
+                </td>
+                <td ng-if="plan.pr_duration>=4">
+                  <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                    <input type="number" style="cursor:pointer;" name="production_vol4_{{item.id}}" ng-click="addDetail('n', item.production_vol4_details, item, 'production_vol4_details', 'production_vol4')" required readonly ng-model="item.production_vol4"/>
+                  </div>
+                </td>
+                <td ng-if="plan.pr_duration>=5">
+                  <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                    <input type="number" style="cursor:pointer;" name="production_vol5_{{item.id}}" ng-click="addDetail('n', item.production_vol5_details, item, 'production_vol5_details', 'production_vol5')" required readonly ng-model="item.production_vol5"/>
+                  </div>
+                </td>
+                <td ng-if="plan.pr_duration>=1">
+                  <input type="text" required name="production_price1_{{item.id}}" ng-keyup="value(item, 'production_price1', 'production_price2', 'production_price3', 'production_price4', 'production_price5', 'production_vol,production_income', 'pr_production_price_increment_percent', 'pr_production_sale_rate')" ng-model="item.production_price1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
+                </td>
+                <td ng-if="plan.pr_duration>=2">
+                  <input type="text" required readonly name="production_price2_{{item.id}}" ng-model="item.production_price2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
+                </td>
+                <td ng-if="plan.pr_duration>=3">
+                  <input type="text" required readonly name="production_price3_{{item.id}}" ng-model="item.production_price3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
+                </td>
+                <td ng-if="plan.pr_duration>=4">
+                  <input type="text" required readonly name="production_price4_{{item.id}}" ng-model="item.production_price4" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
+                </td>
+                <td ng-if="plan.pr_duration>=5">
+                  <input type="text" required readonly name="production_price5_{{item.id}}" ng-model="item.production_price5" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
+                </td>
+                <td ng-if="plan.pr_duration>=1">
+                  <input type="text" required readonly name="production_income1_{{item.id}}" ng-model="item.production_income1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
+                </td>
+                <td ng-if="plan.pr_duration>=2">
+                  <input type="text" required readonly name="production_income2_{{item.id}}" ng-model="item.production_income2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
+                </td>
+                <td ng-if="plan.pr_duration>=3">
+                  <input type="text" required readonly name="production_income3_{{item.id}}" ng-model="item.production_income3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
+                </td>
+                <td ng-if="plan.pr_duration>=4">
+                  <input type="text" required readonly name="production_income4_{{item.id}}" ng-model="item.production_income4" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
+                </td>
+                <td ng-if="plan.pr_duration>=5">
+                  <input type="text" required readonly name="production_income5_{{item.id}}" ng-model="item.production_income5" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/>
+                </td>
+                <td><a href="" ng-show="$index>=1" ng-click="remove_item_to_array(plan.pr_productions, item)" class="del">Хасах</a></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><a href="" ng-click="add_item_to_array(plan.pr_productions, 'pr_productions')">Нэмэх<a></td>
+                <td></td>
+                <td></td>
+                <td ></td>
+              </tr>
+              </tbody>
+              <tfoot>
+              <tr>
+                <td></td>
+                <td>Нийт</td>
+                <td></td>
+                <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">{{sumOf(plan.pr_productions, 'production_vol', $index+1) | number : 2}}</td>
+                <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration"></td>
+                <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">₮{{sumOf(plan.pr_productions, 'production_income', $index+1) | number : 2}}</td>
+                <td></td>
+              </tr>
+              </tfoot>
+            </table>
+          </div>
       </div>
         <ul class="form-list">
           <li>
@@ -798,45 +870,51 @@
       </form>
 
       <form id="form_8" hidden ng-submit="next(9,8)">
-        <p>Нэвтэрсэн хэрэглэгч : {{signedUser.name}}</p>
+        <label class="subtitle">Цалингийн зардал</label>
+        <label class="righttitle">8/10</label><br>
         <hr>
         <div class="formed">
-        <h2>8/10</h2>
         <br>
-        <label class="subtitle">Цалингийн зардал</label>
-        <br>
-        <table>
+        <div style="overflow: scroll; width: 100%">
+          <table style="width: 1200px;">
           <tbody>
             <thead>
               <tr>
                 <td rowspan="2">#</td>
-                <td style="width: 25%" rowspan="2">Албар тушаал</td>
-                <td style="width: 25%;" colspan="2">{{year}}</td>
-                <td style="width: 25%;" colspan="2">{{year+1}}</td>
-                <td style="width: 25%;" colspan="2">{{year+2}}</td>
+                <td style="width: 10%" rowspan="2">Албар тушаал</td>
+                <td style="width: {{90/plan.pr_duration}}%;" colspan="2" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">{{number}}</td>
                 <td style=""></td>
               </tr>
               <tr>
-                <td>Сар цалин</td>
-                <td>Жилийн цалин</td>
-                <td>Сар цалин</td>
-                <td>Жилийн цалин</td>
-                <td>Сар цалин</td>
-                <td>Жилийн цалин</td>
+                <td ng-if="plan.pr_duration>=1">Сар цалин</td>
+                <td ng-if="plan.pr_duration>=1">Жилийн цалин</td>
+                <td ng-if="plan.pr_duration>=2">Сар цалин</td>
+                <td ng-if="plan.pr_duration>=2">Жилийн цалин</td>
+                <td ng-if="plan.pr_duration>=3">Сар цалин</td>
+                <td ng-if="plan.pr_duration>=3">Жилийн цалин</td>
+                <td ng-if="plan.pr_duration>=4">Сар цалин</td>
+                <td ng-if="plan.pr_duration>=4">Жилийн цалин</td>
+                <td ng-if="plan.pr_duration>=5">Сар цалин</td>
+                <td ng-if="plan.pr_duration>=5">Жилийн цалин</td>
+                <td></td>
               </tr>
               <tr>
-                <td colspan="8" style="text-align: left !important;">Одоо байгаа</td>
+                <td colspan="{{(plan.pr_duration+1)*2+1}}" style="text-align: left !important;">Одоо байгаа</td>
               </tr>
             </thead>
             <tr ng-repeat="item in plan.pr_salary_costs | filter:filterBySalaryType1">
                 <td>{{$index+1}}</td>
                 <td><input type="text" required ng-model="item.salary_person"/></td>
-                <td><input type="text" required name="salary_month1_{{item.id}}" readonly ng-model="item.salary_month1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
-                <td><input type="text" required name="salary_year1_{{item.id}}"  style="cursor: pointer" readonly ng-click="addDetailSal(item.salary_year1_details, item, 'salary_year1_details', 'salary_year1')" ng-model="item.salary_year1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
-                <td><input type="text" required name="salary_month2_{{item.id}}" readonly ng-model="item.salary_month2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
-                <td><input type="text" required name="salary_year2_{{item.id}}"  readonly style="cursor: pointer" readonly ng-click="addDetailSal(item.salary_year2_details, item, 'salary_year2_details', 'salary_year2')" ng-model="item.salary_year2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
-                <td><input type="text" required name="salary_month3_{{item.id}}" readonly ng-model="item.salary_month3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
-                <td><input type="text" required name="salary_year3_{{item.id}}"  readonly style="cursor: pointer" readonly ng-click="addDetailSal(item.salary_year3_details, item, 'salary_year3_details', 'salary_year3')" ng-model="item.salary_year3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=1"><input type="text" required name="salary_month1_{{item.id}}" readonly ng-model="item.salary_month1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=1"><input type="text" required name="salary_year1_{{item.id}}"  style="cursor: pointer" readonly ng-click="addDetailSal(item.salary_year1_details, item, 'salary_year1_details', 'salary_year1')" ng-model="item.salary_year1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=2"><input type="text" required name="salary_month2_{{item.id}}" readonly ng-model="item.salary_month2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=2"><input type="text" required name="salary_year2_{{item.id}}"  readonly style="cursor: pointer" readonly ng-click="addDetailSal(item.salary_year2_details, item, 'salary_year2_details', 'salary_year2')" ng-model="item.salary_year2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=3"><input type="text" required name="salary_month3_{{item.id}}" readonly ng-model="item.salary_month3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=3"><input type="text" required name="salary_year3_{{item.id}}"  readonly style="cursor: pointer" readonly ng-click="addDetailSal(item.salary_year3_details, item, 'salary_year3_details', 'salary_year3')" ng-model="item.salary_year3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=4"><input type="text" required name="salary_month4_{{item.id}}" readonly ng-model="item.salary_month4" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=4"><input type="text" required name="salary_year4_{{item.id}}"  readonly style="cursor: pointer" readonly ng-click="addDetailSal(item.salary_year4_details, item, 'salary_year4_details', 'salary_year4')" ng-model="item.salary_year4" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=5"><input type="text" required name="salary_month5_{{item.id}}" readonly ng-model="item.salary_month5" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=5"><input type="text" required name="salary_year5_{{item.id}}"  readonly style="cursor: pointer" readonly ng-click="addDetailSal(item.salary_year5_details, item, 'salary_year5_details', 'salary_year5')" ng-model="item.salary_year5" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
                 <td><a href="" ng-show="$index>=1" ng-click="remove_item_to_array(plan.pr_salary_costs, item)" class="del">Хасах</a></td>
             </tr>
             <tr>
@@ -848,18 +926,22 @@
             </tr>
             <thead>
               <tr>
-                <td colspan="8" style="text-align: left !important;">Шинээр авах</td>
+                <td colspan="{{(plan.pr_duration+1)*2+1}}" style="text-align: left !important;">Шинээр авах</td>
               </tr>
             </thead>
             <tr ng-repeat="item in plan.pr_salary_costs | filter:filterBySalaryType2">
                 <td>{{$index+1}}</td>
                 <td><input type="text" required ng-model="item.salary_person"/></td>
-                <td><input type="text" required name="salary_month1_{{item.id}}" ng-model="item.salary_month1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
-                <td><input type="text" required name="salary_year1_{{item.id}}"  ng-model="item.salary_year1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
-                <td><input type="text" required name="salary_month2_{{item.id}}"  ng-model="item.salary_month2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
-                <td><input type="text" required name="salary_year2_{{item.id}}"  ng-model="item.salary_year2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
-                <td><input type="text" required name="salary_month3_{{item.id}}"  ng-model="item.salary_month3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
-                <td><input type="text" required name="salary_year3_{{item.id}}"  ng-model="item.salary_year3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=1"><input type="text" required name="salary_month1_{{item.id}}" readonly ng-model="item.salary_month1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=1"><input type="text" required name="salary_year1_{{item.id}}"  style="cursor: pointer" readonly ng-click="addDetailSal(item.salary_year1_details, item, 'salary_year1_details', 'salary_year1')" ng-model="item.salary_year1" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=2"><input type="text" required name="salary_month2_{{item.id}}" readonly ng-model="item.salary_month2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=2"><input type="text" required name="salary_year2_{{item.id}}"  readonly style="cursor: pointer" readonly ng-click="addDetailSal(item.salary_year2_details, item, 'salary_year2_details', 'salary_year2')" ng-model="item.salary_year2" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=3"><input type="text" required name="salary_month3_{{item.id}}" readonly ng-model="item.salary_month3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=3"><input type="text" required name="salary_year3_{{item.id}}"  readonly style="cursor: pointer" readonly ng-click="addDetailSal(item.salary_year3_details, item, 'salary_year3_details', 'salary_year3')" ng-model="item.salary_year3" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=4"><input type="text" required name="salary_month4_{{item.id}}" readonly ng-model="item.salary_month4" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=4"><input type="text" required name="salary_year4_{{item.id}}"  readonly style="cursor: pointer" readonly ng-click="addDetailSal(item.salary_year4_details, item, 'salary_year4_details', 'salary_year4')" ng-model="item.salary_year4" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=5"><input type="text" required name="salary_month5_{{item.id}}" readonly ng-model="item.salary_month5" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
+                <td ng-if="plan.pr_duration>=5"><input type="text" required name="salary_year5_{{item.id}}"  readonly style="cursor: pointer" readonly ng-click="addDetailSal(item.salary_year5_details, item, 'salary_year5_details', 'salary_year5')" ng-model="item.salary_year5" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"/></td>
                 <td><a href="" ng-show="$index>=0" ng-click="remove_item_to_array(plan.pr_salary_costs, item)" class="del">Хасах</a></td>
             </tr>
             <tr>
@@ -870,7 +952,25 @@
               <td></td>
             </tr>
           </tbody>
+          <tfoot>
+            <tr>
+              <td></td>
+              <td>Нийт</td>
+              <td ng-if="plan.pr_duration>=1">{{sumOf(plan.pr_salary_costs, 'salary_month', 1) | number : 2}}</td>
+              <td ng-if="plan.pr_duration>=1">₮{{sumOf(plan.pr_salary_costs, 'salary_year', 1) | number : 2}}</td>
+              <td ng-if="plan.pr_duration>=2">{{sumOf(plan.pr_salary_costs, 'salary_month', 2) | number : 2}}</td>
+              <td ng-if="plan.pr_duration>=2">₮{{sumOf(plan.pr_salary_costs, 'salary_year', 2) | number : 2}}</td>
+              <td ng-if="plan.pr_duration>=3">{{sumOf(plan.pr_salary_costs, 'salary_month', 3) | number : 2}}</td>
+              <td ng-if="plan.pr_duration>=3">₮{{sumOf(plan.pr_salary_costs, 'salary_year', 3) | number : 2}}</td>
+              <td ng-if="plan.pr_duration>=4">{{sumOf(plan.pr_salary_costs, 'salary_month', 4) | number : 2}}</td>
+              <td ng-if="plan.pr_duration>=4">₮{{sumOf(plan.pr_salary_costs, 'salary_year', 4) | number : 2}}</td>
+              <td ng-if="plan.pr_duration>=5">{{sumOf(plan.pr_salary_costs, 'salary_month', 5) | number : 2}}</td>
+              <td ng-if="plan.pr_duration>=5">₮{{sumOf(plan.pr_salary_costs, 'salary_year', 5) | number : 2}}</td>
+              <td></td>
+            </tr>
+          </tfoot>
         </table>
+        </div>
       </div>
         <ul class="form-list">
           <li>
@@ -881,27 +981,25 @@
       </form>
 
       <form id="form_9" hidden ng-submit="next(10,9)">
-        <p>Нэвтэрсэн хэрэглэгч : {{signedUser.name}}</p>
+        <label class="subtitle">Элэгдлийн зардал</label>
+        <label class="righttitle">9/10</label><br>
         <hr>
         <div class="formed">
-        <h2>9/10</h2>
         <br>
-        <label class="subtitle">Элэгдлийн зардал</label>
-        <br>
-        <table>
+        <table style="width: 800px;">
           <tbody>
             <thead>
               <tr>
                 <td>#</td>
-                <td style="width: 35%">Байр ба тоног төхөөрөмж</td>
-                <td style="width: 15%;">Нийт үнэлгээ</td>
+                <td style="width: 30%">Байр ба тоног төхөөрөмж</td>
+                <td style="width: 20%;">Нийт үнэлгээ</td>
                 <td style="width: 15%;">Жилийн хорогдолын хувь</td>
                 <td style="width: 15%;">Жилийн хорогдол</td>
                 <td style="width: 15%;">Сарын хорогдол</td>
                 <td style="width: 5%;"></td>
               </tr>
               <tr>
-                <td colspan="6" style="text-align: left !important;">Одоо байгаа</td>
+                <td colspan="7" style="text-align: left !important;">Одоо байгаа</td>
               </tr>
             </thead>
             <tr ng-repeat="item in plan.pr_depreciation_costs | filter: filterByDepreciationCost1">
@@ -923,7 +1021,7 @@
             </tr>
             <thead>
               <tr>
-                <td colspan="6" style="text-align: left !important;">Бизнес төлөвлөгөөг хэрэгжүүлэх үед шинээр худалдан авах</td>
+                <td colspan="7" style="text-align: left !important;">Бизнес төлөвлөгөөг хэрэгжүүлэх үед шинээр худалдан авах</td>
               </tr>
             </thead>
             <tr ng-repeat="item in plan.pr_depreciation_costs | filter: filterByDepreciationCost2">
@@ -943,40 +1041,60 @@
               <td ></td>
             </tr>
           </tbody>
+          <tfoot>
+          <tr>
+            <td></td>
+            <td>Нийт</td>
+            <td>₮{{sumOf(plan.pr_depreciation_costs, 'depreciation_total', 0) | number : 2}}</td>
+            <td></td>
+            <td>₮{{sumOf(plan.pr_depreciation_costs, 'depreciation_cost_year', 0) | number : 2}}</td>
+            <td>₮{{sumOf(plan.pr_depreciation_costs, 'depreciation_cost_month', 0) | number : 2}}</td>
+            <td></td>
+          </tr>
+          </tfoot>
         </table>
 
         <br>
         <label class="subtitle">Бусад зардал</label>
+        <label class="righttitle"></label><br>
+        <hr>
         <br>
-        <table>
+        <table style="width: 900px;">
           <tbody>
             <thead>
               <tr>
                 <td>#</td>
-                <td style="width: 35%">Зардлууд</td>
-                <td style="width: 20%;">{{year}}</td>
-                <td style="width: 20%;">{{year+1}}</td>
-                <td style="width: 25%;">{{year+2}}</td>
+                <td style="width: 15%">Зардлууд</td>
+                <td style="width: {{85/plan.pr_duration}}%;" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">{{number}}</td>
                 <td></td>
               </tr>
             </thead>
             <tr ng-repeat="item in plan.pr_other_costs">
               <td>{{$index+1}}</td>
               <td><input type="text" required ng-model="item.other_costs_item"/></td>
-
-              <td>
+              <td ng-if="plan.pr_duration>=1">
                 <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
                   <input type="text" style="cursor:pointer;" name="other_costs_cost1_{{item.id}}" required readonly pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" ng-click="addDetail('c', item.other_costs_cost1_details, item, 'other_costs_cost1_details', 'other_costs_cost1', item.other_costs_item)" required readonly ng-model="item.other_costs_cost1"/>
                 </div>
               </td>
-              <td>
+              <td ng-if="plan.pr_duration>=2">
                 <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
                   <input type="text" style="cursor:pointer;" name="other_costs_cost2_{{item.id}}" required readonly npattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" ng-click="addDetail('c', item.other_costs_cost2_details, item, 'other_costs_cost2_details', 'other_costs_cost2', item.other_costs_item)" required readonly ng-model="item.other_costs_cost2"/>
                 </div>
               </td>
-              <td>
+              <td ng-if="plan.pr_duration>=3">
                 <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
                   <input type="text" style="cursor:pointer;" name="other_costs_cost3_{{item.id}}" required readonly pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" ng-click="addDetail('c', item.other_costs_cost3_details, item, 'other_costs_cost3_details', 'other_costs_cost3', item.other_costs_item)" required readonly ng-model="item.other_costs_cost3"/>
+                </div>
+              </td>
+              <td ng-if="plan.pr_duration>=4">
+                <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                  <input type="text" style="cursor:pointer;" name="other_costs_cost4_{{item.id}}" required readonly pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" ng-click="addDetail('c', item.other_costs_cost3_details, item, 'other_costs_cost3_details', 'other_costs_cost3', item.other_costs_item)" required readonly ng-model="item.other_costs_cost4"/>
+                </div>
+              </td>
+              <td ng-if="plan.pr_duration>=5">
+                <div data-tip="Энд дарж дэлгэнрэнгүй оруулна уу !">
+                  <input type="text" style="cursor:pointer;" name="other_costs_cost5_{{item.id}}" required readonly pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" ng-click="addDetail('c', item.other_costs_cost3_details, item, 'other_costs_cost3_details', 'other_costs_cost3', item.other_costs_item)" required readonly ng-model="item.other_costs_cost5"/>
                 </div>
               </td>
 
@@ -993,6 +1111,18 @@
               <td ></td>
             </tr>
           </tbody>
+          <tfoot>
+            <tr>
+              <td></td>
+              <td>Нийт</td>
+              <td>₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', 1) | number : 2}}</td>
+              <td>₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', 2) | number : 2}}</td>
+              <td>₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', 3) | number : 2}}</td>
+              <td>₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', 4) | number : 2}}</td>
+              <td>₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', 5) | number : 2}}</td>
+              <td></td>
+            </tr>
+          </tfoot>
         </table>
       </div>
         <ul class="form-list">
@@ -1004,12 +1134,10 @@
       </form>
 
       <form id="form_10" hidden ng-submit="next(11,10)">
-        <p>Нэвтэрсэн хэрэглэгч : {{signedUser.name}}</p>
+        <label class="subtitle">Зээлийн мэдээлэл, хуваарь</label>
+        <label class="righttitle">10/10</label><br>
         <hr>
         <div class="formed">
-        <h2>10/10</h2>
-        <label class="subtitle">Зээлийн мэдээлэл</label>
-        <br>
 
         <ul class="form-list">
           <li class="form-list__row form-list__row--inline">
@@ -1034,15 +1162,13 @@
               <input type="date" name="pr_loan_start_date" required="" ng-model="plan.pr_loan_start_date"/>
             </div>
             <div class="c1">
-              <button type="button" class="button" ng-click="calcLoan()">ТООЦООЛОХ</button>
+              <button type="button" class="button" style="margin-top: 10px;" ng-click="calcLoan()">ТООЦООЛОХ</button>
             </div>
             <div class="c3">
+              {{plan.pr_loan_start_date}}
             </div>
           </li>
         </ul>
-        <br>
-        <label class="subtitle">Зээлийн эргэн төлөлтийн хуваарь</label>
-        <br>
         <table style="width: 75%;">
           <tbody>
             <thead>
@@ -1058,20 +1184,31 @@
             </thead>
             <tr ng-repeat="item in plan.pr_loan_dates">
               <td>{{$index+1}}</td>
-              <td>{{item.loan_date | date:'yyyy-MM-dd'}}</td>
+              <td>{{item.loan_date}}</td>
               <td><input type="number" readonly required ng-model="item.loan_day"/></td>
-              <td><input type="text" readonly name="loan_rate_amount_{{item.id}}" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency"  required ng-model="item.loan_rate_amount"/></td>
-              <td><input type="text" readonly name="loan_amount_{{item.id}}" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency"  required ng-model="item.loan_amount"/></td>
-              <td><input type="text" readonly name="loan_balance_{{item.id}}" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency"  required ng-model="item.loan_balance"/></td>
+              <td><input type="text" readonly name="loan_rate_amount_{{item.id}}" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" required ng-model="item.loan_rate_amount"/></td>
+              <td><input type="text" readonly name="loan_amount_{{item.id}}" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" required ng-model="item.loan_amount"/></td>
+              <td><input type="text" readonly name="loan_balance_{{item.id}}" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" required ng-model="item.loan_balance"/></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr ng-repeat="year in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration && sumOf(plan.pr_loan_dates, 'loan_rate_amount', year, 'loan_date') > 0">
+              <td></td>
+              <td>Нийт {{year}}</td>
+              <td></td>
+              <td>₮{{sumOfCheck(plan.pr_loan_dates, 'loan_rate_amount', year, 'loan_date') | number:2}}</td>
+              <td>₮{{sumOfCheck(plan.pr_loan_dates, 'loan_amount', year, 'loan_date') | number:2}}</td>
+              <td></td>
             </tr>
             <tr>
               <td></td>
+              <td>Нийт бүгд</td>
               <td></td>
+              <td>₮{{sumOf(plan.pr_loan_dates, 'loan_rate_amount') | number:2}}</td>
+              <td>₮{{sumOf(plan.pr_loan_dates, 'loan_amount') | number:2}}</td>
               <td></td>
-              <td></td>
-              <td ></td>
             </tr>
-          </tbody>
+          </tfoot>
         </table>
       </div>
         <ul class="form-list">
@@ -1089,14 +1226,19 @@
         <button type="button" class="button red" ng-click="next(10, 11)">БУЦАХ</button>
         <button type="button" class="button" ng-click="planSave()">ХАДГАЛАХ</button>
 
+
+
+
         <div class="formed" id="html">
           <style type="text/css">
             table.normal {
+              border-collapse: separate;
                 width: 100%;
+              border-spacing: 0px;
                 flex-direction: column;
+              border-radius: 0px !important;
             }
             table.normal td {
-              border: 1px solid black;
               vertical-align: top;
               padding: 2px 5px !important;
               text-transform: none;
@@ -1108,7 +1250,163 @@
             }
 
         </style>
-          <table class="normal">
+
+          <table class="normal" style="width: 700px;">
+            <tr>
+              <td style="width: 30%;"></td>
+              <td style="width: {{70/plan.pr_duration}}%}}" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">{{number}}</td>
+            </tr>
+            <tr>
+              <td><strong>Нийт борлуулалт</strong></td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">₮{{sumOf(plan.pr_productions, 'production_income', $index+1) | number:2}}</td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;Борлуулалтын орлого</td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">₮{{sumOf(plan.pr_productions, 'production_income', $index+1) | number:2}}</td>
+            </tr>
+            <tr>
+              <td><strong>Нийт зардал</strong></td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
+                ₮{{
+                  sumOf(plan.pr_raw_materials, 'raw_cost', $index+1) +
+                  sumOf(plan.pr_salary_costs, 'salary_year', $index+1) +
+                  sumOf(plan.pr_depreciation_costs, 'depreciation_cost_year', 0) +
+                  sumOf(plan.pr_other_costs, 'other_costs_cost', $index+1) +
+                  sumOfCheck(plan.pr_loan_dates, 'loan_rate_amount', number, 'loan_date') +
+                  sumOf(plan.pr_salary_costs, 'salary_year', $index+1)*0.19 | number:2
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;Түүхийн эдийн зардал</td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">₮{{sumOf(plan.pr_raw_materials, 'raw_cost', $index+1) | number:2}}</td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;Ажилчдын цалин</td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">₮{{sumOf(plan.pr_salary_costs, 'salary_year', $index+1) | number:2}}</td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;НДШ, ЭМД</td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
+                ₮{{sumOf(plan.pr_salary_costs, 'salary_year', $index+1)*0.19 | number:2}}
+              </td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;Элэгдлийн зардал</td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">₮{{sumOf(plan.pr_depreciation_costs, 'depreciation_cost_year', 0) | number:2}}</td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;Бусад зардал</td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', $index+1) | number:2}}</td>
+            </tr>
+            <tr>
+              <td>Зээлийн хүү</td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">₮{{sumOfCheck(plan.pr_loan_dates, 'loan_rate_amount', number, 'loan_date') | number:2}}</td>
+            </tr>
+            <tr>
+              <td><strong>Нийт ашиг</strong></td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
+                ₮{{
+                sumOf(plan.pr_productions, 'production_income', $index+1) -
+                (sumOf(plan.pr_raw_materials, 'raw_cost', $index+1) +
+                sumOf(plan.pr_salary_costs, 'salary_year', $index+1) +
+                sumOf(plan.pr_depreciation_costs, 'depreciation_cost_year', 0) +
+                sumOf(plan.pr_other_costs, 'other_costs_cost', $index+1) +
+                sumOfCheck(plan.pr_loan_dates, 'loan_rate_amount', number, 'loan_date')+
+                sumOf(plan.pr_salary_costs, 'salary_year', $index+1)*0.19) | number:2
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td>Орлогын татвар</td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
+                ₮{{
+                (sumOf(plan.pr_productions, 'production_income', $index+1) -
+                (sumOf(plan.pr_raw_materials, 'raw_cost', $index+1) +
+                        sumOf(plan.pr_salary_costs, 'salary_year', $index+1) +
+                        sumOf(plan.pr_depreciation_costs, 'depreciation_cost_year', 0) +
+                        sumOf(plan.pr_other_costs, 'other_costs_cost', $index+1) +
+                        sumOfCheck(plan.pr_loan_dates, 'loan_rate_amount', number, 'loan_date')+
+                        sumOf(plan.pr_salary_costs, 'salary_year', $index+1)*0.19))*0.1 | number:2
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Цэвэр ашиг</strong></td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
+                ₮{{
+                (sumOf(plan.pr_productions, 'production_income', $index+1) -
+                (sumOf(plan.pr_raw_materials, 'raw_cost', $index+1) +
+                        sumOf(plan.pr_salary_costs, 'salary_year', $index+1) +
+                        sumOf(plan.pr_depreciation_costs, 'depreciation_cost_year', 0) +
+                        sumOf(plan.pr_other_costs, 'other_costs_cost', $index+1) +
+                        sumOfCheck(plan.pr_loan_dates, 'loan_rate_amount', number, 'loan_date')+
+                        sumOf(plan.pr_salary_costs, 'salary_year', $index+1)*0.19))
+                -
+                (sumOf(plan.pr_productions, 'production_income', $index+1) -
+                (sumOf(plan.pr_raw_materials, 'raw_cost', $index+1) +
+                        sumOf(plan.pr_salary_costs, 'salary_year', $index+1) +
+                        sumOf(plan.pr_depreciation_costs, 'depreciation_cost_year', 0) +
+                        sumOf(plan.pr_other_costs, 'other_costs_cost', $index+1) +
+                        sumOfCheck(plan.pr_loan_dates, 'loan_rate_amount', number, 'loan_date')+
+                        sumOf(plan.pr_salary_costs, 'salary_year', $index+1)*0.19)*0.1)
+                | number:2
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td>Зээлийн эргэн төлөлт</td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">₮{{sumOfCheck(plan.pr_loan_dates, 'loan_amount', number, 'loan_date') | number:2}}</td>
+            </tr>
+            <tr>
+              <td><strong>Зээлийн эргэн төлөлтийн дараах ашиг</strong></td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
+                ₮{{
+                (sumOf(plan.pr_productions, 'production_income', $index+1) -
+                        (sumOf(plan.pr_raw_materials, 'raw_cost', $index+1) +
+                                sumOf(plan.pr_salary_costs, 'salary_year', $index+1) +
+                                sumOf(plan.pr_depreciation_costs, 'depreciation_cost_year', 0) +
+                                sumOf(plan.pr_other_costs, 'other_costs_cost', $index+1) +
+                                sumOfCheck(plan.pr_loan_dates, 'loan_rate_amount', number, 'loan_date')+
+                                sumOf(plan.pr_salary_costs, 'salary_year', $index+1)*0.19))
+                -
+                (sumOf(plan.pr_productions, 'production_income', $index+1) -
+                        (sumOf(plan.pr_raw_materials, 'raw_cost', $index+1) +
+                                sumOf(plan.pr_salary_costs, 'salary_year', $index+1) +
+                                sumOf(plan.pr_depreciation_costs, 'depreciation_cost_year', 0) +
+                                sumOf(plan.pr_other_costs, 'other_costs_cost', $index+1) +
+                                sumOfCheck(plan.pr_loan_dates, 'loan_rate_amount', number, 'loan_date')+
+                                sumOf(plan.pr_salary_costs, 'salary_year', $index+1)*0.19)*0.1)
+                -
+                sumOfCheck(plan.pr_loan_dates, 'loan_amount', number, 'loan_date')
+                | number:2}}
+              </td>
+            </tr>
+            <tr>
+              <td>Бэлэн мөнгөний эцсийн үлдэгдэл</td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
+
+              </td>
+            </tr>
+            <tr>
+              <td>Энэ хугацааны бэлэн мөнгөний хамгийн бага үлдэгдэл</td>
+              <td ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
+
+              </td>
+            </tr>
+          </table>
+          <br><br>
+          <table>
+            <tr>
+              <td>Үзүүлэлт</td>
+
+            </tr>
+            <tr>
+              <td>Бэлэн мөнгөний эхний үлдэгдэл</td>
+            </tr>
+          </table>
+          <br><br>
+          <table class="normal" >
             <tr>
               <td style="width: 30%;">Төсөл хэрэгжүүлэх&nbsp;хугацаа</td>
               <td style="width: 70%;">{{durationRender(plan.pr_duration)}}</td>
@@ -1390,6 +1688,16 @@
     $.cookie('jwt', response.credential);
     $('#startBtnPlan').show();
   }
+
+  Date.prototype.yyyymmdd = function() {
+    var mm = this.getMonth() + 1; // getMonth() is zero-based
+    var dd = this.getDate();
+
+    return [this.getFullYear(),
+      (mm>9 ? '' : '0') + mm,
+      (dd>9 ? '' : '0') + dd
+    ].join('-');
+  };
 </script>
 
 <script src="public/app.js"></script>
