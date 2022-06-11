@@ -1192,12 +1192,12 @@
             </tr>
           </tbody>
           <tfoot>
-            <tr ng-repeat="year in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration && sumOf(plan.pr_loan_dates, 'loan_rate_amount', year, 'loan_date') > 0">
+            <tr ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration && sumOfCheck(plan.pr_loan_dates, 'loan_rate_amount', number, 'loan_date') > 0">
               <td></td>
-              <td>Нийт {{year}}</td>
+              <td>Нийт {{number}}</td>
               <td></td>
-              <td>₮{{sumOfCheck(plan.pr_loan_dates, 'loan_rate_amount', year, 'loan_date') | number:2}}</td>
-              <td>₮{{sumOfCheck(plan.pr_loan_dates, 'loan_amount', year, 'loan_date') | number:2}}</td>
+              <td>₮{{sumOfCheck(plan.pr_loan_dates, 'loan_rate_amount', number, 'loan_date') | number:2}}</td>
+              <td>₮{{sumOfCheck(plan.pr_loan_dates, 'loan_amount', number, 'loan_date') | number:2}}</td>
               <td></td>
             </tr>
             <tr>
