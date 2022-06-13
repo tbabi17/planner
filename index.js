@@ -182,6 +182,7 @@ app.post('/doc', function(req, res) {
       item.loan_balance = !isNaN(item.loan_balance) ? item.loan_balance : parseFloat(item.loan_balance.replace('₮','').replaceAll(',',''));
     });
 
+
     collection.find({_id: req.body._id}).toArray(function (err, result) {
       if (err) {
         res.status(400).send("Error fetching listings!");
