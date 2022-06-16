@@ -50,8 +50,8 @@
 
         <div id="startPlan">
           <button type="button" class="button" hidden ng-click="onSignIn()" id="startBtnPlan" style="margin-top: 30px;">ЭХЛЭХ</button>
-          <p ng-if="signedUser.name">
-            Нэвтэрсэн хэрэглэгч : {{signedUser.name}}</p>
+          <div ng-if="signedUser.name" class="titler">Миний үүсгэсэн төлөвлөгөө</div>
+          <br>
           <table id="planList" hidden class="plan">
             <thead>
               <tr>
@@ -86,6 +86,26 @@
               </tr>
             </tfoot>
           </table>
+
+          <br>
+
+          <div ng-if="signedUser.name" class="titler">Загвар төслүүд</div>
+          <br>
+          <div class="planner">
+            <img src="https://themes-themegoods.b-cdn.net/starto/wp-content/uploads/2020/02/flexibilities-e1586433741794.png"/>
+            <h2>Creative demos</h2>
+            Design is everywhere. From the dress you’re wearing to the smartphone you’re holding. If you think good design is expensive.
+          </div>
+          <div class="planner">
+            <img src="https://themes-themegoods.b-cdn.net/starto/wp-content/uploads/2020/02/flexibilities-e1586433741794.png"/>
+            <h2>Creative demos</h2>
+            Design is everywhere. From the dress you’re wearing to the smartphone you’re holding. If you think good design is expensive.
+          </div>
+          <div class="planner">
+            <img src="https://themes-themegoods.b-cdn.net/starto/wp-content/uploads/2020/02/flexibilities-e1586433741794.png"/>
+            <h2>Creative demos</h2>
+            Design is everywhere. From the dress you’re wearing to the smartphone you’re holding. If you think good design is expensive.
+          </div>
         </div>
       </form>
 
@@ -95,7 +115,7 @@
         <br>
         <hr>
         <div class="formed">
-          <div style="width: 750px;">
+          <div style="width: 860px;">
           <div class="hint">Дээр нь элсэлтийн шалгалтынх нь талаар сонсоод надаас илүү сайн хүүхдүүд зөндөө байгаа даа, сонгоны хүүхдүүд л тэнцэнэ дээ гээд сонирхож байсан ч гэлээ өөрийгөө чадахгүй гэж бодоод орхичихсон байсан.</div>
           <div class="ui-widget" id="info_1" ng-if="errorMsg.length > 0">
             <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
@@ -327,7 +347,7 @@
         <br>
         <hr>
         <div class="formed">
-        <table>
+        <table style="max-width: 1000px;">
           <thead>
             <tr>
               <td>#</td>
@@ -365,7 +385,7 @@
         <label class="subtitle">Нийлүүлэгчийн судалгаа</label>
         <br>
         <hr>
-        <table style="margin-top:10px;">
+        <table style="margin-top:10px; max-width: 1300px;">
           <thead>
             <tr>
               <td>#</td>
@@ -429,6 +449,8 @@
               <input type="number" name="pr_competitor_count" required="" ng-model="plan.pr_competitor_count"/>
             </div>
             <div class="c2">
+            </div>
+            <div class="c1">
             </div>
           </li>
         </ul>
@@ -1073,6 +1095,7 @@
 
         <br>
         <label class="subtitle">Бусад зардал</label>
+          <br>
         <hr>
         <br>
         <table style="width: {{plan.pr_duration * 900 / 5}}px;">
@@ -1131,11 +1154,11 @@
             <tr>
               <td></td>
               <td>Нийт</td>
-              <td>₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', 1) | number : 2}}</td>
-              <td>₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', 2) | number : 2}}</td>
-              <td>₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', 3) | number : 2}}</td>
-              <td>₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', 4) | number : 2}}</td>
-              <td>₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', 5) | number : 2}}</td>
+              <td ng-if="plan.pr_duration>=1">₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', 1) | number : 2}}</td>
+              <td ng-if="plan.pr_duration>=2">₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', 2) | number : 2}}</td>
+              <td ng-if="plan.pr_duration>=3">₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', 3) | number : 2}}</td>
+              <td ng-if="plan.pr_duration>=4">₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', 4) | number : 2}}</td>
+              <td ng-if="plan.pr_duration>=5">₮{{sumOf(plan.pr_other_costs, 'other_costs_cost', 5) | number : 2}}</td>
               <td></td>
             </tr>
           </tfoot>

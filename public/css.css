@@ -106,7 +106,9 @@ table tr:nth-child(even) {
   top: 0;
   right: 0; }
 
-
+input[data-type=currency], input[type=number] {
+  text-align: right;
+}
 
 input, select, textarea {
   font-family: Ubuntu;
@@ -155,12 +157,25 @@ p {
   color: #656565;
 }
 
+table.plan {
+  width: 850px;
+}
 table.plan tr {
     cursor: pointer;
 }
 
 table.plan tr:hover {
   background: #f0f0f0;
+}
+
+table.plan thead td {
+  padding: 3px 5px;
+  font-size: 11px;
+}
+
+table.plan td {
+  padding: 15px 5px;
+  font-size: 13px;
 }
 
 form table {
@@ -176,6 +191,37 @@ form table {
   spacing: 0px;
 }
 
+.titler {
+  display: block;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  padding: 5px;
+  width: 200px;
+  border-left: 2px solid #a0a0a0;
+  background: #fafafa;
+  border-bottom: 2px solid #a0a0a0;
+}
+
+.planner {
+  float: left;
+  width: 300px;
+  height: 300px;
+  margin-right: 20px;
+  padding: 30px;
+  border: 2px dashed #fbcf34;
+}
+.planner h2 {
+  font-size: 18px;
+}
+.planner img {
+  width: 200px;
+  height: 120px;
+  margin-bottom: 50px;
+}
+.planner:hover {
+  border: 2px solid #fbcf34;
+}
+
 .hint {
   border: 1px solid #fbcf34;
   width: 95%;
@@ -186,7 +232,7 @@ form table {
   font-weight: normal;
   background: #fbcf34;
   border: 1px solid #fbcf34;
-  color: #333;
+  color: #fefefe;
 }
 
 form table td a {
