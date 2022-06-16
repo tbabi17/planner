@@ -212,9 +212,9 @@ form table {
   font-size: 18px;
 }
 .planner img {
-  width: 200px;
-  height: 120px;
-  margin-bottom: 50px;
+  width: 180px;
+  height: 180px;
+  margin-bottom: 10px;
 }
 .planner:hover {
   border: 2px solid rgb(239, 213, 35);
@@ -432,7 +432,7 @@ hr {
     background-color: rgb(239, 213, 35);}
   .modal__product {
     position: absolute;
-    top: 9%;
+    top: 5%;
     left: 40%;
     max-width: 60%;
     width: 130px;
@@ -443,7 +443,7 @@ hr {
     .modal__product_info {
       color: #363636;
       position: absolute;
-      top: 28%;
+      top: 20%;
       left: 15%;
       max-width: 75%;
       font-size: 13px;
