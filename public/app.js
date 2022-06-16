@@ -72,7 +72,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       return true;
     }
 
-
     $scope.addDetailSal = function(array, item, field, fieldSum) {
       $scope.selectedItem = item;
       $scope.fieldSum = fieldSum;
@@ -137,7 +136,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       var total = 0;
       $scope.selectedArray.forEach(function (data) {
         var v = 0.0;
-        console.log(data);
         if (data && data.amt) {
           v = parseFloat(data.amt);
         }
@@ -148,16 +146,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
 
       setTimeout(function(){
         $scope.value($scope.selectedItem, 'raw_price1', 'raw_price2', 'raw_price3', 'raw_price4', 'raw_price5', 'raw_vol,raw_cost', 'pr_production_price_increment_percent', 'pr_production_sale_rate');
-
-
-        for (var i = 0; i < $scope.plan.pr_productions.length; i++) {
-          $scope.plan.pr_productions[i].production_vol1 = $scope.plan.pr_raw_materials[i].raw_vol1 * $scope.plan.pr_production_sale_rate;
-          $scope.plan.pr_productions[i].production_vol2 = $scope.plan.pr_raw_materials[i].raw_vol2 * $scope.plan.pr_production_sale_rate;
-          $scope.plan.pr_productions[i].production_vol3 = $scope.plan.pr_raw_materials[i].raw_vol3 * $scope.plan.pr_production_sale_rate;
-          $scope.plan.pr_productions[i].production_vol4 = $scope.plan.pr_raw_materials[i].raw_vol4 * $scope.plan.pr_production_sale_rate;
-          $scope.plan.pr_productions[i].production_vol5 = $scope.plan.pr_raw_materials[i].raw_vol5 * $scope.plan.pr_production_sale_rate;
-        }
-
       }, 100);
 
       setTimeout(function() {
@@ -210,10 +198,26 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         $scope.selectedItem[$scope.fieldSum] = total;
       else
        $scope.selectedItem[$scope.fieldSum] = total * $scope.plan.pr_production_sale_rate / 100;
-      setTimeout(function(){
+     // setTimeout(function(){
         $scope.value($scope.selectedItem, 'production_price1', 'production_price2', 'production_price3', 'production_vol,production_income', 'pr_production_price_increment_percent', 'pr_production_sale_rate');
-      }, 100);
-       $( "#dialog" ).dialog('close');
+      //}, 100);
+
+        for (var i = 0; i < $scope.plan.pr_productions.length; i++) {
+          $scope.plan.pr_productions[i].production_vol1 = $scope.plan.pr_raw_materials[i].raw_vol1 * $scope.plan.pr_production_sale_rate/100;
+          $scope.plan.pr_productions[i].production_vol2 = $scope.plan.pr_raw_materials[i].raw_vol2 * $scope.plan.pr_production_sale_rate/100;
+          $scope.plan.pr_productions[i].production_vol3 = $scope.plan.pr_raw_materials[i].raw_vol3 * $scope.plan.pr_production_sale_rate/100;
+          $scope.plan.pr_productions[i].production_vol4 = $scope.plan.pr_raw_materials[i].raw_vol4 * $scope.plan.pr_production_sale_rate/100;
+          $scope.plan.pr_productions[i].production_vol5 = $scope.plan.pr_raw_materials[i].raw_vol5 * $scope.plan.pr_production_sale_rate/100;
+
+
+          $scope.plan.pr_productions[i].production_income1 = $scope.plan.pr_productions[i].production_vol1 * $scope.plan.pr_productions[i].production_price1;
+          $scope.plan.pr_productions[i].production_income2 = $scope.plan.pr_productions[i].production_vol2 * $scope.plan.pr_productions[i].production_price2;
+          $scope.plan.pr_productions[i].production_income3 = $scope.plan.pr_productions[i].production_vol3 * $scope.plan.pr_productions[i].production_price3;
+          $scope.plan.pr_productions[i].production_income4 = $scope.plan.pr_productions[i].production_vol4 * $scope.plan.pr_productions[i].production_price4;
+          $scope.plan.pr_productions[i].production_income5 = $scope.plan.pr_productions[i].production_vol5 * $scope.plan.pr_productions[i].production_price5;
+        }
+
+      $( "#dialog" ).dialog('close');
     }
 
     $scope.t2n = function(v) {
@@ -838,7 +842,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
             p[0]++;
           }
           m.loan_date = p[0]+'-'+(p[1] < 10 ? ('0'+p[1]) : p[1])+'-'+p[2];
-          console.log(new Date(m.loan_date)+' '+new Date(olddate));
           m.loan_day = (new Date(m.loan_date).getTime() - new Date(olddate).getTime())/(1000*24*3600);
         }
         m.loan_rate_amount = old * parseFloat($scope.plan.pr_loan_rate) / 100 * (m.loan_day / 30);
@@ -975,7 +978,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       var total = 0;
       items.forEach(function(data) {
         if (field == 'cash')
-        console.log(data[field+(id==0?'':(''+id))+'_details'][m-1]);
         total += $scope.t2n(data[field+(id==0?'':(''+id))+'_details'][m-1].m);
       });
 

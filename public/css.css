@@ -1,4 +1,3 @@
-body
 
 .visuallyhidden {
   border: 0;
@@ -16,6 +15,7 @@ body {
   color: #1a1a1a;
   overflow: hidden;
   font-smooth: 2em;
+  margin: 0px;
   background-color: #f0f0f0; }
 
 h1,
@@ -42,7 +42,7 @@ table tr:nth-child(even) {
   color: #ffffff;
   background-color: #24cf5f;
   padding: 10px 20px;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 1px;
   text-transform: uppercase;
   border: 0;
@@ -60,7 +60,7 @@ table tr:nth-child(even) {
   color: #ffffff;
   background-color: #cf242f;
   padding: 10px 20px;
-  font-size: 10px;
+  font-size: 12px;
   margin-right: 10px;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -119,7 +119,7 @@ input, select, textarea {
   padding-right: 5px;
   letter-spacing: .5px;
   border: 0;
-  font-size: 11.5px;
+  font-size: 14px;
   border: 1px solid #f0f0f0;
   border-radius: 6px;
   border-bottom: 2px solid #f0f0f0; }
@@ -170,7 +170,7 @@ table.plan tr:hover {
 
 form table {
   min-width: 800px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
   border-radius: 10px;
@@ -187,7 +187,7 @@ form table {
   border: 1px solid #fbcf34;
   width: 95%;
   padding: 10px;
-  font-size: 11px;
+  font-size: 12px;
   margin-top: 10px;
   word-wrap: break-word;
   border-radius: 10px;
@@ -207,7 +207,7 @@ form table td a.del {
 
 form table thead td {
   padding: 8px 5px;
-  font-size: 9px;
+  font-size: 12px;
   background: #fbcf34;
   color:#fff;
   text-align: left;
@@ -225,7 +225,7 @@ form table tfoot td {
   border-top: 1px solid #f8f8f8;
   padding: 5px 5px;
   color: #393939;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 form table thead td span {
@@ -244,7 +244,7 @@ form table tbody td {
 
 table a {
     color:#939393;
-    font-size: 9px;
+    font-size: 12px;
 }
 
 .subtitle {
@@ -373,21 +373,16 @@ hr {
     display: -ms-flexbox;
     display: flex;
     overflow: hidden;
-    width: 92%;
-    height: 88%;
-    margin-top: -50px;
+    width: 100%;
+    height: 100%;
     background-color: #ffffff;
-    border-radius: 15px;
     box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.1); }
   .modal__featured {
     position: relative;
     -ms-flex: 1;
         flex: 1;
     min-width: 230px;
-    padding: 20px;
-    overflow: hidden;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px; }
+    overflow: hidden; }
   .modal__circle {
     position: absolute;
     top: 0;
