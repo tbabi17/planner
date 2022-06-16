@@ -24,12 +24,13 @@
           <g><path fill="#ffffff" d="M1.293,15.293L11,5.586L12.414,7l-8,8H31v2H4.414l8,8L11,26.414l-9.707-9.707 C0.902,16.316,0.902,15.684,1.293,15.293z"></path> </g></svg>
         <span class="visuallyhidden">Return to Product Page</span>
       </button>
-      <img src="https://cdn-icons-png.flaticon.com/512/3176/3176298.png" class="modal__product"/>
+      <img src="https://cdn-icons-png.flaticon.com/512/6723/6723871.png" class="modal__product"/>
       <div class="modal__product_info">
-        <span>Заавар</span>
+        <span>Бизнес төлөвлөгөө</span>
         Дээр нь элсэлтийн шалгалтынх нь талаар сонсоод надаас илүү сайн хүүхдүүд
         зөндөө байгаа даа, сонгоны хүүхдүүд л тэнцэнэ дээ гээд сонирхож байсан ч
-        гэлээ өөрийгөө чадахгүй гэж бодоод орхичихсон байсан.
+        гэлээ өөрийгөө чадахгүй гэж бодоод орхичихсон байсан.<br>
+        Мөн мал аж ахуйн болон газар тариалангийн машин, тоног төхөөрөмж, барилга байгууламжийн мэдээлэл, газар ашиглалт, хөрсний доройтол, ургацын хорогдол, бордоо, ургамал хамгааллын бодисын хэрэглээ, бүтээгдэхүүний зардал, хүнсний хангамж, аюулгүй байдлын талаарх дэлгэрэнгүй статистикийн мэдээлэл бий болгоно.
       </div>
       <div class="modal__circle"></div>
     </div>
@@ -900,13 +901,13 @@
         <div class="formed">
         <br>
         <div style="overflow: scroll; width: 100%">
-          <table style="width: {{plan.pr_duration * 1600 / 5}}px;">
+          <table style="width: {{plan.pr_duration * 1800 / 5}}px;">
           <tbody>
             <thead>
               <tr>
                 <td rowspan="2">#</td>
-                <td style="width: 15%" rowspan="2">Албар тушаал</td>
-                <td style="width: {{85/plan.pr_duration}}%;" colspan="2" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">{{number}}</td>
+                <td style="width: 20%" rowspan="2">Албар тушаал</td>
+                <td style="width: {{80/plan.pr_duration}}%;" colspan="2" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">{{number}}</td>
                 <td style=""></td>
               </tr>
               <tr>
@@ -1201,7 +1202,6 @@
               <input type="date" name="pr_loan_start_date" required="" ng-model="plan.pr_loan_start_date"/>
             </div>
             <div class="c1">
-              <button type="button" class="button" style="margin-top: 10px;" ng-click="calcLoan()">ТООЦООЛОХ</button>
             </div>
             <div class="c3">
             </div>
@@ -1209,6 +1209,8 @@
             </div>
           </li>
         </ul>
+
+          <button type="button" class="button" style="margin-top: 0px; margin-bottom: 10px;" ng-click="calcLoan()">ТООЦООЛОХ</button>
         <table style="width: 700px;">
           <tbody>
             <thead>

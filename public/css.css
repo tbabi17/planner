@@ -40,31 +40,29 @@ table tr:nth-child(even) {
 }
 
 .button {
-  color: #ffffff;
-  background-color: #24cf5f;
+  color: #333;
+  background: rgb(239, 213, 35);
   padding: 10px 20px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  border: 0;
+  border: 2px solid rgb(239, 213, 35);;
   margin-right: 10px;
   outline: 0;
-  box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.2);
   transition: all .2s; }
   .button:hover, .button:active, .button:focus {
     -ms-transform: scale(1.1);
         transform: scale(1.1); }
 
 .button.red {
-  color: #ffffff;
-  background-color: #cf242f;
+  color: #333;
+  background-color: white;
+  border: 2px solid #333;
   padding: 10px 20px;
   font-size: 12px;
   margin-right: 10px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  border: 0;
   outline: 0;
-  box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.2);
   transition: all .2s; }
   .button:hover, .button:active, .button:focus {
     -ms-transform: scale(1.1);
@@ -187,7 +185,7 @@ form table {
   padding-bottom: 5px;
   background: #fdfdfd;
   overflow: hidden;
-  border: 1px solid #fbcf34;
+  border: 1px solid #f3d250;
   spacing: 0px;
 }
 
@@ -208,7 +206,7 @@ form table {
   height: 300px;
   margin-right: 20px;
   padding: 30px;
-  border: 2px dashed #fbcf34;
+  border: 2px dashed rgb(239, 213, 35);
 }
 .planner h2 {
   font-size: 18px;
@@ -219,24 +217,23 @@ form table {
   margin-bottom: 50px;
 }
 .planner:hover {
-  border: 2px solid #fbcf34;
+  border: 2px solid rgb(239, 213, 35);
 }
 
 .hint {
-  border: 1px solid #fbcf34;
   width: 95%;
   padding: 10px;
-  font-size: 12px;
+  font-size: 13px;
   margin-top: 10px;
   word-wrap: break-word;
   font-weight: normal;
-  background: #fbcf34;
-  border: 1px solid #fbcf34;
-  color: #fefefe;
+  background: rgb(239, 213, 35);
+  border: 1px solid rgb(239, 213, 35);
+  color: #333;
 }
 
 form table td a {
-  color: #24cf5f;
+  color: #000;
 }
 
 form table td a.del {
@@ -246,7 +243,7 @@ form table td a.del {
 form table thead td {
   padding: 3px 5px;
   font-size: 11px;
-  background: #fbcf34;
+  background: rgb(239, 213, 35);
   color:#fff;
   border: 1px dotted #faf3f2;
   text-align: left;
@@ -305,7 +302,7 @@ table a {
   float:right;
   font-size: 13px;
   margin-top : 2px;
-  background-color: #fbcf34;
+  background-color: #f3d250;
   padding: 5px;
 }
 
@@ -407,8 +404,8 @@ overflow-y: auto;
 }
 
 hr {
-  border: 1px solid #fbcf34;
-  background: #fbcf34;
+  border: 1px solid #f3d250;
+  background: #f3d250;
   margin-bottom: 5px;
   margin-top: 10px;
 }
@@ -432,12 +429,13 @@ hr {
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: #fbcf34;}
+    background-color: rgb(239, 213, 35);}
   .modal__product {
     position: absolute;
     top: 9%;
-    left: 28%;
-    max-width: 30%;
+    left: 40%;
+    max-width: 60%;
+    width: 130px;
     z-index: 100;
     -ms-transform: translateX(calc(-50% - 10px));
         transform: translateX(calc(-50% - 10px)); }
@@ -445,18 +443,20 @@ hr {
     .modal__product_info {
       color: #363636;
       position: absolute;
-      top: 25%;
-      left: 12%;
-      max-width: 80%;
-      font-size: 14px;
+      top: 28%;
+      left: 15%;
+      max-width: 75%;
+      font-size: 13px;
       line-height: 25px;
+      color:#3f3f3f;
       z-index: 100; }
     .modal__product_info span {
       display: block;
       width: 100%;
-      color: #565656;
+      color: #3a3a3a;
+      font-weight: bold;
       margin-bottom: 10px;
-      font-size: 20px;
+      font-size: 18px;
     }
   .modal__content {
     -ms-flex: 5;
