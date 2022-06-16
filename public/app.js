@@ -937,7 +937,7 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       // || (current>0 && !$scope.validation(current))
       if ((valid && !$('#form_'+current).validate())) return;
 
-      $('#form_'+current).fadeOut(function() {
+      $('#form_'+current).fadeOut(100, '', function() {
           $('#form_'+current).hide();
           $('#form_'+next).alpha = 0;
           $('#form_'+next).fadeIn(function() {

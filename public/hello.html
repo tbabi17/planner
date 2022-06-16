@@ -39,13 +39,13 @@
         <br>
         <hr>
         <div id="signed" style="margin-top: 30px;">
-          <span style="font-size: 13px; color: #6f6f6f; display: block; margin-bottom: 10px;">Та өөрийн Google аккаунтыг ашиглан системд бүртгүүлэн ашиглах боломжтой.</span>
+          <span style="color: #6f6f6f; display: block; margin-bottom: 10px;">Та өөрийн Google аккаунтыг ашиглан системд бүртгүүлэн ашиглах боломжтой.</span>
           <script src="https://accounts.google.com/gsi/client" async defer></script>
           <div id="g_id_onload"
                data-client_id="313982312140-k2dq3b0usf4dcfrf2na4vjetvno8dgdi.apps.googleusercontent.com"
                data-callback="handleCredentialResponse">
           </div>
-          <div class="g_id_signin" data-type="standard" data-locale="mn_MN" data-size="large" data-width="300" data-text="Google-р нэвтрэх" data-shape="circle"></div>
+          <div class="g_id_signin" data-type="standard" data-locale="mn_MN" data-size="large" data-width="300" data-text="Google-р нэвтрэх" data-shape="rectangle"></div>
         </div>
 
         <div id="startPlan">
@@ -94,113 +94,115 @@
         <label class="righttitle">1/10</label>
         <br>
         <hr>
-        <div style="width: 750px;">
-        <div class="hint">Дээр нь элсэлтийн шалгалтынх нь талаар сонсоод надаас илүү сайн хүүхдүүд зөндөө байгаа даа, сонгоны хүүхдүүд л тэнцэнэ дээ гээд сонирхож байсан ч гэлээ өөрийгөө чадахгүй гэж бодоод орхичихсон байсан.</div>
-        <div class="ui-widget" id="info_1" ng-if="errorMsg.length > 0">
-          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-            <p>
-            <span class="ui-icon ui-icon-alert"
-                  style="float: left; margin-right: .3em;"></span>
-              <strong>Алдаа:</strong> {{errorMsg}}
-            </p>
+        <div class="formed">
+          <div style="width: 750px;">
+          <div class="hint">Дээр нь элсэлтийн шалгалтынх нь талаар сонсоод надаас илүү сайн хүүхдүүд зөндөө байгаа даа, сонгоны хүүхдүүд л тэнцэнэ дээ гээд сонирхож байсан ч гэлээ өөрийгөө чадахгүй гэж бодоод орхичихсон байсан.</div>
+          <div class="ui-widget" id="info_1" ng-if="errorMsg.length > 0">
+            <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+              <p>
+              <span class="ui-icon ui-icon-alert"
+                    style="float: left; margin-right: .3em;"></span>
+                <strong>Алдаа:</strong> {{errorMsg}}
+              </p>
+            </div>
+          </div>
+
+          <ul class="form-list">
+            <li class="form-list__row form-list__row--inline">
+              <div class="c2">
+                <label>Төслийн нэр</label>
+                <input type="text" name="pr_name" required="" ng-model="plan.pr_name" />
+              </div>
+              <div class="c2">
+                <label>Санхүүжүүлэгч байгууллага</label>
+                <input type="text" name="pr_fund_org" required="" ng-model="plan.pr_fund_org" />
+              </div>
+              <div class="c1">
+                <label>Хэрэгжүүлэх хугацаа</label>
+                <select ng-model="plan.pr_duration" name="pr_duration" required>
+                  <option selected></option>
+                  <option ng-value="1" value="1">1 жил</option>
+                  <option ng-value="2" value="2">2 жил</option>
+                  <option ng-value="3" value="3">3 жил</option>
+                  <option ng-value="4" value="4">4 жил</option>
+                  <option ng-value="5" value="5">5 жил</option>
+                </select>
+              </div>
+            </li>
+
+            <li class="form-list__row form-list__row--inline">
+              <div class="c2">
+                <label>Төсөл хэрэгжүүлэгчийн нэр</label>
+                <input type="text" name="pr_owner_name" required="" ng-model="plan.pr_owner_name" />
+              </div>
+              <div class="c1">
+                <label>Төсөв нийт</label>
+
+                <input type="text" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"
+                       name="pr_budget_total" required="" ng-model="plan.pr_budget_total"/>
+              </div>
+              <div class="c1">
+                <label>Санхүүжүүлэгчээс</label>
+                <input type="text" ng-change="plan.pr_budget_me = t2n(plan.pr_budget_total) - t2n(plan.pr_budget_funder)" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" name="pr_budget_funder" required="" ng-model="plan.pr_budget_funder"/>
+              </div>
+              <div class="c1">
+                <label>Өөрөөс</label>
+                <input type="text" readonly pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" name="pr_budget_me" required ng-model="plan.pr_budget_me"/>
+              </div>
+            </li>
+
+            <li class="form-list__row form-list__row--inline">
+              <div class="c1">
+                <label>Зорилго</label>
+                <textarea type="text" name="pr_purpose" required rows="5" ng-model="plan.pr_purpose">{{plan.pr_purpose}}</textarea>
+              </div>
+              <div class="c1">
+                <label>Хүлээгдэж буй үр дүн</label>
+                <textarea type="text" name="pr_expected_result" required required rows="5" ng-model="plan.pr_expected_result">{{plan.pr_expected_result}}</textarea>
+              </div>
+            </li>
+
+            <li class="form-list__row form-list__row--inline">
+              <div class="c1">
+                <label>Бизнесийн танилцуулга</label>
+                <textarea name="pr_business_detail" required="" rows="5" ng-model="plan.pr_business_detail">{{plan.pr_business_detail}}</textarea>
+              </div>
+              <div class="c1">
+                <label>Төслийн үндэслэл</label>
+                <textarea name="pr_grounds" required="" rows="5" ng-model="plan.pr_grounds">{{plan.pr_grounds}}</textarea>
+              </div>
+            </li>
+
+            <!-- <li class="form-list__row form-list__row--inline">
+              <div>
+                <label>Expiration Date</label>
+                <div class="form-list__input-inline">
+                  <input type="text" name="cc_month" placeholder="MM"  pattern="\\d*" minlength="2" maxlength="2" required="" />
+                  <input type="text" name="cc_year" placeholder="YY"  pattern="\\d*" minlength="2" maxlength="2" required="" />
+                </div>
+              </div>
+              <div>
+                <label>
+                  CVC
+
+                  <a href="#cvv-modal" class="button--transparent modal-open button--info">
+                    <svg class="nc-icon glyph" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16"><g> <path fill="#35a4fb" d="M8,0C3.6,0,0,3.6,0,8s3.6,8,8,8s8-3.6,8-8S12.4,0,8,0z M8,13c-0.6,0-1-0.4-1-1c0-0.6,0.4-1,1-1s1,0.4,1,1 C9,12.6,8.6,13,8,13z M9.5,8.4C9,8.7,9,8.8,9,9v1H7V9c0-1.3,0.8-1.9,1.4-2.3C8.9,6.4,9,6.3,9,6c0-0.6-0.4-1-1-1 C7.6,5,7.3,5.2,7.1,5.5L6.6,6.4l-1.7-1l0.5-0.9C5.9,3.6,6.9,3,8,3c1.7,0,3,1.3,3,3C11,7.4,10.1,8,9.5,8.4z"></path> </g></svg>
+                    <span class="visuallyhidden">What is CVV?</span>
+                  </a>
+                </label>
+                <input type="text" name="cc_cvc" placeholder="123" pattern="\\d*" minlength="3" maxlength="4" required="" />
+              </div>
+            </li> -->
+          </ul>
           </div>
         </div>
-
         <ul class="form-list">
-          <li class="form-list__row form-list__row--inline">
-            <div class="c2">
-              <label>Төслийн нэр</label>
-              <input type="text" name="pr_name" required="" ng-model="plan.pr_name" />
-            </div>
-            <div class="c2">
-              <label>Санхүүжүүлэгч байгууллага</label>
-              <input type="text" name="pr_fund_org" required="" ng-model="plan.pr_fund_org" />
-            </div>
-            <div class="c1">
-              <label>Хэрэгжүүлэх хугацаа</label>
-              <select ng-model="plan.pr_duration" name="pr_duration" required>
-                <option selected></option>
-                <option ng-value="1" value="1">1 жил</option>
-                <option ng-value="2" value="2">2 жил</option>
-                <option ng-value="3" value="3">3 жил</option>
-                <option ng-value="4" value="4">4 жил</option>
-                <option ng-value="5" value="5">5 жил</option>
-              </select>
-            </div>
-          </li>
-
-          <li class="form-list__row form-list__row--inline">
-            <div class="c2">
-              <label>Төсөл хэрэгжүүлэгчийн нэр</label>
-              <input type="text" name="pr_owner_name" required="" ng-model="plan.pr_owner_name" />
-            </div>
-            <div class="c1">
-              <label>Төсөв нийт</label>
-
-              <input type="text" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000"
-                     name="pr_budget_total" required="" ng-model="plan.pr_budget_total"/>
-            </div>
-            <div class="c1">
-              <label>Санхүүжүүлэгчээс</label>
-              <input type="text" ng-change="plan.pr_budget_me = t2n(plan.pr_budget_total) - t2n(plan.pr_budget_funder)" pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" name="pr_budget_funder" required="" ng-model="plan.pr_budget_funder"/>
-            </div>
-            <div class="c1">
-              <label>Өөрөөс</label>
-              <input type="text" readonly pattern="^\₮\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" placeholder="₮ 1,000,000" name="pr_budget_me" required ng-model="plan.pr_budget_me"/>
-            </div>
-          </li>
-
-          <li class="form-list__row form-list__row--inline">
-            <div class="c1">
-              <label>Зорилго</label>
-              <textarea type="text" name="pr_purpose" required rows="5" ng-model="plan.pr_purpose">{{plan.pr_purpose}}</textarea>
-            </div>
-            <div class="c1">
-              <label>Хүлээгдэж буй үр дүн</label>
-              <textarea type="text" name="pr_expected_result" required required rows="5" ng-model="plan.pr_expected_result">{{plan.pr_expected_result}}</textarea>
-            </div>
-          </li>
-
-          <li class="form-list__row form-list__row--inline">
-            <div class="c1">
-              <label>Бизнесийн танилцуулга</label>
-              <textarea name="pr_business_detail" required="" rows="5" ng-model="plan.pr_business_detail">{{plan.pr_business_detail}}</textarea>
-            </div>
-            <div class="c1">
-              <label>Төслийн үндэслэл</label>
-              <textarea name="pr_grounds" required="" rows="5" ng-model="plan.pr_grounds">{{plan.pr_grounds}}</textarea>
-            </div>
-          </li>
-
-
-          <!-- <li class="form-list__row form-list__row--inline">
-            <div>
-              <label>Expiration Date</label>
-              <div class="form-list__input-inline">
-                <input type="text" name="cc_month" placeholder="MM"  pattern="\\d*" minlength="2" maxlength="2" required="" />
-                <input type="text" name="cc_year" placeholder="YY"  pattern="\\d*" minlength="2" maxlength="2" required="" />
-              </div>
-            </div>
-            <div>
-              <label>
-                CVC
-
-                <a href="#cvv-modal" class="button--transparent modal-open button--info">
-                  <svg class="nc-icon glyph" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16"><g> <path fill="#35a4fb" d="M8,0C3.6,0,0,3.6,0,8s3.6,8,8,8s8-3.6,8-8S12.4,0,8,0z M8,13c-0.6,0-1-0.4-1-1c0-0.6,0.4-1,1-1s1,0.4,1,1 C9,12.6,8.6,13,8,13z M9.5,8.4C9,8.7,9,8.8,9,9v1H7V9c0-1.3,0.8-1.9,1.4-2.3C8.9,6.4,9,6.3,9,6c0-0.6-0.4-1-1-1 C7.6,5,7.3,5.2,7.1,5.5L6.6,6.4l-1.7-1l0.5-0.9C5.9,3.6,6.9,3,8,3c1.7,0,3,1.3,3,3C11,7.4,10.1,8,9.5,8.4z"></path> </g></svg>
-                  <span class="visuallyhidden">What is CVV?</span>
-                </a>
-              </label>
-              <input type="text" name="cc_cvc" placeholder="123" pattern="\\d*" minlength="3" maxlength="4" required="" />
-            </div>
-          </li> -->
           <li>
-            <br><br>
             <button type="button" class="button red" ng-click="next(0,1)">БУЦАХ</button>
             <button type="submit" class="button">ЦААШ</button>
             <button type="button" class="button" style="right: 0" ng-click="planSave(1)">ХАДГАЛАХ</button>
           </li>
         </ul>
-        </div>
       </form>
 
       <form id="form_2" hidden  ng-submit="next(3,2)">
@@ -209,7 +211,7 @@
         <br>
         <hr>
         <div class="formed">
-          <table style="width: 800px;">
+          <table style="width: 900px;">
             <thead>
               <tr>
                 <td>#</td>
@@ -281,7 +283,6 @@
 
           <br>
           <label class="subtitle">Компанийн хөрөнгө, өр авлага</label>
-          <label class="righttitle"></label>
           <br>
           <hr>
           <table style="width: 800px; margin-top: 10px;">
@@ -477,7 +478,6 @@
 
         <br>
         <label class="subtitle">Хэрэглэгчийн судалгаа</label>
-        <label class="righttitle"></label>
         <br>
         <hr>
         <ul class="form-list">
@@ -569,7 +569,7 @@
         <label class="subtitle">Борлуулалт, борлуулалтын сувгууд</label>
         <br>
         <hr>
-        <table style="width: 850px;">
+        <table style="width: 950px;">
           <tbody>
             <thead>
               <tr>
@@ -878,32 +878,33 @@
         <div class="formed">
         <br>
         <div style="overflow: scroll; width: 100%">
-          <table style="width: 1200px;">
+          <table style="width: 1400px;">
           <tbody>
             <thead>
               <tr>
                 <td rowspan="2">#</td>
-                <td style="width: 10%" rowspan="2">Албар тушаал</td>
-                <td style="width: {{90/plan.pr_duration}}%;" colspan="2" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">{{number}}</td>
+                <td style="width: 15%" rowspan="2">Албар тушаал</td>
+                <td style="width: {{85/plan.pr_duration}}%;" colspan="2" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">{{number}}</td>
                 <td style=""></td>
               </tr>
               <tr>
-                <td ng-if="plan.pr_duration>=1">Сар цалин</td>
-                <td ng-if="plan.pr_duration>=1">Жилийн цалин</td>
-                <td ng-if="plan.pr_duration>=2">Сар цалин</td>
-                <td ng-if="plan.pr_duration>=2">Жилийн цалин</td>
-                <td ng-if="plan.pr_duration>=3">Сар цалин</td>
-                <td ng-if="plan.pr_duration>=3">Жилийн цалин</td>
-                <td ng-if="plan.pr_duration>=4">Сар цалин</td>
-                <td ng-if="plan.pr_duration>=4">Жилийн цалин</td>
-                <td ng-if="plan.pr_duration>=5">Сар цалин</td>
-                <td ng-if="plan.pr_duration>=5">Жилийн цалин</td>
+                <td ng-if="plan.pr_duration>=1">Сараар</td>
+                <td ng-if="plan.pr_duration>=1">Жилээр</td>
+                <td ng-if="plan.pr_duration>=2">Сараар</td>
+                <td ng-if="plan.pr_duration>=2">Жилээр</td>
+                <td ng-if="plan.pr_duration>=3">Сараар</td>
+                <td ng-if="plan.pr_duration>=3">Жилээр</td>
+                <td ng-if="plan.pr_duration>=4">Сараар</td>
+                <td ng-if="plan.pr_duration>=4">Жилээр</td>
+                <td ng-if="plan.pr_duration>=5">Сараар</td>
+                <td ng-if="plan.pr_duration>=5">Жилээр</td>
                 <td></td>
               </tr>
-              <tr>
-                <td colspan="{{(plan.pr_duration+1)*2+1}}" style="text-align: left !important;">Одоо байгаа</td>
-              </tr>
             </thead>
+            <tr>
+              <td></td>
+              <td colspan="{{(plan.pr_duration+1)*2}}" style="text-align: left !important;">Одоо байгаа</td>
+            </tr>
             <tr ng-repeat="item in plan.pr_salary_costs | filter:filterBySalaryType1">
                 <td>{{$index+1}}</td>
                 <td><input type="text" required ng-model="item.salary_person"/></td>
@@ -926,11 +927,10 @@
               <td></td>
               <td></td>
             </tr>
-            <thead>
-              <tr>
-                <td colspan="{{(plan.pr_duration+1)*2+1}}" style="text-align: left !important;">Шинээр авах</td>
-              </tr>
-            </thead>
+            <tr>
+              <td></td>
+              <td colspan="{{(plan.pr_duration+1)*2}}" style="text-align: left !important;">Шинээр авах</td>
+            </tr>
             <tr ng-repeat="item in plan.pr_salary_costs | filter:filterBySalaryType2">
                 <td>{{$index+1}}</td>
                 <td><input type="text" required ng-model="item.salary_person"/></td>
@@ -1015,10 +1015,11 @@
                 <td style="width: 15%;">Сарын хорогдол</td>
                 <td style="width: 5%;"></td>
               </tr>
-              <tr>
-                <td colspan="7" style="text-align: left !important;">Одоо байгаа</td>
-              </tr>
             </thead>
+            <tr>
+              <td></td>
+              <td colspan="6" style="text-align: left !important;">Одоо байгаа</td>
+            </tr>
             <tr ng-repeat="item in plan.pr_depreciation_costs | filter: filterByDepreciationCost1">
               <td>{{$index+1}}</td>
               <td><input type="text" required ng-model="item.depreciation_item"/></td>
@@ -1036,11 +1037,10 @@
               <td></td>
               <td></td>
             </tr>
-            <thead>
-              <tr>
-                <td colspan="7" style="text-align: left !important;">Бизнес төлөвлөгөөг хэрэгжүүлэх үед шинээр худалдан авах</td>
-              </tr>
-            </thead>
+            <tr>
+              <td></td>
+              <td colspan="6" style="text-align: left !important;">Бизнес төлөвлөгөөг хэрэгжүүлэх үед шинээр худалдан авах</td>
+            </tr>
             <tr ng-repeat="item in plan.pr_depreciation_costs | filter: filterByDepreciationCost2">
               <td>{{$index+1}}</td>
               <td><input type="text" required ng-model="item.depreciation_item"/></td>
@@ -1073,7 +1073,6 @@
 
         <br>
         <label class="subtitle">Бусад зардал</label>
-        <label class="righttitle"></label><br>
         <hr>
         <br>
         <table style="width: 900px;">
@@ -1236,14 +1235,12 @@
       </form>
 
       <form id="form_11" hidden>
-        <p>Нэвтэрсэн хэрэглэгч : {{signedUser.name}}</p>
+        <label class="subtitle">Таны бизнес төлөвлөгөөний үр дүн</label>
+        <br>
         <hr>
         <p>{{planResponse.msg}}</p>
         <button type="button" class="button red" ng-click="next(10, 11)">БУЦАХ</button>
         <button type="button" class="button" ng-click="planSave()">ХАДГАЛАХ</button>
-
-
-
 
         <div class="formed" id="html">
           <style type="text/css">
@@ -1256,7 +1253,7 @@
             }
             table.normal td {
               vertical-align: top;
-              padding: 2px 5px !important;
+              padding: 5px !important;
               text-transform: none;
             }
 
@@ -1675,8 +1672,8 @@
       </tr>
     </table>
 
-    <button type="button" class="button red" ng-click="fill()" style="margin-top: 20px; font-size: 12px; margin-left: 20px;">ИЖИЛ УТГААР</button>
-    <button type="button" class="button" ng-click="calc()" style="margin-top: 20px; font-size: 12px; margin-left: 20px;">ТООЦООЛОХ</button>
+    <button type="button" class="button red" ng-click="fill()" style="margin-top: 20px; margin-left: 20px;">ИЖИЛ УТГААР</button>
+    <button type="button" class="button" ng-click="calc()" style="margin-top: 20px;  margin-left: 20px;">ТООЦООЛОХ</button>
   </div>
 
   <div id="dialog_sal" title="Цалингийн зардал" class="modal-body">
@@ -1736,7 +1733,7 @@
       </tr>
     </table>
 
-    <button type="button" class="button" ng-click="calcSal()" style="margin-top: 20px; font-size: 12px; margin-left: 20px;">ТООЦООЛОХ</button>
+    <button type="button" class="button" ng-click="calcSal()" style="margin-top: 20px; margin-left: 20px;">ТООЦООЛОХ</button>
   </div>
 
 
@@ -1761,7 +1758,7 @@
       </tr>
     </table>
 
-    <button type="button" class="button" ng-click="calcItems()" style="margin-top: 20px; font-size: 12px; margin-left: 20px;">ТООЦООЛОХ</button>
+    <button type="button" class="button" ng-click="calcItems()" style="margin-top: 20px; margin-left: 20px;">ТООЦООЛОХ</button>
   </div>
 
 </body>
