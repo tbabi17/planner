@@ -656,7 +656,7 @@
             </li>
           </ul>
           <div style="width: 100%; float:left; overflow: scroll; margin-bottom: 10px;">
-            <table style="width: 1800px !important;">
+            <table style="width: {{plan.pr_duration * 2100 / 5}}px !important;">
               <tbody>
                 <thead>
                   <tr>
@@ -762,7 +762,7 @@
           <br>
 
           <div style="width: 100%; float:left; overflow: scroll; margin-bottom: 10px;">
-            <table style="width: 1800px !important;">
+            <table style="width: {{plan.pr_duration * 2100 / 5}}px !important;">
               <tbody>
               <thead>
               <tr>
@@ -878,7 +878,7 @@
         <div class="formed">
         <br>
         <div style="overflow: scroll; width: 100%">
-          <table style="width: 1400px;">
+          <table style="width: {{plan.pr_duration * 1600 / 5}}px;">
           <tbody>
             <thead>
               <tr>
@@ -1075,7 +1075,7 @@
         <label class="subtitle">Бусад зардал</label>
         <hr>
         <br>
-        <table style="width: 900px;">
+        <table style="width: {{plan.pr_duration * 900 / 5}}px;">
           <tbody>
             <thead>
               <tr>
@@ -1182,19 +1182,20 @@
             </div>
             <div class="c3">
             </div>
+            <div class="c1">
+            </div>
           </li>
         </ul>
-        <table style="width: 75%;">
+        <table style="width: 700px;">
           <tbody>
             <thead>
               <tr>
                 <td>#</td>
-                <td style="width: 35%">Огноо</td>
-                <td style="width: 15%;">Хоног</td>
-                <td style="width: 15%;">Хүүгийн төлбөр</td>
-                <td style="width: 15%;">Зээлийн төлбөр</td>
-                <td style="width: 15%;">Зээлийн үлдэгдэл</td>
-                <td style="width: 5%;"></td>
+                <td style="width: 20%">Огноо</td>
+                <td style="width: 10%;">Хоног</td>
+                <td style="width: 20%;">Хүүгийн төлбөр</td>
+                <td style="width: 25%;">Зээлийн төлбөр</td>
+                <td style="width: 25%;">Зээлийн үлдэгдэл</td>
               </tr>
             </thead>
             <tr ng-repeat="item in plan.pr_loan_dates">
@@ -1213,15 +1214,13 @@
               <td></td>
               <td>₮{{sumOfCheck(plan.pr_loan_dates, 'loan_rate_amount', number, 'loan_date') | number:2}}</td>
               <td>₮{{sumOfCheck(plan.pr_loan_dates, 'loan_amount', number, 'loan_date') | number:2}}</td>
-              <td></td>
             </tr>
             <tr>
               <td></td>
               <td>Нийт бүгд</td>
               <td></td>
-              <td>₮{{sumOf(plan.pr_loan_dates, 'loan_rate_amount') | number:2}}</td>
-              <td>₮{{sumOf(plan.pr_loan_dates, 'loan_amount') | number:2}}</td>
-              <td></td>
+              <td>₮{{sumOf(plan.pr_loan_dates, 'loan_rate_amount', 0) | number:2}}</td>
+              <td>₮{{sumOf(plan.pr_loan_dates, 'loan_amount', 0) | number:2}}</td>
             </tr>
           </tfoot>
         </table>
