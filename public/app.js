@@ -222,7 +222,7 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
 
     $scope.t2n = function(v) {
       if (!v) return 0;
-      if (!isNaN(v)) return v;
+      if (!isNaN(v) ) return v;
       v = v.replaceAll('₮', '');
       v = v.replaceAll(',', '');
       return parseFloat(v);
@@ -557,11 +557,11 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         {
           id: $scope.uuid(),
           cash_item: 'Бэлэн мөнгөний эхний үлдэгдэл',
-          cash1_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
-          cash2_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
-          cash3_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
-          cash4_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
-          cash5_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}]
+          cash1_details: [{id: 1,m: 0},{id: 2,m: 0},{id:3,m: 0},{id:4,m: 0},{id:5,m: 0},{id:6,m: 0},{id:7,m: 0},{id:8,m: 0},{id:9,m: 0},{id:10,m: 0},{id:11,m: 0},{id:12,m: 0}],
+          cash2_details: [{id: 1,m: 0},{id: 2,m: 0},{id:3,m: 0},{id:4,m: 0},{id:5,m: 0},{id:6,m: 0},{id:7,m: 0},{id:8,m: 0},{id:9,m: 0},{id:10,m: 0},{id:11,m: 0},{id:12,m: 0}],
+          cash3_details: [{id: 1,m: 0},{id: 2,m: 0},{id:3,m: 0},{id:4,m: 0},{id:5,m: 0},{id:6,m: 0},{id:7,m: 0},{id:8,m: 0},{id:9,m: 0},{id:10,m: 0},{id:11,m: 0},{id:12,m: 0}],
+          cash4_details: [{id: 1,m: 0},{id: 2,m: 0},{id:3,m: 0},{id:4,m: 0},{id:5,m: 0},{id:6,m: 0},{id:7,m: 0},{id:8,m: 0},{id:9,m: 0},{id:10,m: 0},{id:11,m: 0},{id:12,m: 0}],
+          cash5_details: [{id: 1,m: 0},{id: 2,m: 0},{id:3,m: 0},{id:4,m: 0},{id:5,m: 0},{id:6,m: 0},{id:7,m: 0},{id:8,m: 0},{id:9,m: 0},{id:10,m: 0},{id:11,m: 0},{id:12,m: 0}],
         }
       ]
     };
@@ -805,11 +805,11 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         {
           id: $scope.uuid(),
           cash_item: 'Бэлэн мөнгөний эхний үлдэгдэл',
-          cash1_details: [{m: null, s:'adfs'},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
-          cash2_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
-          cash3_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
-          cash4_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
-          cash5_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}]
+          cash1_details: [{id: 1,m: 0},{id: 2,m: 0},{id:3,m: 0},{id:4,m: 0},{id:5,m: 0},{id:6,m: 0},{id:7,m: 0},{id:8,m: 0},{id:9,m: 0},{id:10,m: 0},{id:11,m: 0},{id:12,m: 0}],
+          cash2_details: [{id: 1,m: 0},{id: 2,m: 0},{id:3,m: 0},{id:4,m: 0},{id:5,m: 0},{id:6,m: 0},{id:7,m: 0},{id:8,m: 0},{id:9,m: 0},{id:10,m: 0},{id:11,m: 0},{id:12,m: 0}],
+          cash3_details: [{id: 1,m: 0},{id: 2,m: 0},{id:3,m: 0},{id:4,m: 0},{id:5,m: 0},{id:6,m: 0},{id:7,m: 0},{id:8,m: 0},{id:9,m: 0},{id:10,m: 0},{id:11,m: 0},{id:12,m: 0}],
+          cash4_details: [{id: 1,m: 0},{id: 2,m: 0},{id:3,m: 0},{id:4,m: 0},{id:5,m: 0},{id:6,m: 0},{id:7,m: 0},{id:8,m: 0},{id:9,m: 0},{id:10,m: 0},{id:11,m: 0},{id:12,m: 0}],
+          cash5_details: [{id: 1,m: 0},{id: 2,m: 0},{id:3,m: 0},{id:4,m: 0},{id:5,m: 0},{id:6,m: 0},{id:7,m: 0},{id:8,m: 0},{id:9,m: 0},{id:10,m: 0},{id:11,m: 0},{id:12,m: 0}],
         }
       ]
     };
@@ -965,20 +965,30 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       });
     }
 
+    $scope.getOf = function(items, field, value, vfield) {
+      var total = 0;
+      items.forEach(function(data) {
+          if (data[field].startsWith(value))
+              total += $scope.t2n(data[vfield]);
+      });
+      return total;
+    }
+
     $scope.sumOf = function(items, field, id) {
       var total = 0;
       items.forEach(function(data) {
-        total += $scope.t2n(data[field+(id==0?'':(''+id))]);
+        if (data[field+(id==0?'':(''+id))])
+          total += $scope.t2n(data[field+(id==0?'':(''+id))]);
       });
 
       return total;
     }
 
+
     $scope.sumOfM = function(items, field, id, m) {
       var total = 0;
       items.forEach(function(data) {
-        if (field == 'cash')
-        total += $scope.t2n(data[field+(id==0?'':(''+id))+'_details'][m-1].m);
+          total += $scope.t2n(data[field+(id==0?'':(''+id))+'_details'][m-1].m);
       });
 
       return total;
@@ -1022,17 +1032,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         $scope.plan = item;
         $scope.next(1,0);
         $scope.plan.pr_loan_start_date = new Date($scope.plan.pr_loan_start_date.substring(0, 10));
-        $scope.plan.pr_cash_list = [
-          {
-            id: $scope.uuid(),
-            cash_item: 'Бэлэн мөнгөний эхний үлдэгдэл',
-            cash1_details: [{id: 1,m: null},{id: 2,m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
-            cash2_details: [{id: 1,m: null},{id: 2,m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
-            cash3_details: [{id: 1,m: null},{id: 2,m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
-            cash4_details: [{id: 1,m: null},{id: 3,m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
-            cash5_details: [{id: 1,m: null},{id: 3,m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}]
-          }
-        ];
 
         setTimeout(function() {
           formatCurrency($('input[name="pr_budget_total"]'));
@@ -1114,6 +1113,10 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
               $scope.moneyformat($('input[name="loan_rate_amount_'+item.id+'"'));
               $scope.moneyformat($('input[name="loan_amount_'+item.id+'"'));
               $scope.moneyformat($('input[name="loan_balance_'+item.id+'"'));
+          });
+          $scope.plan.pr_cash_list.forEach((item, i) => {
+            for (var i = 1; i <= 12; i++)
+              $scope.moneyformat($('input[name="cash1_details'+i+'"'));
           });
         }, 500);
     }
