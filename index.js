@@ -123,9 +123,7 @@ app.post('/docx', function(req, res) {
 
 app.post('/doc', function(req, res) {
     let collection = db.collection('documents');
-    req.body.pr_budget_total = !isNaN(req.body.pr_budget_total) ? req.body.pr_budget_total : parseFloat(req.body.pr_budget_total.replace('₮','').replaceAll(',',''));
-    req.body.pr_budget_me = !isNaN(req.body.pr_budget_me) ? req.body.pr_budget_me : parseFloat(req.body.pr_budget_me.replace('₮','').replaceAll(',',''));
-    req.body.pr_budget_funder = !isNaN(req.body.pr_budget_funder) ? req.body.pr_budget_funder : parseFloat(req.body.pr_budget_funder.replace('₮','').replaceAll(',',''));
+    console.log(req.body);
     req.body.pr_marketing_plan_price = !isNaN(req.body.pr_marketing_plan_price) ? req.body.pr_marketing_plan_price : parseFloat(req.body.pr_marketing_plan_price.replace('₮','').replaceAll(',',''));
     req.body.pr_loan_amount = !isNaN(req.body.pr_loan_amount) ? req.body.pr_loan_amount : parseFloat(req.body.pr_loan_amount.replace('₮','').replaceAll(',',''));
     req.body.pr_investment_plan.forEach((item, i) => {
