@@ -287,7 +287,8 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
             if (t == 0) {
               var total = 0;
               for (var k = 0; k < $scope.plan.pr_raw_materials.length; k++) {
-                total += $scope.t2n($scope.plan.pr_raw_materials[k].raw_vol1_details[j].m) * $scope.plan.pr_production_sale_rate * $scope.t2n($scope.plan.pr_productions[k].production_price1);
+                total += $scope.t2n($scope.plan.pr_raw_materials[k].raw_vol1_details[j].m) * $scope.plan.pr_production_sale_rate/100 *
+                    $scope.t2n($scope.plan.pr_productions[k].production_price1);
               }
 
               item3.values.push({
@@ -364,6 +365,7 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         $scope.cashArray.push(item2);
         $scope.cashArray.push(item3);
 
+
         var item4 = {
           id: $scope.uuid(),
           row: 4,
@@ -395,11 +397,15 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
             if (t == 0)
               item5.values.push({m:$scope.plan.pr_budget_me, id: $scope.uuid()});
             else
-              item5.values.push({m:null, id: $scope.uuid()});
+              item5.values.push({m:0, id: $scope.uuid()});
             t++;
           }
         }
         $scope.cashArray.push(item5);
+
+        for (var j = 0; j < 12; j++) {
+          $scope.cashArrayAt(2).values[j].m = $scope.cashArrayAt(3).values[j].m+$scope.cashArrayAt(4).values[j].m+$scope.cashArrayAt(5).values[j].m;
+        }
 
         var item6 = {
           id: $scope.uuid(),
@@ -711,17 +717,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         }
         $scope.cashArray.push(item15);
 
-        for (var i = $scope.year; i <= $scope.year+$scope.plan.pr_duration; i++) {
-            for (var j = 0; j < 12; j++) {
-                item9.values.push({m:
-                    $scope.cashArrayAt(10).values[j].m+$scope.cashArrayAt(11).values[j].m+
-                    $scope.cashArrayAt(12).values[j].m+$scope.cashArrayAt(13).values[j].m+
-                    $scope.cashArrayAt(14).values[j].m+$scope.cashArrayAt(15).values[j].m, id: $scope.uuid()});
-            }
-        }
-
-        $scope.cashArray.push(item9);
-
         var item16 = {
             id: $scope.uuid(),
             row: 16,
@@ -776,10 +771,22 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
 
         $scope.cashArray.push(item16);
 
+        for (var i = $scope.year; i <= $scope.year+$scope.plan.pr_duration; i++) {
+          for (var j = 0; j < 12; j++) {
+            item9.values.push({m:
+                  $scope.cashArrayAt(10).values[j].m+$scope.cashArrayAt(11).values[j].m+
+                  $scope.cashArrayAt(12).values[j].m+$scope.cashArrayAt(13).values[j].m+
+                  $scope.cashArrayAt(14).values[j].m+$scope.cashArrayAt(15).values[j].m
+                  +$scope.cashArrayAt(16).values[j].m, id: $scope.uuid()});
+          }
+        }
+
+        $scope.cashArray.push(item9);
+
         var item17 = {
             id: $scope.uuid(),
             row: 17,
-            level: 2,
+            level: 1,
             title: 'Нийт мөнгөн зардал',
             editable: false,
             values: []
@@ -792,6 +799,42 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         }
 
         $scope.cashArray.push(item17);
+
+        var item18 = {
+          id: $scope.uuid(),
+          row: 18,
+          level: 1,
+          title: 'Бэлэн мөнгөний эцсийн үлдэгдэл',
+          editable: false,
+          values: []
+        };
+        for (var i = $scope.year; i <= $scope.year+$scope.plan.pr_duration; i++) {
+          for (var j = 0; j < 12; j++) {
+            item18.values.push({m: $scope.cashArrayAt(6).values[j].m+$scope.cashArrayAt(17).values[j].m, id: $scope.uuid()});
+          }
+        }
+        $scope.cashArray.push(item18);
+
+        //for (var i = $scope.year; i <= $scope.year+$scope.plan.pr_duration; i++) {
+          for (var j = 1; j < 12; j++) {
+            $scope.cashArray[0].values[j].m = $scope.cashArrayAt(18).values[j-1].m;
+            $scope.cashArrayAt(6).values[j].m = $scope.cashArray[0].values[j].m + $scope.cashArrayAt(2).values[j].m;
+            $scope.cashArrayAt(18).values[j].m = $scope.cashArrayAt(6).values[j].m - $scope.cashArrayAt(17).values[j].m;
+
+            //$scope.cashArrayAt(9).values[j].m = $scope.cashArrayAt(18).values[j-1].m;
+            // $scope.cashArray[0].values[j+1].m = $scope.cashArrayAt(18).values[j].m;
+//            $scope.cashArrayAt(18).values[j] = $scope.cashArrayAt(18).values[j-1];
+          }
+        //}
+
+        //for (var i = $scope.year; i <= $scope.year+$scope.plan.pr_duration; i++) {
+          for (var j = 1; j < 12; j++) {
+            // $scope.cashArray[0].values[j] = $scope.cashArrayAt(18).values[j-1];
+            // $scope.cashArrayAt(6).values[j].m = $scope.cashArray[0].values[j].m + $scope.cashArrayAt(2).values[j].m;
+            // $scope.cashArrayAt(18).values[j].m = $scope.cashArray[6].values[j].m + $scope.cashArrayAt(17).values[j].m;
+  //            $scope.cashArrayAt(18).values[j] = $scope.cashArrayAt(18).values[j-1];
+          }
+        //}
     }
 
     $scope.cashArrayAt = function(it) {
@@ -1449,6 +1492,7 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
           if ($scope.cpage >= 9)
             $scope.calcCashList();
         }, 500);
+
     }
 
     $scope.planResponse = {msg:''};

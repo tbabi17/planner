@@ -272,7 +272,7 @@ form table tfoot td {
   border-top: 1px solid #f8f8f8;
   padding: 5px 5px;
   color: #393939;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 form table thead td span {
@@ -284,6 +284,7 @@ form table thead td span {
 
 form table tbody td {
   padding: 8px 5px;
+  font-size: 13px;
   text-transform: none;
   font-weight: normal;
   color: #696969;
