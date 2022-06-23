@@ -42,7 +42,7 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         if ($scope.format == 'c') {
           var v = 0.0;
           if (data.m) {
-            v = parseFloat(data.m.replaceAll(',','').replace("₮",'').trim());
+            v = data.m;
           }
           $scope.total += v;
         } else
@@ -212,27 +212,27 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
           $scope.value($scope.selectedItem, 'production_price1', 'production_price2', 'production_price3', 'production_price4', 'production_price5',
               'production_vol,production_income', 'pr_production_price_increment_percent', 'pr_production_sale_rate');
 
-          $scope.plan.pr_other_costs.forEach((item, i) => {
-            $scope.moneyformat($('input[name="other_costs_cost1_'+item.id+'"'));
-            $scope.moneyformat($('input[name="other_costs_cost2_'+item.id+'"'));
-            $scope.moneyformat($('input[name="other_costs_cost3_'+item.id+'"'));
-            $scope.moneyformat($('input[name="other_costs_cost4_'+item.id+'"'));
-            $scope.moneyformat($('input[name="other_costs_cost5_'+item.id+'"'));
-          });
+          // $scope.plan.pr_other_costs.forEach((item, i) => {
+          //   $scope.moneyformat($('input[name="other_costs_cost1_'+item.id+'"'));
+          //   $scope.moneyformat($('input[name="other_costs_cost2_'+item.id+'"'));
+          //   $scope.moneyformat($('input[name="other_costs_cost3_'+item.id+'"'));
+          //   $scope.moneyformat($('input[name="other_costs_cost4_'+item.id+'"'));
+          //   $scope.moneyformat($('input[name="other_costs_cost5_'+item.id+'"'));
+          // });
         //}, 100);
 
         for (var i = 0; i < $scope.plan.pr_productions.length; i++) {
-          $scope.plan.pr_productions[i].production_vol1 = $scope.plan.pr_raw_materials[i].raw_vol1 * $scope.plan.pr_production_sale_rate/100;
-          $scope.plan.pr_productions[i].production_vol2 = $scope.plan.pr_raw_materials[i].raw_vol2 * $scope.plan.pr_production_sale_rate/100;
-          $scope.plan.pr_productions[i].production_vol3 = $scope.plan.pr_raw_materials[i].raw_vol3 * $scope.plan.pr_production_sale_rate/100;
-          $scope.plan.pr_productions[i].production_vol4 = $scope.plan.pr_raw_materials[i].raw_vol4 * $scope.plan.pr_production_sale_rate/100;
-          $scope.plan.pr_productions[i].production_vol5 = $scope.plan.pr_raw_materials[i].raw_vol5 * $scope.plan.pr_production_sale_rate/100;
-
-          $scope.plan.pr_productions[i].production_income1 = $scope.plan.pr_productions[i].production_vol1 * $scope.plan.pr_productions[i].production_price1;
-          $scope.plan.pr_productions[i].production_income2 = $scope.plan.pr_productions[i].production_vol2 * $scope.plan.pr_productions[i].production_price2;
-          $scope.plan.pr_productions[i].production_income3 = $scope.plan.pr_productions[i].production_vol3 * $scope.plan.pr_productions[i].production_price3;
-          $scope.plan.pr_productions[i].production_income4 = $scope.plan.pr_productions[i].production_vol4 * $scope.plan.pr_productions[i].production_price4;
-          $scope.plan.pr_productions[i].production_income5 = $scope.plan.pr_productions[i].production_vol5 * $scope.plan.pr_productions[i].production_price5;
+          $scope.plan.pr_productions[i].production_vol1 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol1 * $scope.plan.pr_production_sale_rate/100);
+          $scope.plan.pr_productions[i].production_vol2 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol2 * $scope.plan.pr_production_sale_rate/100);
+          $scope.plan.pr_productions[i].production_vol3 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol3 * $scope.plan.pr_production_sale_rate/100);
+          $scope.plan.pr_productions[i].production_vol4 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol4 * $scope.plan.pr_production_sale_rate/100);
+          $scope.plan.pr_productions[i].production_vol5 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol5 * $scope.plan.pr_production_sale_rate/100);
+          console.log('aa='+$scope.plan.pr_productions[i].production_vol2);
+          $scope.plan.pr_productions[i].production_income1 = Math.ceil($scope.plan.pr_productions[i].production_vol1 * $scope.plan.pr_productions[i].production_price1);
+          $scope.plan.pr_productions[i].production_income2 = Math.ceil($scope.plan.pr_productions[i].production_vol2 * $scope.plan.pr_productions[i].production_price2);
+          $scope.plan.pr_productions[i].production_income3 = Math.ceil($scope.plan.pr_productions[i].production_vol3 * $scope.plan.pr_productions[i].production_price3);
+          $scope.plan.pr_productions[i].production_income4 = Math.ceil($scope.plan.pr_productions[i].production_vol4 * $scope.plan.pr_productions[i].production_price4);
+          $scope.plan.pr_productions[i].production_income5 = Math.ceil($scope.plan.pr_productions[i].production_vol5 * $scope.plan.pr_productions[i].production_price5);
         }
 
         if ($('#dialog'))
@@ -249,7 +249,7 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
           editable: true,
           values: []
         };
-
+        $scope.cashArray = [];
         var t = 0;
         for (var i = $scope.year; i <= $scope.year+$scope.plan.pr_duration; i++) {
           for (var j = 1; j <= 12; j++) {
@@ -282,7 +282,7 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         };
 
         t = 0;
-        for (var i = $scope.year; i < $scope.year+$scope.plan.pr_duration; i++) {
+        for (var i = $scope.year; i <= $scope.year+$scope.plan.pr_duration; i++) {
           for (var j = 0; j < 12; j++) {
             if (t == 0) {
               var total = 0;
@@ -302,8 +302,11 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
             }
             if (t == 1) {
               var total = 0;
-              for (var k = 0; k < $scope.plan.pr_raw_materials.length; k++)
-                total += $scope.plan.pr_raw_materials[k].raw_vol2_details[j] * $scope.plan.pr_production_sale_rate * $scope.plan.pr_productions[k].production_price2;
+              for (var k = 0; k < $scope.plan.pr_raw_materials.length; k++) {
+                  total += $scope.t2n($scope.plan.pr_raw_materials[k].raw_vol2_details[j].m) * $scope.plan.pr_production_sale_rate/100 *
+                      $scope.t2n($scope.plan.pr_productions[k].production_price2);
+              }
+                // total += $scope.plan.pr_raw_materials[k].raw_vol2_details[j] * $scope.plan.pr_production_sale_rate * $scope.plan.pr_productions[k].production_price2;
 
               item3.values.push({
                 m: total,
@@ -317,8 +320,11 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
 
             if (t == 2) {
               var total = 0;
-              for (var k = 0; k < $scope.plan.pr_raw_materials.length; k++)
-                total += $scope.plan.pr_raw_materials[k].raw_vol3_details[j] * $scope.plan.pr_production_sale_rate * $scope.plan.pr_productions[k].production_price3;
+              for (var k = 0; k < $scope.plan.pr_raw_materials.length; k++) {
+                  total += $scope.t2n($scope.plan.pr_raw_materials[k].raw_vol3_details[j].m) * $scope.plan.pr_production_sale_rate/100 *
+                      $scope.t2n($scope.plan.pr_productions[k].production_price3);
+              }
+                // total += $scope.plan.pr_raw_materials[k].raw_vol3_details[j] * $scope.plan.pr_production_sale_rate * $scope.plan.pr_productions[k].production_price3;
 
               item3.values.push({
                 m: total,
@@ -332,8 +338,11 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
 
             if (t == 3) {
               var total = 0;
-              for (var k = 0; k < $scope.plan.pr_raw_materials.length; k++)
-                total += $scope.plan.pr_raw_materials[k].raw_vol4_details[j] * $scope.plan.pr_production_sale_rate * $scope.plan.pr_productions[k].production_price4;
+              for (var k = 0; k < $scope.plan.pr_raw_materials.length; k++) {
+                  total += $scope.t2n($scope.plan.pr_raw_materials[k].raw_vol3_details[j].m) * $scope.plan.pr_production_sale_rate/100 *
+                      $scope.t2n($scope.plan.pr_productions[k].production_price3);
+                  // total += $scope.plan.pr_raw_materials[k].raw_vol4_details[j] * $scope.plan.pr_production_sale_rate * $scope.plan.pr_productions[k].production_price4;
+              }
 
               item3.values.push({
                 m: total,
@@ -347,9 +356,11 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
 
             if (t == 4) {
               var total = 0;
-              for (var k = 0; k < $scope.plan.pr_raw_materials.length; k++)
-                total += $scope.plan.pr_raw_materials[k].raw_vol5_details[j] * $scope.plan.pr_production_sale_rate * $scope.plan.pr_productions[k].production_price5;
-
+              for (var k = 0; k < $scope.plan.pr_raw_materials.length; k++) {
+                  total += $scope.t2n($scope.plan.pr_raw_materials[k].raw_vol4_details[j].m) * $scope.plan.pr_production_sale_rate/100 *
+                      $scope.t2n($scope.plan.pr_productions[k].production_price4);
+                  // total += $scope.plan.pr_raw_materials[k].raw_vol5_details[j] * $scope.plan.pr_production_sale_rate * $scope.plan.pr_productions[k].production_price5;
+              }
               item3.values.push({
                 m: total,
                 id: $scope.uuid()
@@ -359,6 +370,23 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
                 id: $scope.uuid()
               });
             }
+
+              if (t == 5) {
+                  var total = 0;
+                  for (var k = 0; k < $scope.plan.pr_raw_materials.length; k++) {
+                      total += $scope.t2n($scope.plan.pr_raw_materials[k].raw_vol5_details[j].m) * $scope.plan.pr_production_sale_rate/100 *
+                          $scope.t2n($scope.plan.pr_productions[k].production_price5);
+                      // total += $scope.plan.pr_raw_materials[k].raw_vol5_details[j] * $scope.plan.pr_production_sale_rate * $scope.plan.pr_productions[k].production_price5;
+                  }
+                  item3.values.push({
+                      m: total,
+                      id: $scope.uuid()
+                  });
+                  item2.values.push({
+                      m: total,
+                      id: $scope.uuid()
+                  });
+              }
           }
           t++;
         }
@@ -375,9 +403,14 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
           values: []
         };
 
+        var d = new Date($scope.plan.pr_loan_start_date).yyyymmdd();
+        var ds = d.split('-');
         for (var i = $scope.year; i <= $scope.year+$scope.plan.pr_duration; i++) {
           for (var j = 1; j <= 12; j++) {
-            item4.values.push({m:0, id: $scope.uuid()});
+              if (ds[0] == parseInt(i) && j == parseInt(ds[1]))
+                item4.values.push({m:$scope.plan.pr_loan_amount, id: $scope.uuid()});
+              else
+                item4.values.push({m:0, id: $scope.uuid()});
           }
         }
         $scope.cashArray.push(item4);
@@ -475,6 +508,33 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
           }
         }
         $scope.cashArray.push(item8);
+
+        var item81 = {
+            id: $scope.uuid(),
+            row: 8,
+            level: 2,
+            title: 'Эргэлтийн хөрөнгө',
+            editable: false,
+            values: []
+        };
+
+        t = 0;
+        for (var i = $scope.year; i <= $scope.year+$scope.plan.pr_duration; i++) {
+            for (var j = 0; j < 12; j++) {
+                if (t == 0) {
+                    var total = 0;
+                    for (var k = 0; k < $scope.plan.pr_investment_plan.length; k++) {
+                        if ($scope.plan.pr_investment_plan[k].investment_type == 2)
+                            total += $scope.plan.pr_investment_plan[k].investment_cost;
+                    }
+                    item81.values.push({m: total, id: $scope.uuid()});
+                }
+                else
+                    item81.values.push({m:0, id: $scope.uuid()});
+                t++;
+            }
+        }
+        $scope.cashArray.push(item81);
 
         var item10 = {
           id: $scope.uuid(),
@@ -810,31 +870,17 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         };
         for (var i = $scope.year; i <= $scope.year+$scope.plan.pr_duration; i++) {
           for (var j = 0; j < 12; j++) {
-            item18.values.push({m: $scope.cashArrayAt(6).values[j].m+$scope.cashArrayAt(17).values[j].m, id: $scope.uuid()});
+            item18.values.push({m: $scope.cashArrayAt(6).values[j].m-$scope.cashArrayAt(17).values[j].m, id: $scope.uuid()});
           }
         }
         $scope.cashArray.push(item18);
 
-        //for (var i = $scope.year; i <= $scope.year+$scope.plan.pr_duration; i++) {
-          for (var j = 1; j < 12; j++) {
+          for (var j = 1; j < 12*$scope.plan.pr_duration; j++) {
             $scope.cashArray[0].values[j].m = $scope.cashArrayAt(18).values[j-1].m;
             $scope.cashArrayAt(6).values[j].m = $scope.cashArray[0].values[j].m + $scope.cashArrayAt(2).values[j].m;
             $scope.cashArrayAt(18).values[j].m = $scope.cashArrayAt(6).values[j].m - $scope.cashArrayAt(17).values[j].m;
-
-            //$scope.cashArrayAt(9).values[j].m = $scope.cashArrayAt(18).values[j-1].m;
-            // $scope.cashArray[0].values[j+1].m = $scope.cashArrayAt(18).values[j].m;
-//            $scope.cashArrayAt(18).values[j] = $scope.cashArrayAt(18).values[j-1];
           }
-        //}
 
-        //for (var i = $scope.year; i <= $scope.year+$scope.plan.pr_duration; i++) {
-          for (var j = 1; j < 12; j++) {
-            // $scope.cashArray[0].values[j] = $scope.cashArrayAt(18).values[j-1];
-            // $scope.cashArrayAt(6).values[j].m = $scope.cashArray[0].values[j].m + $scope.cashArrayAt(2).values[j].m;
-            // $scope.cashArrayAt(18).values[j].m = $scope.cashArray[6].values[j].m + $scope.cashArrayAt(17).values[j].m;
-  //            $scope.cashArrayAt(18).values[j] = $scope.cashArrayAt(18).values[j-1];
-          }
-        //}
     }
 
     $scope.cashArrayAt = function(it) {
@@ -849,67 +895,24 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       if (!v) return 0;
       v = v + '';
       v = v.replaceAll(',', '');
-      console.log(v+' '+parseFloat(v).toFixed(2));
-      return parseFloat(v).toFixed(2);
+      return Math.ceil(parseFloat(v));
     }
+
+    $scope.yearSel = $scope.year;
 
     $scope.value = function(item, v1, v2, v3, v4, v5, total, percent, rate) {
       if (percent == '') return;
-      // $('input[name="'+v2+'_'+item.id+'"]').val($scope.t2n($('input[name="'+v1+'_'+item.id+'"]').val()) +
-      //     $scope.t2n($('input[name="'+v1+'_'+item.id+'"]').val()) * $scope.t2n($scope.plan[percent] / 100));
-      // $('input[name="'+v3+'_'+item.id+'"]').val($scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val()) +
-      //     $scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val()) * $scope.t2n($scope.plan[percent] / 100));
-      // $('input[name="'+v4+'_'+item.id+'"]').val($scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val()) +
-      //     $scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val()) * $scope.t2n($scope.plan[percent] / 100));
-      // $('input[name="'+v5+'_'+item.id+'"]').val($scope.t2n($('input[name="'+v4+'_'+item.id+'"]').val()) +
-      //     $scope.t2n($('input[name="'+v4+'_'+item.id+'"]').val()) * $scope.t2n($scope.plan[percent] / 100));
-      //
 
-      item[v2] = item[v1] + item[v1] * $scope.plan[percent] / 100;
-      item[v3] = item[v2] + item[v1] * $scope.plan[percent] / 100;
-      item[v4] = item[v3] + item[v1] * $scope.plan[percent] / 100;
-      item[v5] = item[v4] + item[v1] * $scope.plan[percent] / 100;
+      item[v2] = Math.ceil(item[v1] + item[v1] * $scope.plan[percent] / 100);
+      item[v3] = Math.ceil(item[v2] + item[v2] * $scope.plan[percent] / 100);
+      item[v4] = Math.ceil(item[v3] + item[v3] * $scope.plan[percent] / 100);
+      item[v5] = Math.ceil(item[v4] + item[v4] * $scope.plan[percent] / 100);
 
-      // item[v3] = $scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val()) + $scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val()) * $scope.t2n($scope.plan[percent] / 100)
-      // item[v4] = $scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val()) + $scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val()) * $scope.t2n($scope.plan[percent] / 100)
-      // item[v5] = $scope.t2n($('input[name="'+v4+'_'+item.id+'"]').val()) + $scope.t2n($('input[name="'+v4+'_'+item.id+'"]').val()) * $scope.t2n($scope.plan[percent] / 100)
-
-      // item[v2] = $scope.t2n($('input[name="'+v1+'_'+item.id+'"]').val()) + $scope.t2n($('input[name="'+v1+'_'+item.id+'"]').val()) * $scope.t2n($scope.plan[percent] / 100);
-      // item[v3] = $scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val()) + $scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val()) * $scope.t2n($scope.plan[percent] / 100)
-      // item[v4] = $scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val()) + $scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val()) * $scope.t2n($scope.plan[percent] / 100)
-      // item[v5] = $scope.t2n($('input[name="'+v4+'_'+item.id+'"]').val()) + $scope.t2n($('input[name="'+v4+'_'+item.id+'"]').val()) * $scope.t2n($scope.plan[percent] / 100)
-
-      // item[v1] = $scope.t2n($('input[name="'+v1+'_'+item.id+'"]').val());
-      // item[v2] = $scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val());
-      // item[v3] = $scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val());
-      // item[v4] = $scope.t2n($('input[name="'+v4+'_'+item.id+'"]').val());
-      // item[v5] = $scope.t2n($('input[name="'+v5+'_'+item.id+'"]').val());
-
-      item[total.split(',')[1]+'1'] = item[total.split(',')[0]+'1'] * item[v1];
-      item[total.split(',')[1]+'2'] = item[total.split(',')[0]+'2'] * item[v2];
-      item[total.split(',')[1]+'3'] = item[total.split(',')[0]+'3'] * item[v3];
-      item[total.split(',')[1]+'4'] = item[total.split(',')[0]+'4'] * item[v4];
-      item[total.split(',')[1]+'5'] = item[total.split(',')[0]+'5'] * item[v5];
-
-      setTimeout(function() {
-        // $('input[name="'+total.split(',')[1]+'1_'+item.id+'"]').val($scope.t2n($('input[name="'+total.split(',')[0]+'1_'+item.id+'"]').val()) * $scope.t2n($('input[name="'+v1+'_'+item.id+'"]').val()));
-        // $('input[name="'+total.split(',')[1]+'2_'+item.id+'"]').val($scope.t2n($('input[name="'+total.split(',')[0]+'2_'+item.id+'"]').val()) * $scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val()));
-        // $('input[name="'+total.split(',')[1]+'3_'+item.id+'"]').val($scope.t2n($('input[name="'+total.split(',')[0]+'3_'+item.id+'"]').val()) * $scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val()));
-        // $('input[name="'+total.split(',')[1]+'4_'+item.id+'"]').val($scope.t2n($('input[name="'+total.split(',')[0]+'4_'+item.id+'"]').val()) * $scope.t2n($('input[name="'+v4+'_'+item.id+'"]').val()));
-        // $('input[name="'+total.split(',')[1]+'5_'+item.id+'"]').val($scope.t2n($('input[name="'+total.split(',')[0]+'5_'+item.id+'"]').val()) * $scope.t2n($('input[name="'+v5+'_'+item.id+'"]').val()));
-
-        // $scope.moneyformat($('input[name="'+v1+'_'+item.id+'"]'));
-        // $scope.moneyformat($('input[name="'+v2+'_'+item.id+'"]'));
-        // $scope.moneyformat($('input[name="'+v3+'_'+item.id+'"]'));
-        // $scope.moneyformat($('input[name="'+v4+'_'+item.id+'"]'));
-        // $scope.moneyformat($('input[name="'+v5+'_'+item.id+'"]'));
-        // $scope.moneyformat($('input[name="'+total.split(',')[1]+'1_'+item.id+'"]'));
-        // $scope.moneyformat($('input[name="'+total.split(',')[1]+'2_'+item.id+'"]'));
-        // $scope.moneyformat($('input[name="'+total.split(',')[1]+'3_'+item.id+'"]'));
-        // $scope.moneyformat($('input[name="'+total.split(',')[1]+'4_'+item.id+'"]'));
-        // $scope.moneyformat($('input[name="'+total.split(',')[1]+'5_'+item.id+'"]'));
-      }, 100);
-
+      item[total.split(',')[1]+'1'] = Math.ceil(item[total.split(',')[0]+'1'] * item[v1]);
+      item[total.split(',')[1]+'2'] = Math.ceil(item[total.split(',')[0]+'2'] * item[v2]);
+      item[total.split(',')[1]+'3'] = Math.ceil(item[total.split(',')[0]+'3'] * item[v3]);
+      item[total.split(',')[1]+'4'] = Math.ceil(item[total.split(',')[0]+'4'] * item[v4]);
+      item[total.split(',')[1]+'5'] = Math.ceil(item[total.split(',')[0]+'5'] * item[v5]);
     }
 
     $scope.valueDep = function(item, v1, v2, v3, v4) {
@@ -1179,8 +1182,7 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
 
 
     $scope.calcLoan = function() {
-      console.log($scope.plan.pr_loan_amount);
-      var tot = ($scope.t2n($scope.plan.pr_loan_amount)) * 1;
+      var tot = $scope.plan.pr_loan_amount;
       var pot = 0;
       var d = new Date($scope.plan.pr_loan_start_date).yyyymmdd();
       var olddate = new Date($scope.plan.pr_loan_start_date);
@@ -1188,7 +1190,7 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       p[0] = parseInt(p[0]);
       p[1] = parseInt(p[1]);
       p[2] = parseInt(p[2]);
-      var old = $scope.t2n($scope.plan.pr_loan_amount) * 1;
+      var old = $scope.plan.pr_loan_amount;
       $scope.plan.pr_loan_dates = [];
       for (var i = 0; i <= $scope.plan.pr_loan_duration; i++) {
         var m = {
@@ -1205,9 +1207,17 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
           m.loan_day = 0;
           m.loan_date = p[0]+'-'+(p[1] < 10 ? ('0'+p[1]) : p[1])+'-'+p[2];
         } else {
-          m.loan_amount = tot / $scope.plan.pr_loan_duration;
-          m.loan_balance = old -  m.loan_amount;
-          m.loan_amount += (old - m.loan_amount < m.loan_amount ? old-m.loan_amount : 0);
+          m.loan_amount = Math.ceil(tot / $scope.plan.pr_loan_duration);
+          m.loan_balance = (old -  m.loan_amount);
+          if (m.loan_balance < 0) {
+              m.loan_amount += (m.loan_balance);
+              m.loan_balance = 0;
+          } else
+          if (m.loan_balance < m.loan_amount) {
+              m.loan_amount += (m.loan_amount - m.loan_balance);
+              m.loan_balance = 0;
+          }
+          //m.loan_amount += Math.ceil(old - m.loan_amount < m.loan_balance ? old-m.loan_amount : 0);
           p[1]++;
           if (p[1] > 12) {
             p[1] = 1;
@@ -1216,7 +1226,7 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
           m.loan_date = p[0]+'-'+(p[1] < 10 ? ('0'+p[1]) : p[1])+'-'+p[2];
           m.loan_day = (new Date(m.loan_date).getTime() - new Date(olddate).getTime())/(1000*24*3600);
         }
-        m.loan_rate_amount = old * parseFloat($scope.plan.pr_loan_rate) / 100 * (m.loan_day / 30);
+        m.loan_rate_amount = Math.ceil(old * $scope.plan.pr_loan_rate / 100 * (m.loan_day / 30));
         pot += m.loan_rate_amount;
         old = m.loan_balance;
         olddate = m.loan_date;
@@ -1290,9 +1300,12 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         return item.depreciation_type==2;
     }
 
-    $scope.add_item_to_array = function(array, name, id) {
-      var m = JSON.parse(JSON.stringify($scope.temp_plan[name][!id ? 0 : id]));
+    $scope.add_item_to_array = function(array, name, field, id) {
+      var m = JSON.parse(JSON.stringify($scope.temp_plan[name][0]));
+
       m.id = $scope.uuid();
+      if (field)
+        m[field] = id;
       array.push(m);
     }
 
@@ -1358,6 +1371,33 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       return total;
     }
 
+    $scope.sumOfCash = function(items, s, e) {
+        var total = 0;
+        if (items) {
+            for (var i = s; i < e; i++) {
+                var data = items[i];
+                total += data.m;
+            }
+        }
+
+        return total;
+    }
+
+    $scope.minOfCash = function(items, s, e) {
+        var total = 0;
+        if (items) {
+            for (var i = s; i < e; i++) {
+                var data = items[i];
+                if (total == 0) total = data.m;
+                else {
+                    if (data.m < total)
+                        total = data.m;
+                }
+            }
+        }
+
+        return total;
+    }
 
     $scope.sumOfM = function(items, field, id, m) {
       var total = 0;
@@ -1405,94 +1445,9 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         $scope.planResponse = {msg: ''};
         $scope.plan = item;
         $scope.next(1,0);
-
         $scope.plan.pr_loan_start_date = !$scope.plan.pr_loan_start_date ? null : new Date($scope.plan.pr_loan_start_date.substring(0, 10));
-        $scope.plan.pr_cash_start_amount = 0;
-        setTimeout(function() {
-          formatCurrency($('input[name="pr_budget_total"]'));
-          formatCurrency($('input[name="pr_budget_funder"]'));
-          formatCurrency($('input[name="pr_budget_me"]'));
-          formatCurrency($('input[name="pr_marketing_plan_price"]'));
-          formatCurrency($('input[name="pr_loan_amount"]'));
 
-          $scope.plan.pr_investment_plan.forEach((item, i) => {
-            $scope.moneyformat($('input[name="investment_cost_'+item.id+'"'));
-          });
-
-          $scope.plan.pr_assets.forEach((item, i) => {
-            $scope.moneyformat($('input[name="asset_total_'+item.id+'"'));
-            $scope.moneyformat($('input[name="asset_evaluation_'+item.id+'"'));
-          });
-
-          $scope.plan.pr_competitors.forEach((item, i) => {
-            $scope.moneyformat($('input[name="competitor_price_'+item.id+'"'));
-          });
-          $scope.plan.pr_suppliers.forEach((item, i) => {
-            $scope.moneyformat($('input[name="supplier_price_'+item.id+'"'));
-            $scope.moneyformat($('input[name="supplier_transport_cost_'+item.id+'"'));
-          });
-
-          $scope.plan.pr_sales_sectors.forEach((item, i) => {
-            $scope.moneyformat($('input[name="sales_point_income_'+item.id+'"'));
-          });
-          $scope.plan.pr_productions.forEach((item, i) => {
-            $scope.moneyformat($('input[name="production_price1_'+item.id+'"'));
-            $scope.moneyformat($('input[name="production_price2_'+item.id+'"'));
-            $scope.moneyformat($('input[name="production_price3_'+item.id+'"'));
-            $scope.moneyformat($('input[name="production_price4_'+item.id+'"'));
-            $scope.moneyformat($('input[name="production_price5_'+item.id+'"'));
-            $scope.moneyformat($('input[name="production_income1_'+item.id+'"'));
-            $scope.moneyformat($('input[name="production_income2_'+item.id+'"'));
-            $scope.moneyformat($('input[name="production_income3_'+item.id+'"'));
-            $scope.moneyformat($('input[name="production_income4_'+item.id+'"'));
-            $scope.moneyformat($('input[name="production_income5_'+item.id+'"'));
-          });
-          $scope.plan.pr_raw_materials.forEach((item, i) => {
-            $scope.moneyformat($('input[name="raw_price1_'+item.id+'"'));
-            $scope.moneyformat($('input[name="raw_price2_'+item.id+'"'));
-            $scope.moneyformat($('input[name="raw_price3_'+item.id+'"'));
-            $scope.moneyformat($('input[name="raw_price4_'+item.id+'"'));
-            $scope.moneyformat($('input[name="raw_price5_'+item.id+'"'));
-            $scope.moneyformat($('input[name="raw_cost1_'+item.id+'"'));
-            $scope.moneyformat($('input[name="raw_cost2_'+item.id+'"'));
-            $scope.moneyformat($('input[name="raw_cost3_'+item.id+'"'));
-            $scope.moneyformat($('input[name="raw_cost4_'+item.id+'"'));
-            $scope.moneyformat($('input[name="raw_cost5_'+item.id+'"'));
-          });
-
-          $scope.plan.pr_salary_costs.forEach((item, i) => {
-              $scope.moneyformat($('input[name="salary_month1_'+item.id+'"'));
-              $scope.moneyformat($('input[name="salary_month2_'+item.id+'"'));
-              $scope.moneyformat($('input[name="salary_month3_'+item.id+'"'));
-              $scope.moneyformat($('input[name="salary_month4_'+item.id+'"'));
-              $scope.moneyformat($('input[name="salary_month5_'+item.id+'"'));
-              $scope.moneyformat($('input[name="salary_year1_'+item.id+'"'));
-              $scope.moneyformat($('input[name="salary_year2_'+item.id+'"'));
-              $scope.moneyformat($('input[name="salary_year3_'+item.id+'"'));
-              $scope.moneyformat($('input[name="salary_year4_'+item.id+'"'));
-              $scope.moneyformat($('input[name="salary_year5_'+item.id+'"'));
-          });
-          $scope.plan.pr_depreciation_costs.forEach((item, i) => {
-              $scope.moneyformat($('input[name="depreciation_cost_month_'+item.id+'"'));
-              $scope.moneyformat($('input[name="depreciation_cost_year_'+item.id+'"'));
-              $scope.moneyformat($('input[name="depreciation_total_'+item.id+'"'));
-          });
-          $scope.plan.pr_other_costs.forEach((item, i) => {
-              $scope.moneyformat($('input[name="other_costs_cost1_'+item.id+'"'));
-              $scope.moneyformat($('input[name="other_costs_cost2_'+item.id+'"'));
-              $scope.moneyformat($('input[name="other_costs_cost3_'+item.id+'"'));
-              $scope.moneyformat($('input[name="other_costs_cost4_'+item.id+'"'));
-              $scope.moneyformat($('input[name="other_costs_cost5_'+item.id+'"'));
-          });
-          $scope.plan.pr_loan_dates.forEach((item, i) => {
-              $scope.moneyformat($('input[name="loan_rate_amount_'+item.id+'"'));
-              $scope.moneyformat($('input[name="loan_amount_'+item.id+'"'));
-              $scope.moneyformat($('input[name="loan_balance_'+item.id+'"'));
-          });
-          if ($scope.cpage >= 9)
             $scope.calcCashList();
-        }, 500);
-
     }
 
     $scope.planResponse = {msg:''};
