@@ -48,11 +48,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         } else
           $scope.total += data.m ? data.m:0;
       });
-
-      setTimeout(function() {
-        for (var i = 0; i < 12; i++)
-          $scope.moneyformat($('#field_'+i));
-      }, 500);
     }
     $scope.errorMsg = '';
 
@@ -95,11 +90,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
           }
           $scope.total += v;
       });
-
-      setTimeout(function() {
-        for (var i = 0; i < 12; i++)
-          $scope.moneyformat($('#field_a_'+i));
-      }, 500);
     }
 
     $scope.addDetailItems = function(array, item, field, fieldSum, title) {
@@ -126,11 +116,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         }
         $scope.total += v;
       });
-
-      setTimeout(function() {
-        for (var i = 0; i < 12; i++)
-          $scope.moneyformat($('#field_a_'+i));
-      }, 500);
     }
 
     $scope.calcItems = function() {
@@ -152,7 +137,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       }, 100);
 
       setTimeout(function() {
-        $scope.moneyformat($('input[name="'+$scope.fieldSum+'_'+$scope.selectedItem.id+'"]'));
         $( "#dialog_items" ).dialog('close');
       }, 100);
     }
@@ -185,8 +169,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       $scope.selectedItem[$scope.fieldSum] = total;
       $scope.selectedItem[$scope.fieldSum.replace('year', 'month')] = total/p;
       setTimeout(function() {
-        $scope.moneyformat($('input[name="'+$scope.fieldSum+'_'+$scope.selectedItem.id+'"]'));
-        $scope.moneyformat($('input[name="'+$scope.fieldSum.replace('year','month')+'_'+$scope.selectedItem.id+'"]'));
         $( "#dialog_sal" ).dialog('close');
       }, 100);
     }
@@ -208,18 +190,9 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
           $scope.selectedItem[$scope.fieldSum] = total;
         else
          $scope.selectedItem[$scope.fieldSum] = total * $scope.plan.pr_production_sale_rate / 100;
-       // setTimeout(function(){
-          $scope.value($scope.selectedItem, 'production_price1', 'production_price2', 'production_price3', 'production_price4', 'production_price5',
-              'production_vol,production_income', 'pr_production_price_increment_percent', 'pr_production_sale_rate');
 
-          // $scope.plan.pr_other_costs.forEach((item, i) => {
-          //   $scope.moneyformat($('input[name="other_costs_cost1_'+item.id+'"'));
-          //   $scope.moneyformat($('input[name="other_costs_cost2_'+item.id+'"'));
-          //   $scope.moneyformat($('input[name="other_costs_cost3_'+item.id+'"'));
-          //   $scope.moneyformat($('input[name="other_costs_cost4_'+item.id+'"'));
-          //   $scope.moneyformat($('input[name="other_costs_cost5_'+item.id+'"'));
-          // });
-        //}, 100);
+         $scope.value($scope.selectedItem, 'production_price1', 'production_price2', 'production_price3', 'production_price4', 'production_price5',
+              'production_vol,production_income', 'pr_production_price_increment_percent', 'pr_production_sale_rate');
 
         for (var i = 0; i < $scope.plan.pr_productions.length; i++) {
           $scope.plan.pr_productions[i].production_vol1 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol1 * $scope.plan.pr_production_sale_rate/100);
@@ -916,17 +889,13 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
     }
 
     $scope.valueDep = function(item, v1, v2, v3, v4) {
-      $('input[name="'+v3+'_'+item.id+'"]').val($scope.t2n($('input[name="'+v1+'_'+item.id+'"]').val()) * $scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val()) / 100);
-      $('input[name="'+v4+'_'+item.id+'"]').val($scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val()) / 12);
+      // $('input[name="'+v3+'_'+item.id+'"]').val($scope.t2n($('input[name="'+v1+'_'+item.id+'"]').val()) *
+      //     $scope.t2n($('input[name="'+v2+'_'+item.id+'"]').val()) / 100);
+      // $('input[name="'+v4+'_'+item.id+'"]').val($scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val()) / 12);
 
-      item[v3] = $scope.t2n($('input[name="'+v3+'_'+item.id+'"]').val());
-      item[v4] = $scope.t2n($('input[name="'+v4+'_'+item.id+'"]').val());
-
-      setTimeout(function() {
-        $scope.moneyformat($('input[name="'+v3+'_'+item.id+'"]'));
-        $scope.moneyformat($('input[name="'+v4+'_'+item.id+'"]'));
-      }, 100);
-  }
+      item[v3] = item[v1] * item[v2] / 100;
+      item[v4] = item[v3] / 12;
+    }
 
     $scope.temp_plan = {
       id: $scope.uuid(),
@@ -1249,14 +1218,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       //
       //   $scope.plan.pr_loan_dates.push(m);
       // }
-
-      setTimeout(function() {
-        for (var i = 0; i <= $scope.plan.pr_loan_duration; i++) {
-          $scope.moneyformat($('input[name="loan_balance_' + $scope.plan.pr_loan_dates[i].id + '"]'));
-          $scope.moneyformat($('input[name="loan_amount_' + $scope.plan.pr_loan_dates[i].id + '"]'));
-          $scope.moneyformat($('input[name="loan_rate_amount_' + $scope.plan.pr_loan_dates[i].id + '"]'));
-        }
-      }, 100);
     }
 
     $scope.wordX = function(item) {
@@ -1336,18 +1297,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
 
     $scope.result = function() {
       return angular.toJson($scope.plan);
-    }
-
-    $scope.moneyformat = function(item) {
-      // formatCurrency(item);
-      // item.on({
-      //     change: function() {
-      //       formatCurrency($(this));
-      //     },
-      //     blur: function() {
-      //       formatCurrency($(this), "blur");
-      //     }
-      // });
     }
 
     $scope.getOf = function(items, field, value, vfield) {
@@ -1473,10 +1422,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       $scope.plan.pr_user = $scope.signedUser.id;
       $scope.plan.pr_user_name = $scope.signedUser.name;
       $scope.next(1, 0);
-
-      $scope.moneyformat($('input[name="pr_budget_total"]'));
-      $scope.moneyformat($('input[name="pr_budget_me"]'));
-      $scope.moneyformat($('input[name="pr_budget_fund"]'));
     }
 
     $scope.planlist = [];

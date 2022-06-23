@@ -1246,6 +1246,7 @@
         <p>{{planResponse.msg}}</p>
         <button type="button" class="button red" ng-click="next(10, 11)">БУЦАХ</button>
         <button type="button" class="button" ng-click="planSave()">ХАДГАЛАХ</button>
+        <button type="button" class="button" ng-click="wordX()">ХЭВЛЭХ</button>
 
         <div class="formed" id="html">
           <style type="text/css">
@@ -1324,6 +1325,9 @@
             </tr>
           </table>
           <br><br>
+          <label class="subtitle">Ашиг алдагдлын тайлан</label>
+          <br>
+          <hr>
           <table class="normal" style="width: 900px;">
             <thead>
             <tr>
@@ -1471,60 +1475,62 @@
             </tr>
           </table>
           <br><br>
-          <table class="normal" >
-            <tr>
-              <td style="width: 30%;">Төсөл хэрэгжүүлэх&nbsp;хугацаа</td>
-              <td style="width: 70%;">{{durationRender(plan.pr_duration)}}</td>
-            </tr>
-            <tr>
-              <td style="width: 30%;">Төслийн нэр</td>
-              <td style="width: 70%;">{{plan.pr_name}}</td>
-            </tr>
-            <tr>
-              <td style="width: 30%;">Санхүүжүүлэгч байгууллага</td>
-              <td style="width: 70%;">{{plan.pr_fund_org}}</td>
-            </tr>
-            <tr>
-              <td style="width: 30%;">Төсөл хэрэгжүүлэгчийн нэр</td>
-              <td style="width: 70%;">{{plan.pr_owner_name}}</td>
-            </tr>
-            <tr>
-              <td style="width: 30%;">Төсөв(нийт) Үүнээс:<br>-Санхүүжүүлэгчээс<br>-Өөрөөс</td>
-              <td style="width: 70%;">₮ {{plan.pr_budget_total | number:2}}<br>₮ {{plan.pr_budget_funder | number:2}}<br>₮ {{plan.pr_budget_me | number:2}}</td>
-            </tr>
-            <tr>
-              <td style="width: 30%;">Зорилго</td>
-              <td style="width: 70%;">{{plan.pr_purpose}}</td>
-            </tr>
-            <tr>
-              <td style="width: 30%;">Хүлээгдэж буй үр дүн</td>
-              <td style="width: 70%;">{{plan.pr_expected_result}}</td>
-            </tr>
-          </table>
-          <br>
-          <b>1. Бизнесийн танилцуулга</b>
-          <p>{{plan.pr_business_detail}}</p>
+          <div  style="display: none">
+            <table class="normal">
+              <tr>
+                <td style="width: 30%;">Төсөл хэрэгжүүлэх&nbsp;хугацаа</td>
+                <td style="width: 70%;">{{durationRender(plan.pr_duration)}}</td>
+              </tr>
+              <tr>
+                <td style="width: 30%;">Төслийн нэр</td>
+                <td style="width: 70%;">{{plan.pr_name}}</td>
+              </tr>
+              <tr>
+                <td style="width: 30%;">Санхүүжүүлэгч байгууллага</td>
+                <td style="width: 70%;">{{plan.pr_fund_org}}</td>
+              </tr>
+              <tr>
+                <td style="width: 30%;">Төсөл хэрэгжүүлэгчийн нэр</td>
+                <td style="width: 70%;">{{plan.pr_owner_name}}</td>
+              </tr>
+              <tr>
+                <td style="width: 30%;">Төсөв(нийт) Үүнээс:<br>-Санхүүжүүлэгчээс<br>-Өөрөөс</td>
+                <td style="width: 70%;">₮ {{plan.pr_budget_total | number:2}}<br>₮ {{plan.pr_budget_funder | number:2}}<br>₮ {{plan.pr_budget_me | number:2}}</td>
+              </tr>
+              <tr>
+                <td style="width: 30%;">Зорилго</td>
+                <td style="width: 70%;">{{plan.pr_purpose}}</td>
+              </tr>
+              <tr>
+                <td style="width: 30%;">Хүлээгдэж буй үр дүн</td>
+                <td style="width: 70%;">{{plan.pr_expected_result}}</td>
+              </tr>
+            </table>
+            <br>
+            <b>1. Бизнесийн танилцуулга</b>
+            <p>{{plan.pr_business_detail}}</p>
 
-          <b>2. Төслийн үндэслэл</b>
-          <p>{{plan.pr_grounds}}</p>
+            <b>2. Төслийн үндэслэл</b>
+            <p>{{plan.pr_grounds}}</p>
 
-          <b>3. Хөрөнгө оруулалтын төлөвлөгөө</b>
-          <table class="normal">
-            <tr>
-              <td></td>
-              <td style="width: 25%;"><strong>Зүйл</strong></td>
-              <td style="width: 25%;"><strong>Зардал</strong></td>
-              <td style="width: 25%;"><strong>Огноо</strong></td>
-              <td style="width: 25%;"><strong>Тайлбар</strong></td>
-            </tr>
-            <tr ng-repeat="item in plan.pr_investment_plan">
-              <td>{{$index+1}}</td>
-              <td style="width: 25%;">{{item.investment_item}}</td>
-              <td style="width: 25%;">₮ {{item.investment_cost | number:2}}</td>
-              <td style="width: 25%;">{{item.investment_date}}</td>
-              <td style="width: 25%;">{{item.investment_detail}}</td>
-            </tr>
-          </table>
+            <b>3. Хөрөнгө оруулалтын төлөвлөгөө</b>
+            <table class="normal">
+              <tr>
+                <td></td>
+                <td style="width: 25%;"><strong>Зүйл</strong></td>
+                <td style="width: 25%;"><strong>Зардал</strong></td>
+                <td style="width: 25%;"><strong>Огноо</strong></td>
+                <td style="width: 25%;"><strong>Тайлбар</strong></td>
+              </tr>
+              <tr ng-repeat="item in plan.pr_investment_plan">
+                <td>{{$index+1}}</td>
+                <td style="width: 25%;">{{item.investment_item}}</td>
+                <td style="width: 25%;">₮ {{item.investment_cost | number:2}}</td>
+                <td style="width: 25%;">{{item.investment_date}}</td>
+                <td style="width: 25%;">{{item.investment_detail}}</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </form>
 
