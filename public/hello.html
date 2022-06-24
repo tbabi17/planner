@@ -1437,7 +1437,7 @@
             </thead>
             <tr>
               <td><strong>Нийт борлуулалт</strong></td>
-              <td style="text-align: right" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">₮{{sumOf(plan.pr_productions, 'production_income', $index+1) | number:2}}</td>
+              <td style="text-align: right; font-weight: bold;" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">₮{{sumOf(plan.pr_productions, 'production_income', $index+1) | number:2}}</td>
             </tr>
             <tr>
               <td>&nbsp;&nbsp;Борлуулалтын орлого</td>
@@ -1445,7 +1445,7 @@
             </tr>
             <tr>
               <td><strong>Нийт зардал</strong></td>
-              <td style="text-align: right" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
+              <td style="text-align: right; font-weight: bold;" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
                 ₮{{
                   sumOf(plan.pr_raw_materials, 'raw_cost', $index+1) +
                   sumOf(plan.pr_salary_costs, 'salary_year', $index+1) +
@@ -1484,7 +1484,7 @@
             </tr>
             <tr>
               <td><strong>Нийт ашиг</strong></td>
-              <td style="text-align: right" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
+              <td style="text-align: right; font-weight: bold;" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
                 ₮{{
                 sumOf(plan.pr_productions, 'production_income', $index+1) -
                 (sumOf(plan.pr_raw_materials, 'raw_cost', $index+1) +
@@ -1512,7 +1512,7 @@
             </tr>
             <tr>
               <td><strong>Цэвэр ашиг</strong></td>
-              <td style="text-align: right" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
+              <td style="text-align: right; font-weight: bold;" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
                 ₮{{
                 (sumOf(plan.pr_productions, 'production_income', $index+1) -
                 (sumOf(plan.pr_raw_materials, 'raw_cost', $index+1) +
@@ -1539,7 +1539,7 @@
             </tr>
             <tr>
               <td><strong>Зээлийн эргэн төлөлтийн дараах ашиг</strong></td>
-              <td style="text-align: right" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
+              <td style="text-align: right; font-weight: bold;" ng-repeat="number in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
                 ₮{{
                 (sumOf(plan.pr_productions, 'production_income', $index+1) -
                         (sumOf(plan.pr_raw_materials, 'raw_cost', $index+1) +
