@@ -86,7 +86,7 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       $scope.selectedArray.forEach(function (data) {
           var v = 0.0;
           if (data.a) {
-            v = parseFloat(data.a.replaceAll(',','').replace("₮",'').trim())*parseInt(data.c);
+            v = Math.ceil(data.a)*parseInt(data.c);
           }
           $scope.total += v;
       });
