@@ -195,17 +195,32 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
               'production_vol,production_income', 'pr_production_price_increment_percent', 'pr_production_sale_rate');
 
         for (var i = 0; i < $scope.plan.pr_productions.length; i++) {
+           $scope.plan.pr_raw_materials[i].raw_price2 = $scope.plan.pr_raw_materials[i].raw_price1 + Math.ceil($scope.plan.pr_raw_materials[i].raw_price1 * $scope.plan.pr_production_price_increment_percent/100);
+           $scope.plan.pr_raw_materials[i].raw_price3 = $scope.plan.pr_raw_materials[i].raw_price2 + Math.ceil($scope.plan.pr_raw_materials[i].raw_price2 * $scope.plan.pr_production_price_increment_percent/100);
+           $scope.plan.pr_raw_materials[i].raw_price4 = $scope.plan.pr_raw_materials[i].raw_price3 + Math.ceil($scope.plan.pr_raw_materials[i].raw_price3 * $scope.plan.pr_production_price_increment_percent/100);
+           $scope.plan.pr_raw_materials[i].raw_price5 = $scope.plan.pr_raw_materials[i].raw_price4 +  Math.ceil($scope.plan.pr_raw_materials[i].raw_price4 * $scope.plan.pr_production_price_increment_percent/100);
+
+            $scope.plan.pr_productions[i].production_price2 = $scope.plan.pr_productions[i].production_price1 + Math.ceil($scope.plan.pr_productions[i].production_price1 * $scope.plan.pr_production_price_increment_percent/100);
+            $scope.plan.pr_productions[i].production_price3 = $scope.plan.pr_productions[i].production_price2 + Math.ceil($scope.plan.pr_productions[i].production_price2 * $scope.plan.pr_production_price_increment_percent/100);
+            $scope.plan.pr_productions[i].production_price4 = $scope.plan.pr_productions[i].production_price3 + Math.ceil($scope.plan.pr_productions[i].production_price3 * $scope.plan.pr_production_price_increment_percent/100);
+            $scope.plan.pr_productions[i].production_price5 = $scope.plan.pr_productions[i].production_price4 +  Math.ceil($scope.plan.pr_productions[i].production_price4 * $scope.plan.pr_production_price_increment_percent/100);
+
           $scope.plan.pr_productions[i].production_vol1 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol1 * $scope.plan.pr_production_sale_rate/100);
           $scope.plan.pr_productions[i].production_vol2 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol2 * $scope.plan.pr_production_sale_rate/100);
           $scope.plan.pr_productions[i].production_vol3 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol3 * $scope.plan.pr_production_sale_rate/100);
           $scope.plan.pr_productions[i].production_vol4 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol4 * $scope.plan.pr_production_sale_rate/100);
           $scope.plan.pr_productions[i].production_vol5 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol5 * $scope.plan.pr_production_sale_rate/100);
-          console.log('aa='+$scope.plan.pr_productions[i].production_vol2);
           $scope.plan.pr_productions[i].production_income1 = Math.ceil($scope.plan.pr_productions[i].production_vol1 * $scope.plan.pr_productions[i].production_price1);
           $scope.plan.pr_productions[i].production_income2 = Math.ceil($scope.plan.pr_productions[i].production_vol2 * $scope.plan.pr_productions[i].production_price2);
           $scope.plan.pr_productions[i].production_income3 = Math.ceil($scope.plan.pr_productions[i].production_vol3 * $scope.plan.pr_productions[i].production_price3);
           $scope.plan.pr_productions[i].production_income4 = Math.ceil($scope.plan.pr_productions[i].production_vol4 * $scope.plan.pr_productions[i].production_price4);
           $scope.plan.pr_productions[i].production_income5 = Math.ceil($scope.plan.pr_productions[i].production_vol5 * $scope.plan.pr_productions[i].production_price5);
+
+            $scope.plan.pr_raw_materials[i].raw_cost1 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol1 * $scope.plan.pr_raw_materials[i].raw_price1);
+            $scope.plan.pr_raw_materials[i].raw_cost2 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol2 * $scope.plan.pr_raw_materials[i].raw_price2);
+            $scope.plan.pr_raw_materials[i].raw_cost3 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol3 * $scope.plan.pr_raw_materials[i].raw_price3);
+            $scope.plan.pr_raw_materials[i].raw_cost4 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol4 * $scope.plan.pr_raw_materials[i].raw_price4);
+            $scope.plan.pr_raw_materials[i].raw_cost5 = Math.ceil($scope.plan.pr_raw_materials[i].raw_vol5 * $scope.plan.pr_raw_materials[i].raw_price5);
         }
 
         if ($('#dialog'))
@@ -1278,11 +1293,12 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
     }
     $scope.cpage = 0;
     $scope.npage = 0;
+    $scope.tip = 0;
 
     $scope.next = function(next, current, valid) {
       // || (current>0 && !$scope.validation(current))
       if ((valid && !$('#form_'+current).validate())) return;
-
+      $scope.tip = current;
       $('#form_'+current).fadeOut(100, '', function() {
           $('#form_'+current).hide();
           $('#form_'+next).alpha = 0;
@@ -1401,13 +1417,14 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
 
     $scope.planResponse = {msg:''};
     $scope.planSave = function(id) {
-      console.log($scope.plan.pr_budget_total);
+      $('.overlay').show();
       $http.post("/doc", $scope.plan).then(function (response) {
         $scope.planResponse = response.data;
         $scope.getdoc();
         setTimeout(function() {
             if (id) $scope.next(0, id);
             else $scope.next(0,11);
+            $('.overlay').hide();
         }, 1000);
       }, function myError(response) {
 
@@ -1433,6 +1450,8 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         $('#planList').show();
         $('#signed').hide();
         $('#startBtnPlan').hide();
+        $scope.loaded = true;
+          $('.overlay').hide();
         $scope.planlist = response.data;
       }, function myError(response) {
 
@@ -1440,8 +1459,10 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
     }
 
     $scope.signedUser = {};
-
+    $scope.loaded = false;
     $scope.onSignIn = function() {
+      $scope.loaded = false;
+      $('.overlay').show();
       var user = $.cookie('jwt');
       const responsePayload = parseJwt(user);
       user = {
