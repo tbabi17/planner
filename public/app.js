@@ -1293,6 +1293,7 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       });
 
       $scope.monthsYears();
+      $scope.calcCashList();
     }
 
     $scope.result = function() {
@@ -1396,7 +1397,6 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         $scope.next(1,0);
         $scope.plan.pr_loan_start_date = !$scope.plan.pr_loan_start_date ? null : new Date($scope.plan.pr_loan_start_date.substring(0, 10));
 
-            $scope.calcCashList();
     }
 
     $scope.planResponse = {msg:''};

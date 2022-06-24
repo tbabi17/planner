@@ -146,7 +146,7 @@ form {
 form div.formed {
     overflow-y: scroll;
     width: 100%;
-    height: 88%;
+    height: 85%;
     margin-top: 10px;
 }
 
@@ -194,7 +194,8 @@ form table {
   margin-bottom: 10px;
   margin-top: 20px;
   padding-left: 5px;
-  width: 200px;
+  color: #666;
+  width: auto;
   border-left: 4px solid rgb(239, 213, 35);
 }
 
@@ -299,10 +300,22 @@ table a {
     color: #636363;
     float:left;
     margin-top: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 20px;
+    background: #fafafa;
+    line-height: 20px;
+    cursor: pointer;
     display:inline-block;
     text-transform: uppercase;
     font-weight: 600;
     font-size: 13px;
+}
+
+.subtitle.sel {
+    background: rgb(239, 213, 35);
+    color: #fff;
+    height: 20px;
 }
 
 .subtitle.mini {

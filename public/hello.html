@@ -111,10 +111,22 @@
       </form>
 
       <form id="form_1" hidden ng-submit="next(2,1, true)">
-        <label class="subtitle">Үндсэн мэдээлэл</label>
+        <label class="subtitle sel" ng-click="next(1,0)">ҮНДСЭН МЭДЭЭЛЭЛ</label>
+        <label class="subtitle" ng-click="next(2,1)">ХӨРӨНГӨ ОРУУЛАЛТ</label>
+        <label class="subtitle" ng-click="next(3,2)">ӨРСӨЛДӨГЧ</label>
+        <label class="subtitle" ng-click="next(4,3)">ДБСА</label>
+        <label class="subtitle" ng-click="next(5,4)">ЭРСДЭЛ</label>
+        <label class="subtitle" ng-click="next(6,5)">МАРКЕТИНГ</label>
+        <label class="subtitle" ng-click="next(7,6)">ТҮҮХИЙ ЭД</label>
+        <label class="subtitle" ng-click="next(8,7)">ЦАЛИН</label>
+        <label class="subtitle" ng-click="next(9,8)">ЭЛЭГДЭЛ</label>
+        <label class="subtitle" ng-click="next(10,9)">ЗЭЭЛ</label>
+        <label class="subtitle" ng-click="next(11,10)">ТАЙЛАН</label>
         <label class="righttitle">1/10</label>
         <br>
         <hr>
+
+        <div class="titler">Төслийн үндсэн мэдээлэл</div>
         <div class="formed">
           <div style="width: 860px;">
           <div class="hint">Дээр нь элсэлтийн шалгалтынх нь талаар сонсоод надаас илүү сайн хүүхдүүд зөндөө байгаа даа, сонгоны хүүхдүүд л тэнцэнэ дээ гээд сонирхож байсан ч гэлээ өөрийгөө чадахгүй гэж бодоод орхичихсон байсан.</div>
@@ -206,10 +218,21 @@
       </form>
 
       <form id="form_2" hidden  ng-submit="next(3,2)">
-        <label class="subtitle">Хөрөнгө оруулалтын төлөвлөгөө</label>
+        <label class="subtitle" ng-click="next(1,0)">ҮНДСЭН МЭДЭЭЛЭЛ</label>
+        <label class="subtitle sel" ng-click="next(2,1)">ХӨРӨНГӨ ОРУУЛАЛТ</label>
+        <label class="subtitle" ng-click="next(3,2)">ӨРСӨЛДӨГЧ</label>
+        <label class="subtitle" ng-click="next(4,3)">ДБСА</label>
+        <label class="subtitle" ng-click="next(5,4)">ЭРСДЭЛ</label>
+        <label class="subtitle" ng-click="next(6,5)">МАРКЕТИНГ</label>
+        <label class="subtitle" ng-click="next(7,6)">ТҮҮХИЙ ЭД</label>
+        <label class="subtitle" ng-click="next(8,7)">ЦАЛИН</label>
+        <label class="subtitle" ng-click="next(9,8)">ЭЛЭГДЭЛ</label>
+        <label class="subtitle" ng-click="next(10,9)">ЗЭЭЛ</label>
+        <label class="subtitle" ng-click="next(11,10)">ТАЙЛАН</label>
         <label class="righttitle">2/10</label>
         <br>
         <hr>
+        <div class="titler">Хөрөнгө оруулалтын төлөвлөгөө</div>
         <div class="formed">
           <table style="width: 900px;">
             <thead>
@@ -282,9 +305,7 @@
           </table>
 
           <br>
-          <label class="subtitle">Компанийн хөрөнгө, өр авлага</label>
-          <br>
-          <hr>
+          <div class="titler">Компанийн хөрөнгө, өр авлага</div>
           <table style="width: 800px; margin-top: 10px;">
             <thead>
               <tr>
@@ -324,10 +345,21 @@
       </form>
 
       <form id="form_3" hidden  ng-submit="next(4,3)">
-        <label class="subtitle">Өрсөлдөгчийн судалгаа</label>
+        <label class="subtitle" ng-click="next(1,0)">ҮНДСЭН МЭДЭЭЛЭЛ</label>
+        <label class="subtitle" ng-click="next(2,1)">ХӨРӨНГӨ ОРУУЛАЛТ</label>
+        <label class="subtitle sel" ng-click="next(3,2)">ӨРСӨЛДӨГЧ</label>
+        <label class="subtitle" ng-click="next(4,3)">ДБСА</label>
+        <label class="subtitle" ng-click="next(5,4)">ЭРСДЭЛ</label>
+        <label class="subtitle" ng-click="next(6,5)">МАРКЕТИНГ</label>
+        <label class="subtitle" ng-click="next(7,6)">ТҮҮХИЙ ЭД</label>
+        <label class="subtitle" ng-click="next(8,7)">ЦАЛИН</label>
+        <label class="subtitle" ng-click="next(9,8)">ЭЛЭГДЭЛ</label>
+        <label class="subtitle" ng-click="next(10,9)">ЗЭЭЛ</label>
+        <label class="subtitle" ng-click="next(11,10)">ТАЙЛАН</label>
         <label class="righttitle">3/10</label>
         <br>
         <hr>
+        <div class="titler">Өрсөлдөгчийн судалгаа</div>
         <div class="formed">
         <table style="max-width: 1000px;">
           <thead>
@@ -364,9 +396,7 @@
         </table>
 
         <br>
-        <label class="subtitle">Нийлүүлэгчийн судалгаа</label>
-        <br>
-        <hr>
+        <div class="titler">Нийлүүлэгчийн судалгаа</div>
         <table style="margin-top:10px; max-width: 1300px;">
           <thead>
             <tr>
@@ -413,9 +443,7 @@
         </table>
 
         <br>
-        <label class="subtitle">Зах зээлийн судалгаа</label>
-        <br>
-        <hr>
+        <div class="titler">Зах зээлийн судалгаа</div>
         <ul class="form-list">
           <li class="form-list__row form-list__row--inline">
             <div class="c2">
@@ -447,10 +475,21 @@
 
 
       <form id="form_4" hidden  ng-submit="next(5,4)">
-        <label class="subtitle">ДБСА-ийн шинжилгээ</label>
+        <label class="subtitle" ng-click="next(1,0)">ҮНДСЭН МЭДЭЭЛЭЛ</label>
+        <label class="subtitle" ng-click="next(2,1)">ХӨРӨНГӨ ОРУУЛАЛТ</label>
+        <label class="subtitle" ng-click="next(3,2)">ӨРСӨЛДӨГЧ</label>
+        <label class="subtitle sel" ng-click="next(4,3)">ДБСА</label>
+        <label class="subtitle" ng-click="next(5,4)">ЭРСДЭЛ</label>
+        <label class="subtitle" ng-click="next(6,5)">МАРКЕТИНГ</label>
+        <label class="subtitle" ng-click="next(7,6)">ТҮҮХИЙ ЭД</label>
+        <label class="subtitle" ng-click="next(8,7)">ЦАЛИН</label>
+        <label class="subtitle" ng-click="next(9,8)">ЭЛЭГДЭЛ</label>
+        <label class="subtitle" ng-click="next(10,9)">ЗЭЭЛ</label>
+        <label class="subtitle" ng-click="next(11,10)">ТАЙЛАН</label>
         <label class="righttitle">4/10</label>
         <br>
         <hr>
+        <div class="titler">ДБСА шинжилгээ</div>
         <div class="formed">
         <table>
           <thead>
@@ -481,9 +520,7 @@
 
 
         <br>
-        <label class="subtitle">Хэрэглэгчийн судалгаа</label>
-        <br>
-        <hr>
+        <div class="titler">Хэрэглэгчийн судалгаа</div>
         <ul class="form-list">
           <li class="form-list__row form-list__row--inline">
             <div class="c1">
@@ -506,13 +543,23 @@
 
 
       <form id="form_5" hidden ng-submit="next(6,5)">
-        <label class="subtitle">Эрсдлийн шинжилгээ ба менежмент</label>
+        <label class="subtitle" ng-click="next(1,0)">ҮНДСЭН МЭДЭЭЛЭЛ</label>
+        <label class="subtitle" ng-click="next(2,1)">ХӨРӨНГӨ ОРУУЛАЛТ</label>
+        <label class="subtitle" ng-click="next(3,2)">ӨРСӨЛДӨГЧ</label>
+        <label class="subtitle" ng-click="next(4,3)">ДБСА</label>
+        <label class="subtitle sel" ng-click="next(5,4)">ЭРСДЭЛ</label>
+        <label class="subtitle" ng-click="next(6,5)">МАРКЕТИНГ</label>
+        <label class="subtitle" ng-click="next(7,6)">ТҮҮХИЙ ЭД</label>
+        <label class="subtitle" ng-click="next(8,7)">ЦАЛИН</label>
+        <label class="subtitle" ng-click="next(9,8)">ЭЛЭГДЭЛ</label>
+        <label class="subtitle" ng-click="next(10,9)">ЗЭЭЛ</label>
+        <label class="subtitle" ng-click="next(11,10)">ТАЙЛАН</label>
         <label class="righttitle">5/10</label>
         <br>
         <hr>
 
+        <div class="titler">Эрсдлийн шинжилгээ ба менежмент</div>
         <div class="formed">
-        <br>
         <table style="width: 800px;">
           <thead>
             <tr>
@@ -541,10 +588,21 @@
       </form>
 
       <form id="form_6" hidden  ng-submit="next(7,6)">
-        <label class="subtitle">Маркетингийн төлөвлөгөө</label>
-        <label class="righttitle">6/10</label>
+        <label class="subtitle" ng-click="next(1,0)">ҮНДСЭН МЭДЭЭЛЭЛ</label>
+        <label class="subtitle" ng-click="next(2,1)">ХӨРӨНГӨ ОРУУЛАЛТ</label>
+        <label class="subtitle" ng-click="next(3,2)">ӨРСӨЛДӨГЧ</label>
+        <label class="subtitle" ng-click="next(4,3)">ДБСА</label>
+        <label class="subtitle" ng-click="next(5,4)">ЭРСДЭЛ</label>
+        <label class="subtitle sel" ng-click="next(6,5)">МАРКЕТИНГ</label>
+        <label class="subtitle" ng-click="next(7,6)">ТҮҮХИЙ ЭД</label>
+        <label class="subtitle" ng-click="next(8,7)">ЦАЛИН</label>
+        <label class="subtitle" ng-click="next(9,8)">ЭЛЭГДЭЛ</label>
+        <label class="subtitle" ng-click="next(10,9)">ЗЭЭЛ</label>
+        <label class="subtitle" ng-click="next(11,10)">ТАЙЛАН</label>
+        <label class="righttitle">7/10</label>
         <br>
         <hr>
+        <div class="titler">Маркетингийн төлөвлөгөө</div>
         <div class="formed">
         <ul class="form-list">
           <li class="form-list__row form-list__row--inline">
@@ -570,9 +628,7 @@
           </li>
         </ul>
 
-        <label class="subtitle">Борлуулалт, борлуулалтын сувгууд</label>
-        <br>
-        <hr>
+        <div class="titler">Борлуулалт, борлуулалтын сувгууд</div>
         <table style="width: 950px;">
           <tbody>
             <thead>
@@ -618,9 +674,7 @@
         </table>
         <br>
 
-        <label class="subtitle">Санхүүгийн төлөвлөгөөний дэлгэрэнгүй</label>
-        <br>
-        <hr>
+        <div class="titler">Санхүүгийн төлөвлөгөөний дэлгэрэнгүй</div>
         <ul class="form-list">
           <li class="form-list__row form-list__row--inline">
             <div class="c2">
@@ -640,10 +694,21 @@
       </form>
 
       <form id="form_7" hidden ng-submit="next(8,7)">
-        <label class="subtitle">Түүхий эд материалын зардал</label>
+        <label class="subtitle" ng-click="next(1,0)">ҮНДСЭН МЭДЭЭЛЭЛ</label>
+        <label class="subtitle" ng-click="next(2,1)">ХӨРӨНГӨ ОРУУЛАЛТ</label>
+        <label class="subtitle" ng-click="next(3,2)">ӨРСӨЛДӨГЧ</label>
+        <label class="subtitle" ng-click="next(4,3)">ДБСА</label>
+        <label class="subtitle" ng-click="next(5,4)">ЭРСДЭЛ</label>
+        <label class="subtitle" ng-click="next(6,5)">МАРКЕТИНГ</label>
+        <label class="subtitle sel" ng-click="next(7,6)">ТҮҮХИЙ ЭД</label>
+        <label class="subtitle" ng-click="next(8,7)">ЦАЛИН</label>
+        <label class="subtitle" ng-click="next(9,8)">ЭЛЭГДЭЛ</label>
+        <label class="subtitle" ng-click="next(10,9)">ЗЭЭЛ</label>
+        <label class="subtitle" ng-click="next(11,10)">ТАЙЛАН</label>
         <label class="righttitle">7/10</label>
         <br>
         <hr>
+        <div class="titler">Түүхий эд материалын зардал</div>
         <div class="formed">
           <ul class="form-list">
             <li class="form-list__row form-list__row--inline">
@@ -659,7 +724,7 @@
               </div>
             </li>
           </ul>
-          <div style="width: 100%; float:left; overflow: scroll; margin-bottom: 10px;">
+          <div style="width: 100%; overflow: scroll; margin-bottom: 10px;">
             <table style="width: {{plan.pr_duration * 2500 / 5}}px !important;">
               <tbody>
                 <thead>
@@ -759,13 +824,9 @@
             </table>
           </div>
           <br>
-          <br>
-          <label class="subtitle" style="width:100%; margin-bottom: 10px; margin-top: 10px;">Үйлдвэрлэл, борлуулалтын төлөвлөгөө</label>
-          <br>
-          <hr>
-          <br>
+          <div class="titler">Үйлдвэрлэл, борлуулалтын төлөвлөгөө</div>
 
-          <div style="width: 100%; float:left; overflow: scroll; margin-bottom: 10px;">
+          <div style="width: 100%;overflow: scroll; margin-bottom: 10px;">
             <table style="width: {{plan.pr_duration * 2500 / 5}}px !important;">
               <tbody>
               <thead>
@@ -876,11 +937,21 @@
       </form>
 
       <form id="form_8" hidden ng-submit="next(9,8)">
-        <label class="subtitle">Цалингийн зардал</label>
+        <label class="subtitle" ng-click="next(1,0)">ҮНДСЭН МЭДЭЭЛЭЛ</label>
+        <label class="subtitle" ng-click="next(2,1)">ХӨРӨНГӨ ОРУУЛАЛТ</label>
+        <label class="subtitle" ng-click="next(3,2)">ӨРСӨЛДӨГЧ</label>
+        <label class="subtitle" ng-click="next(4,3)">ДБСА</label>
+        <label class="subtitle" ng-click="next(5,4)">ЭРСДЭЛ</label>
+        <label class="subtitle" ng-click="next(6,5)">МАРКЕТИНГ</label>
+        <label class="subtitle" ng-click="next(7,6)">ТҮҮХИЙ ЭД</label>
+        <label class="subtitle sel" ng-click="next(8,7)">ЦАЛИН</label>
+        <label class="subtitle" ng-click="next(9,8)">ЭЛЭГДЭЛ</label>
+        <label class="subtitle" ng-click="next(10,9)">ЗЭЭЛ</label>
+        <label class="subtitle" ng-click="next(11,10)">ТАЙЛАН</label>
         <label class="righttitle">8/10</label><br>
         <hr>
+        <div class="titler">Цалингийн зардал</div>
         <div class="formed">
-        <br>
         <div style="overflow: scroll; width: 100%">
           <table style="width: {{plan.pr_duration * 1800 / 5}}px;">
           <tbody>
@@ -1002,11 +1073,21 @@
       </form>
 
       <form id="form_9" hidden ng-submit="next(10,9)">
-        <label class="subtitle">Элэгдлийн зардал</label>
+        <label class="subtitle" ng-click="next(1,0)">ҮНДСЭН МЭДЭЭЛЭЛ</label>
+        <label class="subtitle" ng-click="next(2,1)">ХӨРӨНГӨ ОРУУЛАЛТ</label>
+        <label class="subtitle" ng-click="next(3,2)">ӨРСӨЛДӨГЧ</label>
+        <label class="subtitle" ng-click="next(4,3)">ДБСА</label>
+        <label class="subtitle" ng-click="next(5,4)">ЭРСДЭЛ</label>
+        <label class="subtitle" ng-click="next(6,5)">МАРКЕТИНГ</label>
+        <label class="subtitle" ng-click="next(7,6)">ТҮҮХИЙ ЭД</label>
+        <label class="subtitle" ng-click="next(8,7)">ЦАЛИН</label>
+        <label class="subtitle sel" ng-click="next(9,8)">ЭЛЭГДЭЛ</label>
+        <label class="subtitle" ng-click="next(10,9)">ЗЭЭЛ</label>
+        <label class="subtitle" ng-click="next(11,10)">ТАЙЛАН</label>
         <label class="righttitle">9/10</label><br>
         <hr>
+        <div class="titler">Элэгдлийн зардал</div>
         <div class="formed">
-        <br>
         <table style="width: 800px;">
           <tbody>
             <thead>
@@ -1076,10 +1157,7 @@
         </table>
 
         <br>
-        <label class="subtitle">Бусад зардал</label>
-          <br>
-        <hr>
-        <br>
+        <div class="titler">Бусад зардал</div>
         <table style="width: {{plan.pr_duration * 900 / 5}}px;">
           <tbody>
             <thead>
@@ -1155,9 +1233,20 @@
       </form>
 
       <form id="form_10" hidden ng-submit="next(11,10)">
-        <label class="subtitle">Зээлийн мэдээлэл, хуваарь</label>
+        <label class="subtitle" ng-click="next(1,0)">ҮНДСЭН МЭДЭЭЛЭЛ</label>
+        <label class="subtitle" ng-click="next(2,1)">ХӨРӨНГӨ ОРУУЛАЛТ</label>
+        <label class="subtitle" ng-click="next(3,2)">ӨРСӨЛДӨГЧ</label>
+        <label class="subtitle" ng-click="next(4,3)">ДБСА</label>
+        <label class="subtitle" ng-click="next(5,4)">ЭРСДЭЛ</label>
+        <label class="subtitle" ng-click="next(6,5)">МАРКЕТИНГ</label>
+        <label class="subtitle" ng-click="next(7,6)">ТҮҮХИЙ ЭД</label>
+        <label class="subtitle" ng-click="next(8,7)">ЦАЛИН</label>
+        <label class="subtitle" ng-click="next(9,8)">ЭЛЭГДЭЛ</label>
+        <label class="subtitle sel" ng-click="next(10,9)">ЗЭЭЛ</label>
+        <label class="subtitle" ng-click="next(11,10)">ТАЙЛАН</label>
         <label class="righttitle">10/10</label><br>
         <hr>
+        <div class="titler">Зээлийн мэдээлэл, хуваарь</div>
         <div class="formed">
 
         <ul class="form-list">
@@ -1191,7 +1280,7 @@
           </li>
         </ul>
 
-        <button type="button" class="button" style="margin-top: 0px; margin-bottom: 10px;" ng-click="calcLoan()">ТООЦООЛОХ</button>
+        <button type="button" class="button" style="margin-top: 0px; height: 30px; line-height: 20px; margin-bottom: 10px;" ng-click="calcLoan()">ТООЦООЛОХ</button>
         <table style="width: 700px;">
           <tbody>
             <thead>
@@ -1240,9 +1329,20 @@
       </form>
 
       <form id="form_11" hidden>
-        <label class="subtitle">Таны бизнес төлөвлөгөөний үр дүн</label>
+        <label class="subtitle" ng-click="next(1,0)">ҮНДСЭН МЭДЭЭЛЭЛ</label>
+        <label class="subtitle" ng-click="next(2,1)">ХӨРӨНГӨ ОРУУЛАЛТ</label>
+        <label class="subtitle" ng-click="next(3,2)">ӨРСӨЛДӨГЧ</label>
+        <label class="subtitle" ng-click="next(4,3)">ДБСА</label>
+        <label class="subtitle" ng-click="next(5,4)">ЭРСДЭЛ</label>
+        <label class="subtitle" ng-click="next(6,5)">МАРКЕТИНГ</label>
+        <label class="subtitle" ng-click="next(7,6)">ТҮҮХИЙ ЭД</label>
+        <label class="subtitle" ng-click="next(8,7)">ЦАЛИН</label>
+        <label class="subtitle" ng-click="next(9,8)">ЭЛЭГДЭЛ</label>
+        <label class="subtitle" ng-click="next(10,9)">ЗЭЭЛ</label>
+        <label class="subtitle sel" ng-click="next(11,10)">ТАЙЛАН</label>
         <br>
         <hr>
+        <div class="titler">Таны бизнес төлөвлөгөөний үр дүн</div>
         <p>{{planResponse.msg}}</p>
         <button type="button" class="button red" ng-click="next(10, 11)">БУЦАХ</button>
         <button type="button" class="button" ng-click="planSave()">ХАДГАЛАХ</button>
@@ -1312,12 +1412,12 @@
             </tr>
             </thead>
             <tr ng-repeat="item in cashArray | orderBy:'row'"">
-                <td style="padding-left:{{item.level == 2 ? 20:10}}px; font-weight: {{item.level == 1?'bold':'normal'}};">{{item.row}} {{item.title}}</td>
+                <td style="padding-left:{{item.level == 2 ? 20:10}}px; font-weight: {{item.level == 1?'bold':'normal'}};">{{item.level == 1 ? item.row+'.':''}} {{item.title}}</td>
                 <td ng-repeat="rows in item.values" ng-if="$index >= 12*(yearSel-year) && $index < 12*(yearSel-year)+12">
-                  <div ng-if="$index == 0 && item.editable">
-                    <input style="font-size:12px;" price data-type="currency" type="text" ng-disabled="true" ng-model="rows.m"/>
-                  </div>
-                  <div ng-if="$index > 0 || !item.editable" style="text-align:right;">
+<!--                  <div ng-if="$index == 0 && item.editable">-->
+<!--                    <input style="font-size:12px;" price data-type="currency" type="text" ng-disabled="true" ng-model="rows.m"/>-->
+<!--                  </div>-->
+                  <div style="text-align:right; font-weight: {{item.level == 1?'bold':'normal'}};">
                       {{rows.m | number:2}}
                   </div>
 
