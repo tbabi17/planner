@@ -1312,6 +1312,24 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       $scope.calcCashList();
     }
 
+    $scope.next = function(next) {
+        $("#menu_scroller").css({marginLeft: next > 5 ? -next*60 : 0});
+
+        $('#form_'+$scope.cpage).fadeOut(100, '', function() {
+
+            $('#cpage'+$scope.cpage).removeClass('sel');
+            $('#cpage'+next).addClass('sel');
+            $('#form_'+$scope.cpage).hide();
+            $('#form_'+next).alpha = 0;
+            $('#form_'+next).fadeIn(function() {
+                $scope.cpage = next;
+            });
+        });
+
+        $scope.monthsYears();
+        $scope.calcCashList();
+    }
+
     $scope.result = function() {
       return angular.toJson($scope.plan);
     }
@@ -1407,12 +1425,14 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       }
     }
 
+    $scope.selectedPlan = false;
+
     $scope.go = function(item) {
+        $scope.selectedPlan = true;
         $scope.planResponse = {msg: ''};
         $scope.plan = item;
         $scope.next(1,0);
         $scope.plan.pr_loan_start_date = !$scope.plan.pr_loan_start_date ? null : new Date($scope.plan.pr_loan_start_date.substring(0, 10));
-
     }
 
     $scope.planResponse = {msg:''};
