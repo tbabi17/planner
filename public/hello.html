@@ -181,7 +181,7 @@
         <label class="subtitle">Та бизнес төлөвлөгөөгөө өөрөө бичих боломжтой</label>
         <br>
         <hr>
-        <div id="signed" style="margin-top: 30px;">
+        <div id="signed" style="margin-top: 10px;">
           <span style="color: #6f6f6f; display: block; margin-bottom: 10px;">Та өөрийн Google аккаунтыг ашиглан системд бүртгүүлэн ашиглах боломжтой.</span>
           <script src="https://accounts.google.com/gsi/client" async defer></script>
           <div id="g_id_onload"  data-auto_prompt="true" data-auto_select="true"
@@ -252,7 +252,7 @@
         </div>
       </form>
 
-      <div style="overflow-x: hidden; width: 90%; float: left;" ng-if="selectedPlan">
+      <div style="overflow-x: hidden; width: 95%; float: left;" ng-if="selectedPlan">
         <div style="width: 2000px;" id="menu_scroller">
           <label class="subtitle sel" ng-click="next(1)" id="cpage1">БИЗНЕС ТӨЛӨВЛӨГӨӨНИЙ ХУРААНГУЙ</label>
           <label class="subtitle" ng-click="next(2)" id="cpage2">ЗАХ ЗЭЭЛИЙН СУДАЛГАА</label>
@@ -808,6 +808,41 @@
         <label class="righttitle">8/10</label><br>
         <hr>
 
+        <div class="titler">Үйл ажиллагааны төлөвлөгөө</div>
+        <table class="normal" style="width: 800px;">
+          <thead>
+            <tr>
+              <td style="width: 25%;">Үйл ажиллагаа</td>
+              <td style="width: {{55/plan.pr_duration}}%; text-align: left; font-weight: bold;" ng-repeat="year in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
+                {{year}}
+              </td>
+              <td style="width: 20%;">Хариуцагч хүн</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in plan.pr_calendar_list">
+              <td><textarea ng-model="item.calendar_item" placeholder="Үйл ажиллагаа" style="margin-top: 4px; width: 100%;"></textarea></td>
+              <td ng-repeat="yy in [year,year+1,year+2,year+3,year+4,year+5]" ng-if="$index < plan.pr_duration">
+                <div ng-repeat="number in [1,2,3,4,5,6,7,8,9,10,11,12]" ng-if="year == yy">
+                  <textarea ng-model="item.calendar1_details[number-1].m" style="margin-top: 4px; width: 100%;" placeholder="{{number}} -р сар"></textarea>
+                </div>
+                <div ng-repeat="number in [1,2,3,4,5,6,7,8,9,10,11,12]" ng-if="year+1 == yy">
+                  <textarea ng-model="item.calendar2_details[number-1].m" style="margin-top: 4px; width: 100%;" placeholder="{{number}} -р сар"></textarea>
+                </div>
+                <div ng-repeat="number in [1,2,3,4,5,6,7,8,9,10,11,12]" ng-if="year+2 == yy">
+                  <textarea ng-model="item.calendar3_details[number-1].m" style="margin-top: 4px; width: 100%;" placeholder="{{number}} -р сар"></textarea>
+                </div>
+                <div ng-repeat="number in [1,2,3,4,5,6,7,8,9,10,11,12]" ng-if="year+3 == yy">
+                  <textarea ng-model="item.calendar4_details[number-1].m" style="margin-top: 4px; width: 100%;" placeholder="{{number}} -р сар"></textarea>
+                </div>
+                <div ng-repeat="number in [1,2,3,4,5,6,7,8,9,10,11,12]" ng-if="year+4 == yy">
+                  <textarea ng-model="item.calendar5_details[number-1].m" style="margin-top: 4px; width: 100%;" placeholder="{{number}} -р сар"></textarea>
+                </div>
+              </td>
+              <td><input type="text" ng-model="item.calendar_owner"/></td>
+            </tr>
+          </tbody>
+        </table>
 
         <ul class="form-list">
           <li>
@@ -820,9 +855,7 @@
       <form id="form_9" hidden ng-submit="next(10,9)">
         <label class="righttitle">9/10</label><br>
         <hr>
-
         <div class="formed">
-
         <div class="titler">Санхүүгийн төлөвлөгөөний дэлгэрэнгүй</div>
         <ul class="form-list">
           <li class="form-list__row form-list__row--inline">
@@ -1386,10 +1419,8 @@
       <form id="form_10" hidden ng-submit="next(11,10)">
         <label class="righttitle">10/10</label><br>
         <hr>
-        <label class="subtitle">Ашиг алдагдлын тайлан</label>
-        <br>
-        <hr>
-        <table class="normal" style="width: 900px;">
+        <label class="titler">Ашиг алдагдлын тайлан</label>
+        <table class="normal" style="width: 800px;">
           <thead>
           <tr>
             <td style="width: 40%;"></td>

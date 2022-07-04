@@ -1157,7 +1157,19 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
       pr_status: 0,
       pr_created_date : new Date(),
       pr_updated_date: new Date(),
-      pr_cash_start_amount: 0
+      pr_cash_start_amount: 0,
+      pr_calendar_list: [
+          {
+              id: $scope.uuid(),
+              calendar_item: '',
+              calendar1_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+              calendar2_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+              calendar3_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+              calendar4_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+              calendar5_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+              calendar_owner: ''
+          }
+      ]
     };
 
     $scope.plan = {
@@ -1433,6 +1445,19 @@ app.controller('plannerCtrl', function($rootScope, $scope, $http) {
         $scope.plan = item;
         $scope.next(1,0);
         $scope.plan.pr_loan_start_date = !$scope.plan.pr_loan_start_date ? null : new Date($scope.plan.pr_loan_start_date.substring(0, 10));
+
+        if (!$scope.plan.pr_calendar_list) {
+            $scope.plan.pr_calendar_list = {
+                id: $scope.uuid(),
+                calendar_item: '',
+                calendar1_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+                calendar2_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+                calendar3_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+                calendar4_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+                calendar5_details: [{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null},{m: null}],
+                calendar_owner: ''
+            };
+        }
     }
 
     $scope.planResponse = {msg:''};
